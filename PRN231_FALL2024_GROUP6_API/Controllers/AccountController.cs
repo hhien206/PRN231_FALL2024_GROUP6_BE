@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using DataAccessObject.Models;
 using System.Security.Claims;
 using System;
-using DataAccessObject.ViewModel;
+using BusinessObject.ViewModel;
 using Service.Service;
 using Service.IService;
 using Microsoft.IdentityModel.Tokens;

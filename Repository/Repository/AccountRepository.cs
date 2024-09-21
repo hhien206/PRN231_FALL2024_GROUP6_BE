@@ -1,5 +1,5 @@
-﻿using DataAccessObject.IRepository;
-using DataAccessObject.LocalStorage;
+﻿using Repository.IRepository;
+using Repository.LocalStorage;
 using DataAccessObject.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessObject.Repository
+namespace Repository.Repository
 {
     public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {

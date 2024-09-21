@@ -1,5 +1,4 @@
-﻿using DataAccessObject.IRepository;
-
+﻿using Repository.IRepository;
 using DataAccessObject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessObject.Repository
+namespace Repository.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

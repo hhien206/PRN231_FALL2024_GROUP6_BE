@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessObject.LocalStorage
+namespace Repository.LocalStorage
 {
     public class StorageAccount
     {
