@@ -66,8 +66,8 @@ namespace IndieGameHubSever.Controllers
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
             var token = new JwtSecurityToken(
-                issuer: "IndieGameIssuer",
-                audience: "IndieGameAudience",
+                issuer: "JobFindingIssuer",
+                audience: "IndieFindingAudience",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);
