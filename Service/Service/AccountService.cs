@@ -167,5 +167,26 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewListAccount(int sizePaging,int indexPaging)
+        {
+            try
+            {
+                var list = await accountRepository.ViewListAccount(sizePaging,indexPaging);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Create Account Success",
+                    Data = list
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
     }
 }

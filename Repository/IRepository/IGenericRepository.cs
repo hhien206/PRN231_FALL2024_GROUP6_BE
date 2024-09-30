@@ -13,6 +13,7 @@ namespace Repository.IRepository
         public void PrepareRemove(T entity);
         public int Save();
         public Task<int> SaveAsync();
+        public List<T> Paging(List<T>? list, int pageSize, int pageIndex);
         public List<T> GetAll();
         public Task<List<T>> GetAllAsync();
         public T GetById(int id);

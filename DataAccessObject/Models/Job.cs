@@ -45,6 +45,8 @@ public partial class Job
 
     public virtual JobCategory JobCategory { get; set; }
 
+    public virtual ICollection<JobJobSkill> JobJobSkills { get; set; } = new List<JobJobSkill>();
+
     public virtual JobLevel JobLevel { get; set; }
 
     public virtual JobType JobType { get; set; }

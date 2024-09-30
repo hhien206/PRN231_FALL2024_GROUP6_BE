@@ -52,7 +52,18 @@ namespace Repository.Repository
         {
             return await _context.SaveChangesAsync();
         }
-
+        public List<T> Paging(List<T>? list, int pageSize, int pageIndex)
+        {
+            if (list == null) return null;
+            if (pageSize < 1) pageSize = 1;
+            if (pageIndex < 1) pageIndex = 1;
+            List<T> result = new List<T>();
+            for (int i = pageSize * (pageIndex - 1); (i < pageSize * pageIndex) && (i < list.Count); i++)
+            {
+                result.Add(list[i]);
+            }
+            return result;
+        }
         public List<T> GetAll()
         {
             return _dbSet.ToList();

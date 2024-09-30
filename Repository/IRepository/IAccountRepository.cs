@@ -14,5 +14,6 @@ namespace Repository.IRepository
         public Task<Account?> CheckAccessToken(string accessToken);
         public Task<string> CreateConfirmTokenAccoutn(string email);
         public Task<Account> ForgetPasswork(string email, string password, string token);
+        public Task<List<Account>> ViewListAccount(int sizePaging, int indexPaging);
     }
 }

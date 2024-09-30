@@ -51,6 +51,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[JobJobSkill]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Jobkill]",
          "ObjectType": 0
       },

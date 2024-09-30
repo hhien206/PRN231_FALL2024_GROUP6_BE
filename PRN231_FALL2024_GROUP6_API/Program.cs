@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -53,8 +54,9 @@ builder.Services.AddAuthentication(options =>
     googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     googleOptions.SaveTokens = true;
 });
+builder.Services.AddControllers()
+    .AddOData(options => options.Select().Filter().OrderBy());
 
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -75,6 +77,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    // Cấu hình các route OData
+    endpoints.MapControllers();
+});
 
 app.Run();

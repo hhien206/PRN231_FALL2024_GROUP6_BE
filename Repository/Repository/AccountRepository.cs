@@ -87,5 +87,18 @@ namespace Repository.Repository
             }
             return new string(code);
         }
+        public async Task<List<Account>> ViewListAccount(int sizePaging,int indexPaging)
+        {
+            try
+            {
+                var list = await GetAllAsync();
+                list = Paging(list, sizePaging, indexPaging);
+                return list;
+            }
+            catch(Exception) 
+            {
+                throw;
+            }
+        }
     }
 }

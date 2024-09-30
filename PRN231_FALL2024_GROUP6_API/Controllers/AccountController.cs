@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace IndieGameHubSever.Controllers
 {
@@ -28,7 +29,15 @@ namespace IndieGameHubSever.Controllers
         {
             _configuration = configuration;
         }
-        [HttpGet("LoginAccount")]
+        [HttpGet("ViewList")]
+        [EnableQuery]
+        public async Task<IActionResult> ViewListAccount(int sizePaging,int indexPaging)
+        {
+            var result = await service.ViewListAccount(sizePaging, indexPaging);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        [HttpGet("Login")]
         public async Task<IActionResult> LoginAccount(string email, string password)
         {
             var result = await service.LoginAccount(email, password);
@@ -115,5 +124,6 @@ namespace IndieGameHubSever.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+
     }
 }
