@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessObject", "DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{14836FF4-5E2B-4218-B8A9-823354951DE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{352A6BA8-2E38-4307-87D8-90F90DE0FBF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{352A6BA8-2E38-4307-87D8-90F90DE0FBF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{D07260CA-8336-4AEC-82EF-06F5FFA68F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{D07260CA-8336-4AEC-82EF-06F5FFA68F1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PRN231_FALL2024-GROUP6_FE", "PRN231_FALL2024-GROUP6_FE\PRN231_FALL2024-GROUP6_FE.csproj", "{F6DEB2A1-451E-4EA2-9445-DC693A1DFE93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D07260CA-8336-4AEC-82EF-06F5FFA68F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D07260CA-8336-4AEC-82EF-06F5FFA68F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D07260CA-8336-4AEC-82EF-06F5FFA68F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6DEB2A1-451E-4EA2-9445-DC693A1DFE93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DEB2A1-451E-4EA2-9445-DC693A1DFE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DEB2A1-451E-4EA2-9445-DC693A1DFE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DEB2A1-451E-4EA2-9445-DC693A1DFE93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
