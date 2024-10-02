@@ -13,10 +13,16 @@ namespace Repository.Repository
     {
         IJobJobSkillRepository jJSkillRepo;
         IJobSkillRepository SkillRepo;
+        IJobCategoryRepository cateRepo;
+        IJobLevelRepository levelRepo;
+        IJobTypeRepository typeRepo;
         public JobRepository()
         {
             jJSkillRepo = new JobJobSkillRepository();
             SkillRepo = new JobSkillRepository();
+            cateRepo = new JobCategoryRepository();
+            levelRepo = new JobLevelRepository();
+            typeRepo = new JobTypeRepository();
         }
         public async Task<JobView?> AddJob(JobAdd key)
         {
@@ -32,6 +38,9 @@ namespace Repository.Repository
                     SalaryRange = key.SalaryRange,
                     Experience = key.Experience,
                     Deadline = key.Deadline,
+                    JobCategoryId = key.JobCategoryId,
+                    JobLevelId = key.JobLevelId,
+                    JobTypeId = key.JobTypeId,
                 };
                 await CreateAsync(job);
                 List<Jobkill> jobSkills = new List<Jobkill>();
@@ -45,7 +54,8 @@ namespace Repository.Repository
                     });
                 }
                 JobView jView = new();
-                jView.ConvertJob(job, jobSkills);
+                jView.ConvertJob(job, jobSkills,cateRepo.GetById(job.JobCategoryId),
+                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId));
                 return jView;
             }
             catch (Exception)
@@ -91,6 +101,9 @@ namespace Repository.Repository
                 jobs.Remove(job);
                 result.Add(job);
             }
+            if (key.jobCategoryId != null) result.FindAll(l=>l.JobCategoryId == key.jobCategoryId);
+            if (key.jobLevelId != null) result.FindAll(l => l.JobLevelId == key.jobLevelId);
+            if (key.jobTypeId != null) result.FindAll(l => l.JobTypeId == key.jobTypeId);
             return result;
         }
         public async Task<List<JobView>?> ViewListJob(int sizePaging, int indexPaging, JobSearch key)
@@ -99,8 +112,6 @@ namespace Repository.Repository
             {
                 var jobs = await JobSearch(key);
                 jobs = Paging(jobs, sizePaging, indexPaging);
-
-
                 return await ConvertListJobToListJobView(jobs);
             }
             catch (Exception ex)
@@ -114,7 +125,8 @@ namespace Repository.Repository
             {
                 var job = GetById(jobId);
                 JobView jView = new();
-                jView.ConvertJob(job, await GetAllSkillOfJob(job));
+                jView.ConvertJob(job, await GetAllSkillOfJob(job),cateRepo.GetById(job.JobCategoryId),
+                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId));
                 return jView;
             }
             catch (Exception ex)
@@ -134,7 +146,8 @@ namespace Repository.Repository
                     listSkill.Add(SkillRepo.GetById((int)item1.JobSkillId));
                 }
                 JobView jView = new();
-                jView.ConvertJob(item, listSkill);
+                jView.ConvertJob(item, listSkill, cateRepo.GetById(item.JobCategoryId),
+                    levelRepo.GetById(item.JobLevelId), typeRepo.GetById(item.JobTypeId));
                 result.Add(jView);
             }
             return result;
@@ -147,7 +160,7 @@ namespace Repository.Repository
                 List<Jobkill> jobSkills = new();
                 foreach (var item in jJobSkills)
                 {
-                    jobSkills.Add(SkillRepo.GetById((int)item.Id));
+                    jobSkills.Add(SkillRepo.GetById((int)item.JobSkillId));
                 }
                 return jobSkills;
             }

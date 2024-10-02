@@ -54,7 +54,7 @@ namespace IndieGameHubSever.Controllers
         [HttpGet("Register")]
         public async Task<IActionResult> Register(string email,string password)
         {
-            var token = GenerateJwtToken();
+            var token = GenerateJwtToken(email);
             var result = await service.AddAccount(new AccountAdd
             {
                 userName = email,
@@ -64,19 +64,21 @@ namespace IndieGameHubSever.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
-        private string GenerateJwtToken()
+        private string GenerateJwtToken(string email)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GZGrzxj6a0G+hO2Fy6K3+n5UzO/GByYhPZ1T3vxA7Zs="));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, "testuser"),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.Sub, "user"),
+                new Claim(ClaimTypes.Role, "User"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
             var token = new JwtSecurityToken(
                 issuer: "JobFindingIssuer",
-                audience: "IndieFindingAudience",
+                audience: "JobFindingAudience",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);

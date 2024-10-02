@@ -25,7 +25,7 @@ namespace Service.Service
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "List Games",
+                    Message = "List Job",
                     Data = jobs
                 };
             }

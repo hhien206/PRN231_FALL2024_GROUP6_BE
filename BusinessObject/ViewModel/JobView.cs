@@ -26,7 +26,11 @@ namespace BusinessObject.ViewModel
 
         public DateTime? Deadline { get; set; }
         public List<Jobkill> ListJobSkill { get; set; }
-        public void ConvertJob(Job job, List<Jobkill> listJobSkill)
+        public JobCategory JobCategory { get; set; }
+        public JobLevel JobLevel { get; set; }
+        public JobType JobType { get; set; }
+        public void ConvertJob(Job job, List<Jobkill> listJobSkill, JobCategory jobCategory,
+            JobLevel jobLevel,JobType jobType)
         {
             JobTitle = job.JobTitle;
             Description = job.Description;
@@ -37,6 +41,9 @@ namespace BusinessObject.ViewModel
             Experience = job.Experience;
             Deadline = job.Deadline;
             ListJobSkill = listJobSkill;
+            this.JobCategory = jobCategory;
+            this.JobLevel = jobLevel;
+            this.JobType = jobType;
         }
     }
 }

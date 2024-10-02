@@ -111,8 +111,9 @@ namespace Repository.Repository
             return true;
         }
 
-        public T GetById(int id)
+        public T GetById(int? id)
         {
+            if (id == null) return null;
             return _dbSet.Find(id);
         }
 
