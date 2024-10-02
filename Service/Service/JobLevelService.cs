@@ -11,23 +11,23 @@ using System.Threading.Tasks;
 
 namespace Service.Service
 {
-    public class JobSkillService : IJobSkillService
+    public class JobLevelService : IJobLevelService
     {
-        public IJobSkillRepository skillRepository;
-        public JobSkillService()
+        public IJobLevelRepository levelRepository;
+        public JobLevelService()
         {
-            this.skillRepository = new JobSkillRepository();
+            this.levelRepository = new JobLevelRepository();
         }
-        public async Task<ServiceResult> ViewAllJobSkill(string? nameQuickSearch)
+        public async Task<ServiceResult> ViewAllJobLevel(string? nameQuickSearch)
         {
             try
             {
-                var listJobSkill = await skillRepository.ListJobSkillQuickSearch(nameQuickSearch);
+                var listJobLevel = await levelRepository.ListJobLevelQuickSearch(nameQuickSearch);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = $"List Skill With Search '{nameQuickSearch}'",
-                    Data = listJobSkill
+                    Message = $"List Level With Search '{nameQuickSearch}'",
+                    Data = listJobLevel
                 };
             }
             catch (Exception ex)
@@ -39,21 +39,21 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> AddJobSkill(JobSkillAdd key)
+        public async Task<ServiceResult> AddJobLevel(JobLevelAdd key)
         {
             try
             {
-                var skill = new Jobkill
+                var level = new JobLevel
                 {
                     Name = key.Name,
                     Description = key.Description,
                 };
-                await skillRepository.CreateAsync(skill);
+                await levelRepository.CreateAsync(level);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Create Skill Success",
-                    Data = skill
+                    Message = "Create Level Success",
+                    Data = level
                 };
             }
             catch (Exception ex)
@@ -65,27 +65,27 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> UpdateJobSkill(int jobSkillId, JobSkillUpdate key)
+        public async Task<ServiceResult> UpdateJobLevel(int jobLevelId, JobLevelUpdate key)
         {
             try
             {
-                var skill = skillRepository.GetById(jobSkillId);
-                if (skill == null)
+                var level = levelRepository.GetById(jobLevelId);
+                if (level == null)
                 {
                     return new ServiceResult
                     {
                         Status = 404,
-                        Message = "Skill Not Found",
+                        Message = "Level Not Found",
                     };
                 }
-                skill.Name = key.Name;
-                skill.Description = key.Description;
-                await skillRepository.UpdateAsync(skill);
+                level.Name = key.Name;
+                level.Description = key.Description;
+                await levelRepository.UpdateAsync(level);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Update Skill Success",
-                    Data = skill
+                    Message = "Update Level Success",
+                    Data = level
                 };
             }
             catch (Exception ex)
@@ -97,20 +97,20 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> DeleteJobSkill(int jobSkillId)
+        public async Task<ServiceResult> DeleteJobLevel(int jobLevelId)
         {
             try
             {
-                var skill = skillRepository.GetById(jobSkillId);
-                if (skill == null)
+                var level = levelRepository.GetById(jobLevelId);
+                if (level == null)
                 {
                     return new ServiceResult
                     {
                         Status = 404,
-                        Message = "Skill Not Found",
+                        Message = "Level Not Found",
                     };
                 }
-                await skillRepository.RemoveAsync(skill);
+                await levelRepository.RemoveAsync(level);
                 return new ServiceResult
                 {
                     Status = 200,

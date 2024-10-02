@@ -16,7 +16,7 @@ namespace Repository.IRepository
         public List<T> Paging(List<T>? list, int pageSize, int pageIndex);
         public List<T> GetAll();
         public Task<List<T>> GetAllAsync();
-        public T GetById(int id);
+        public T GetById(int? id);
         public Task<T> GetByIdAsync(int id);
         public T GetById(string code);
         public Task<T> GetByIdAsync(string code);

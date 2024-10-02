@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder => builder
-            .WithOrigins("http://localhost:7269") // Thay thế bằng URL của frontend bạn
+            .WithOrigins("http://localhost:7269") 
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -36,8 +36,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "IndieGameIssuer",
-        ValidAudience = "IndieGameAudience",
+        ValidIssuer = "JobFindingIssuer",
+        ValidAudience = "JobFindingAudience",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GZGrzxj6a0G+hO2Fy6K3+n5UzO/GByYhPZ1T3vxA7Zs="))
     };
 });

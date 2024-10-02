@@ -15,7 +15,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Data source=LAPTOP-881Q2J1T;initial catalog=PRN231_DB_Job_Recruitment;user id=sa;password=12345;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Data source=LAPTOP-3D7EEOLL\\SQLEXPRESS;initial catalog=PRN231_DB_Job_Recruitment;user id=sa;password=12345;TrustServerCertificate=True");
             //optionsBuilder.UseSqlServer(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection"));
         }
     }

@@ -8,26 +8,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service.Service
 {
-    public class JobSkillService : IJobSkillService
+    public class JobTypeService : IJobTypeService
     {
-        public IJobSkillRepository skillRepository;
-        public JobSkillService()
+        public IJobTypeRepository typeRepository;
+        public JobTypeService()
         {
-            this.skillRepository = new JobSkillRepository();
+            this.typeRepository = new JobTypeRepository();
         }
-        public async Task<ServiceResult> ViewAllJobSkill(string? nameQuickSearch)
+        public async Task<ServiceResult> ViewAllJobType(string? nameQuickSearch)
         {
             try
             {
-                var listJobSkill = await skillRepository.ListJobSkillQuickSearch(nameQuickSearch);
+                var listJobType = await typeRepository.ListJobTypeQuickSearch(nameQuickSearch);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = $"List Skill With Search '{nameQuickSearch}'",
-                    Data = listJobSkill
+                    Message = $"List Type With Search '{nameQuickSearch}'",
+                    Data = listJobType
                 };
             }
             catch (Exception ex)
@@ -39,21 +40,21 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> AddJobSkill(JobSkillAdd key)
+        public async Task<ServiceResult> AddJobType(JobTypeAdd key)
         {
             try
             {
-                var skill = new Jobkill
+                var type = new JobType
                 {
                     Name = key.Name,
                     Description = key.Description,
                 };
-                await skillRepository.CreateAsync(skill);
+                await typeRepository.CreateAsync(type);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Create Skill Success",
-                    Data = skill
+                    Message = "Create Type Success",
+                    Data = type
                 };
             }
             catch (Exception ex)
@@ -65,27 +66,27 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> UpdateJobSkill(int jobSkillId, JobSkillUpdate key)
+        public async Task<ServiceResult> UpdateJobType(int jobTypeId, JobTypeUpdate key)
         {
             try
             {
-                var skill = skillRepository.GetById(jobSkillId);
-                if (skill == null)
+                var type = typeRepository.GetById(jobTypeId);
+                if (type == null)
                 {
                     return new ServiceResult
                     {
                         Status = 404,
-                        Message = "Skill Not Found",
+                        Message = "Type Not Found",
                     };
                 }
-                skill.Name = key.Name;
-                skill.Description = key.Description;
-                await skillRepository.UpdateAsync(skill);
+                type.Name = key.Name;
+                type.Description = key.Description;
+                await typeRepository.UpdateAsync(type);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Update Skill Success",
-                    Data = skill
+                    Message = "Update Type Success",
+                    Data = type
                 };
             }
             catch (Exception ex)
@@ -97,20 +98,20 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> DeleteJobSkill(int jobSkillId)
+        public async Task<ServiceResult> DeleteJobType(int jobTypeId)
         {
             try
             {
-                var skill = skillRepository.GetById(jobSkillId);
-                if (skill == null)
+                var type = typeRepository.GetById(jobTypeId);
+                if (type == null)
                 {
                     return new ServiceResult
                     {
                         Status = 404,
-                        Message = "Skill Not Found",
+                        Message = "Type Not Found",
                     };
                 }
-                await skillRepository.RemoveAsync(skill);
+                await typeRepository.RemoveAsync(type);
                 return new ServiceResult
                 {
                     Status = 200,
