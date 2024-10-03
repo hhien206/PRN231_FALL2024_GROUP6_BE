@@ -28,7 +28,7 @@ namespace Repository.Repository
                 throw;
             }
         }
-        public async Task<Account?> CheckAccessToken(string accessToken)
+        /*public async Task<Account?> CheckAccessToken(string accessToken)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Repository.Repository
             {
                 throw;
             }
-        }
+        }*/
         public async Task<string> CreateConfirmTokenAccoutn(string email)
         {
             try

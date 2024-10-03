@@ -9,25 +9,35 @@ public partial class Account
 {
     public int AccountId { get; set; }
 
+    public string UserName { get; set; }
+
     public string PasswordHash { get; set; }
 
     public string Email { get; set; }
 
-    public DateTime? DateCreate { get; set; }
+    public string FullName { get; set; }
 
-    public string AccessToken { get; set; }
+    public string PhoneNumber { get; set; }
+
+    public string Address { get; set; }
+
+    public DateOnly? DateOfBirth { get; set; }
+
+    public string UrlPicture { get; set; }
+
+    public string Gender { get; set; }
+
+    public DateTime? DateCreate { get; set; }
 
     public int? RoleId { get; set; }
 
-    public virtual ICollection<AccountJobkill> AccountJobkills { get; set; } = new List<AccountJobkill>();
+    public virtual ICollection<AccountJobSkill> AccountJobSkills { get; set; } = new List<AccountJobSkill>();
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
-    public virtual ICollection<Hr> Hrs { get; set; } = new List<Hr>();
-
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
 
-    public virtual Role Role { get; set; }
+    public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual Role Role { get; set; }
 }

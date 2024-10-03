@@ -43,7 +43,7 @@ namespace Repository.Repository
                     JobTypeId = key.JobTypeId,
                 };
                 await CreateAsync(job);
-                List<Jobkill> jobSkills = new List<Jobkill>();
+                List<JobSkill> jobSkills = new List<JobSkill>();
                 foreach (var item in key.listJobSkillId)
                 {
                     jobSkills.Add(SkillRepo.GetById(item));
@@ -139,7 +139,7 @@ namespace Repository.Repository
             List<JobView> result = new List<JobView>();
             foreach (var item in listJobs)
             {
-                List<Jobkill> listSkill = new();
+                List<JobSkill> listSkill = new();
                 List<JobJobSkill> listjJSkill = (await jJSkillRepo.GetAllAsync()).FindAll(l => l.JobId == item.JobId);
                 foreach (var item1 in listjJSkill)
                 {
@@ -152,12 +152,12 @@ namespace Repository.Repository
             }
             return result;
         }
-        private async Task<List<Jobkill>> GetAllSkillOfJob(Job job)
+        private async Task<List<JobSkill>> GetAllSkillOfJob(Job job)
         {
             try
             {
                 var jJobSkills = (await jJSkillRepo.GetAllAsync()).FindAll(l => l.JobId == job.JobId);
-                List<Jobkill> jobSkills = new();
+                List<JobSkill> jobSkills = new();
                 foreach (var item in jJobSkills)
                 {
                     jobSkills.Add(SkillRepo.GetById((int)item.JobSkillId));

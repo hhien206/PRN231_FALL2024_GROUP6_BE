@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DataAccessObject.Models;
 
-public partial class Jobkill
+public partial class JobSkill
 {
     public int Id { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Jobkill
 
     public string Description { get; set; }
 
-    public virtual ICollection<AccountJobkill> AccountJobkills { get; set; } = new List<AccountJobkill>();
+    public virtual ICollection<AccountJobSkill> AccountJobSkills { get; set; } = new List<AccountJobSkill>();
 
     public virtual ICollection<JobJobSkill> JobJobSkills { get; set; } = new List<JobJobSkill>();
 }

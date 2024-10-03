@@ -43,7 +43,7 @@ namespace Service.Service
         {
             try
             {
-                var skill = new Jobkill
+                var skill = new JobSkill
                 {
                     Name = key.Name,
                     Description = key.Description,

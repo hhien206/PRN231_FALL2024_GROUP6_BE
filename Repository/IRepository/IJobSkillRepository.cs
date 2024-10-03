@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Repository.IRepository
 {
-    public interface IJobSkillRepository : IGenericRepository<Jobkill>
+    public interface IJobSkillRepository : IGenericRepository<JobSkill>
     {
-        public Task<List<Jobkill>?> ListJobSkillQuickSearch(string? nameQuickSerch);
+        public Task<List<JobSkill>?> ListJobSkillQuickSearch(string? nameQuickSerch);
     }
 }

@@ -14,6 +14,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
         public JobController()
         {
         }
+        [HttpGet("ViewAll")]
+        public async Task<IActionResult> ViewAllJob()
+        {
+            var result = await service.ViewAllJob();
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
         [HttpPost("ViewSearch")]
         public async Task<IActionResult> ViewJobSearch(int sizePaging, int indexPaging, [FromBody] JobSearch key)
         {

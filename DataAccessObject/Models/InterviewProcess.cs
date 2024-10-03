@@ -7,21 +7,21 @@ namespace DataAccessObject.Models;
 
 public partial class InterviewProcess
 {
-    public int ProcessId { get; set; }
+    public int InterviewProcessId { get; set; }
 
     public int? RoundNumber { get; set; }
 
+    public DateTime? InterviewDate { get; set; }
+
+    public string Detail { get; set; }
+
+    public string Result { get; set; }
+
     public DateTime? DateCreated { get; set; }
 
-    public string Details { get; set; }
+    public int? AccountId { get; set; }
 
-    public string Status { get; set; }
+    public int? ApplicationId { get; set; }
 
-    public int? RecruiterId { get; set; }
-
-    public int? ApplicantId { get; set; }
-
-    public virtual Application Applicant { get; set; }
-
-    public virtual Hr Recruiter { get; set; }
+    public virtual Application Application { get; set; }
 }

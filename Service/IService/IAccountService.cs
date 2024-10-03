@@ -12,7 +12,7 @@ namespace Service.IService
     {
         public Task<ServiceResult> AddAccount(AccountAdd key);
         public Task<ServiceResult> LoginAccount(string email, string password);
-        public Task<ServiceResult> LoginToken(string accessToken);
+        //public Task<ServiceResult> LoginToken(string accessToken);
         public Task<ServiceResult> SendToken(string email);
         public Task<ServiceResult> ResetPassword(string email, string password, string token);
         public Task<ServiceResult> ViewListAccount(int sizePaging, int indexPaging);

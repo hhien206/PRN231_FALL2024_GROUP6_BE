@@ -19,7 +19,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[AccountJobkill]",
+         "Name": "[dbo].[AccountJobSkill]",
          "ObjectType": 0
       },
       {
@@ -28,14 +28,6 @@
       },
       {
          "Name": "[dbo].[Certificate]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[CV]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[HR]",
          "ObjectType": 0
       },
       {
@@ -55,11 +47,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Jobkill]",
+         "Name": "[dbo].[JobLevel]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[JobLevel]",
+         "Name": "[dbo].[jobSkill]",
          "ObjectType": 0
       },
       {
@@ -67,11 +59,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Role]",
+         "Name": "[dbo].[Resume]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[User]",
+         "Name": "[dbo].[Role]",
          "ObjectType": 0
       }
    ],

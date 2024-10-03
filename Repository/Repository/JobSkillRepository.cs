@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class JobSkillRepository : GenericRepository<Jobkill>, IJobSkillRepository
+    public class JobSkillRepository : GenericRepository<JobSkill>, IJobSkillRepository
     {
         public JobSkillRepository()
         {
 
         }
-        public async Task<List<Jobkill>?> ListJobSkillQuickSearch(string? nameQuickSerch)
+        public async Task<List<JobSkill>?> ListJobSkillQuickSearch(string? nameQuickSerch)
         {
             try
             {
