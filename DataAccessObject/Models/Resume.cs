@@ -5,17 +5,13 @@ using System.Collections.Generic;
 
 namespace DataAccessObject.Models;
 
-public partial class AccountJobkill
+public partial class Resume
 {
-    public int AccountJobkillId { get; set; }
+    public int ResumeId { get; set; }
+
+    public string UrlResume { get; set; }
 
     public int? AccountId { get; set; }
 
-    public int? JobkillId { get; set; }
-
-    public string Experience { get; set; }
-
     public virtual Account Account { get; set; }
-
-    public virtual Jobkill Jobkill { get; set; }
 }

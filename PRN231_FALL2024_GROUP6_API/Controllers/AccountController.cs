@@ -44,13 +44,13 @@ namespace IndieGameHubSever.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
-        [HttpGet("LoginToken")]
+        /*[HttpGet("LoginToken")]
         public async Task<IActionResult> LoginToken(string token)
         {
             var result = await service.LoginToken(token);
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
-        }
+        }*/
         [HttpGet("Register")]
         public async Task<IActionResult> Register(string email,string password)
         {

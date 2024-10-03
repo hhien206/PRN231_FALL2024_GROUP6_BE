@@ -27,7 +27,7 @@ namespace Service.Service
                 {
                     Email = key.userName,
                     PasswordHash = key.password,
-                    AccessToken = key.accessToken,
+                    //AccessToken = key.accessToken,
                 };
                 await accountRepository.CreateAsync(account);
                 return new ServiceResult
@@ -78,7 +78,7 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> LoginToken(string accessToken)
+        /*public async Task<ServiceResult> LoginToken(string accessToken)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Service.Service
                     Message = ex.ToString(),
                 };
             }
-        }
+        }*/
         public async Task<ServiceResult> SendToken(string email)
         {
             try

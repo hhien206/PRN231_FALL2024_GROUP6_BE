@@ -11,8 +11,8 @@ namespace BusinessObject.ViewModel
         public string name { get; set; }
         public List<int> listJobSkillIdInclude { get; set; }
         public List<int> listJobSkillIdExclude { get; set; }
-        public int jobCategoryId { get; set; }
-        public int jobLevelId { get; set; }
-        public int jobTypeId {  get; set; }
+        public int? jobCategoryId { get; set; }
+        public int? jobLevelId { get; set; }
+        public int? jobTypeId {  get; set; }
     }
 }

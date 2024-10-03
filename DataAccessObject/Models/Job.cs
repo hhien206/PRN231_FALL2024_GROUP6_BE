@@ -37,7 +37,7 @@ public partial class Job
 
     public int? JobCategoryId { get; set; }
 
-    public int? JobkillId { get; set; }
+    public int? JobSkillId { get; set; }
 
     public virtual Account Account { get; set; }
 

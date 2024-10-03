@@ -13,11 +13,9 @@ public partial class Application
 
     public string Status { get; set; }
 
-    public int? CvId { get; set; }
+    public int? AccountId { get; set; }
 
     public int? JobId { get; set; }
-
-    public virtual Cv Cv { get; set; }
 
     public virtual ICollection<InterviewProcess> InterviewProcesses { get; set; } = new List<InterviewProcess>();
 
