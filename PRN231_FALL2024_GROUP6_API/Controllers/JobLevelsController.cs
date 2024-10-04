@@ -22,6 +22,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("ViewDetail")]
+        public async Task<IActionResult> ViewDetailJobLevel(int jobLevelId)
+        {
+            var result = await service.ViewDetailobLevel(jobLevelId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
 
         [HttpPost("Add")]
         public async Task<IActionResult> AddJobLevel([FromBody] JobLevelAdd key)

@@ -11,6 +11,7 @@ namespace Service.IService
     public interface IJobSkillService
     {
         public Task<ServiceResult> ViewAllJobSkill(string? nameQuickSearch);
+        public Task<ServiceResult> ViewDetailJobSkill(int jobSkillId);
         public Task<ServiceResult> AddJobSkill(JobSkillAdd key);
         public Task<ServiceResult> UpdateJobSkill(int jobSkillId, JobSkillUpdate key);
         public Task<ServiceResult> DeleteJobSkill(int jobSkillId);
