@@ -1,4 +1,4 @@
-﻿using DataAccessObject.Models;
+﻿using BusinessObject.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessObject.ViewModel
+namespace DataAccessObject.ViewModel
 {
     public class JobView
     {

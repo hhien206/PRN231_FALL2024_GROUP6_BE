@@ -1,5 +1,4 @@
-using BusinessObject.ViewModel;
-using DataAccessObject.Models;
+using BusinessObject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.IService;
