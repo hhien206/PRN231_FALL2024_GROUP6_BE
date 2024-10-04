@@ -10,6 +10,7 @@ namespace Repository.IRepository
 {
     public interface IJobRepository : IGenericRepository<Job>
     {
+        public Task<List<JobView>> GetAllJob();
         public Task<JobView?> AddJob(JobAdd key);
         public Task<List<JobView>?> ViewListJob(int sizePaging, int indexPaging, JobSearch key);
         public Task<JobView?> ViewJobDetail(int jobId);

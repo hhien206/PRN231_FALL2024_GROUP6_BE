@@ -39,6 +39,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewJobCategoryById(int categoryId)
+        {
+            try
+            {
+                var jobCategory = cateRepository.GetById(categoryId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Category",
+                    Data = jobCategory
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> AddJobCategory(JobCategoryAdd key)
         {
             try

@@ -24,6 +24,10 @@ namespace Repository.Repository
             levelRepo = new JobLevelRepository();
             typeRepo = new JobTypeRepository();
         }
+        public async Task<List<JobView>> GetAllJob()
+        {
+            return await ConvertListJobToListJobView(await GetAllAsync());
+        }
         public async Task<JobView?> AddJob(JobAdd key)
         {
             try
