@@ -40,6 +40,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewDetailJobType(int jobTypeId)
+        {
+            try
+            {
+                var jobType = typeRepository.GetById(jobTypeId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Job Type",
+                    Data = jobType
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> AddJobType(JobTypeAdd key)
         {
             try

@@ -39,6 +39,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewDetailJobSkill(int jobSkillId)
+        {
+            try
+            {
+                var jobSkill = skillRepository.GetById(jobSkillId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Job Skill",
+                    Data = jobSkill
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> AddJobSkill(JobSkillAdd key)
         {
             try
