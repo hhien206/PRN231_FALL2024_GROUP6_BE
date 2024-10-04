@@ -1,4 +1,4 @@
-﻿using BusinessObject.ViewModel;
+﻿using DataAccessObject.ViewModel;
 using Service.Service;
 using System;
 using System.Collections.Generic;

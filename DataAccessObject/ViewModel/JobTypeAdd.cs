@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessObject.ViewModel
+namespace DataAccessObject.ViewModel
 {
-    public class JobLevelUpdate
+    public class JobTypeAdd
     {
         public string Name { get; set; }
         public string Description { get; set; }

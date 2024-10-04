@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DataAccessObject.Models;
 using System.Security.Claims;
 using System;
-using BusinessObject.ViewModel;
 using Service.Service;
 using Service.IService;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.OData.Query;
+using DataAccessObject.ViewModel;
 
 namespace IndieGameHubSever.Controllers
 {

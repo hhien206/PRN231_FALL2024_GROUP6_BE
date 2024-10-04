@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DataAccessObject.Models;
+namespace BusinessObject.Models;
 
 public partial class Application
 {

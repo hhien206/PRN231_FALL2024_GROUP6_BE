@@ -1,5 +1,4 @@
 ﻿using Repository.IRepository;
-using DataAccessObject.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
