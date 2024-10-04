@@ -21,7 +21,7 @@ namespace Service.Service
         {
             try
             {
-                var jobs = await jobRepository.GetAllAsync();
+                var jobs = await jobRepository.GetAllJob();
                 return new ServiceResult
                 {
                     Status = 200,

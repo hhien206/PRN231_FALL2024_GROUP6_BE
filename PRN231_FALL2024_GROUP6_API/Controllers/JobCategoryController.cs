@@ -22,6 +22,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("ViewDetail")]
+        public async Task<IActionResult> ViewDetailJobCategory(int jobCategoryId)
+        {
+            var result = await service.ViewJobCategoryById(jobCategoryId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
 
         [HttpPost("Add")]
         public async Task<IActionResult> AddJobCategory([FromBody] JobCategoryAdd key)
