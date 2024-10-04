@@ -1,8 +1,12 @@
+using Service.IService;
+using Service.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<IJobService, JobService>();
 
 
 var app = builder.Build();
