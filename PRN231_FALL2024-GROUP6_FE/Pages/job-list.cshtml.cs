@@ -7,6 +7,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
     {
         public void OnGet()
         {
+
         }
     }
 }
