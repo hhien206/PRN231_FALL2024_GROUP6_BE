@@ -39,6 +39,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewDetailobLevel(int jobLevelId)
+        {
+            try
+            {
+                var jobLevel =  levelRepository.GetById(jobLevelId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Job Level",
+                    Data = jobLevel
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> AddJobLevel(JobLevelAdd key)
         {
             try
