@@ -1,7 +1,9 @@
-using BusinessObject.Models;
+using BusinessObject.ViewModel;
+using DataAccessObject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.IService;
+
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
@@ -14,14 +16,14 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             _jobService = jobService;
         }
 
-        public List<Job> Jobs { get; set; } = new List<Job>();
+        public List<JobView> Jobs { get; set; } = new List<JobView>();
 
         public async Task OnGetAsync()
         {
             var result = await _jobService.ViewAllJob();
             if (result.Status == 200)
             {
-                Jobs = (List<Job>)result.Data;
+                Jobs = (List<JobView>)result.Data;
             }
         }
     }

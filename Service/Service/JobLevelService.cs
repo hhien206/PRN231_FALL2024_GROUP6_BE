@@ -1,5 +1,5 @@
-﻿using BusinessObject.Models;
-using DataAccessObject.ViewModel;
+﻿using BusinessObject.ViewModel;
+using DataAccessObject.Models;
 using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;
