@@ -3,19 +3,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace BusinessObject.Models;
+namespace DataAccessObject.Models;
 
-public partial class AccountJobSkill
+public partial class JobJobSkill
 {
-    public int AccountJobSkillId { get; set; }
+    public int Id { get; set; }
 
-    public int? AccountId { get; set; }
+    public int? JobId { get; set; }
 
     public int? JobSkillId { get; set; }
 
-    public string Experience { get; set; }
+    public string ExperienceRequired { get; set; }
 
-    public virtual Account Account { get; set; }
+    public virtual Job Job { get; set; }
 
     public virtual JobSkill JobSkill { get; set; }
 }

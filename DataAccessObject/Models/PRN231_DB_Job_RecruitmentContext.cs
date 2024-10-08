@@ -2,11 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using BusinessObject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Repository;
+namespace DataAccessObject.Models;
 
 public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 {

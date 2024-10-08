@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace BusinessObject.Models;
+namespace DataAccessObject.Models;
 
-public partial class JobCategory
+public partial class JobSkill
 {
     public int Id { get; set; }
 
@@ -13,5 +13,7 @@ public partial class JobCategory
 
     public string Description { get; set; }
 
-    public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
+    public virtual ICollection<AccountJobSkill> AccountJobSkills { get; set; } = new List<AccountJobSkill>();
+
+    public virtual ICollection<JobJobSkill> JobJobSkills { get; set; } = new List<JobJobSkill>();
 }

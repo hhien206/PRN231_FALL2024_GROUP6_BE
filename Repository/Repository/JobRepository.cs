@@ -1,5 +1,5 @@
-﻿using BusinessObject.Models;
-using DataAccessObject.ViewModel;
+﻿using BusinessObject.ViewModel;
+using DataAccessObject.Models;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -173,6 +173,5 @@ namespace Repository.Repository
                 throw;
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using DataAccessObject.ViewModel;
+﻿using BusinessObject.ViewModel;
 using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;

@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace BusinessObject.Models;
+namespace DataAccessObject.Models;
 
-public partial class JobLevel
+public partial class JobCategory
 {
     public int Id { get; set; }
 
