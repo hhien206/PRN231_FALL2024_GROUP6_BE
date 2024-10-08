@@ -175,7 +175,7 @@ namespace Service.Service
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Create Account Success",
+                    Message = "List Account",
                     Data = list
                 };
             }

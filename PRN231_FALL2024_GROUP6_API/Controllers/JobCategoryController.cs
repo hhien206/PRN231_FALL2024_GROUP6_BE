@@ -1,4 +1,4 @@
-﻿using DataAccessObject.ViewModel;
+﻿using BusinessObject.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;

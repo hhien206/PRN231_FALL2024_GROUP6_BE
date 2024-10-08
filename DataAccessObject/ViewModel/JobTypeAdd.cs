@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessObject.ViewModel
+namespace BusinessObject.ViewModel
 {
     public class JobTypeAdd
     {
