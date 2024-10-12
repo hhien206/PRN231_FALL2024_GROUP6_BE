@@ -15,6 +15,16 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "OData API", Version = "v1" });
@@ -34,7 +44,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-
+app.UseCors("AllowAll");
 app.Run();
 
 IEdmModel GetEdmModel()
