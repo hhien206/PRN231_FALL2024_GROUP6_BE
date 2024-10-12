@@ -8,11 +8,10 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
     public class ResetpasswordModel : PageModel
     {
-        public class ResetPasswordModel : PageModel
-        {
+       
             private readonly HttpClient _httpClient;
 
-            public ResetPasswordModel(IHttpClientFactory httpClientFactory)
+            public ResetpasswordModel(IHttpClientFactory httpClientFactory)
             {
                 _httpClient = httpClientFactory.CreateClient();
             }
@@ -59,4 +58,4 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             }
         }
     }
-}
+
