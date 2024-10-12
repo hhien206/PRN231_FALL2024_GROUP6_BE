@@ -17,7 +17,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 
         public async Task OnGetAsync(int jobId)
         {
-            var response = await _httpClient.GetAsync("https://localhost:7170/api/Job/{jobId}");
+            var response = await _httpClient.GetAsync($"https://localhost:7170/api/Job/{jobId}");
             if (response.IsSuccessStatusCode)
             {
                 Job = await response.Content.ReadFromJsonAsync<JobView>();
