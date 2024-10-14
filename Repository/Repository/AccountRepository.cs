@@ -6,26 +6,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BC = global::BCrypt.Net.BCrypt;
+using Microsoft.EntityFrameworkCore;
+using BusinessObject.ViewModel.Request;
 
 namespace Repository.Repository
 {
     public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
-
         public AccountRepository()
         {
-
         }
-        public async Task<Account?> CheckAccount(string email,string password)
+
+        public async Task<Account?> CheckAccount(LoginRequest request)
         {
             try
             {
-                var listAccount = await GetAllAsync();
-                return listAccount?.SingleOrDefault(l => l.Email == email && l.PasswordHash == password);
+                // Retrieve the account matching the provided email
+                var account = (await GetAllAsync()).SingleOrDefault(a => a.Email == request.Email);
+
+                if (account == null) return null; // Return null if the account doesn't exist
+
+                // Verify the password hash using BCrypt
+                if (!BC.EnhancedVerify(request.Password, account.PasswordHash)) return null;
+
+                return account; // Return the account if everything matches
             }
             catch (Exception)
             {
-                throw;
+                throw; // Rethrow the exception to be handled by higher layers
             }
         }
         /*public async Task<Account?> CheckAccessToken(string accessToken)

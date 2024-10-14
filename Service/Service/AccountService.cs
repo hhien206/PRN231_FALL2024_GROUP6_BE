@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Principal;
+using BusinessObject.ViewModel.Request;
+using BC = global::BCrypt.Net.BCrypt;
 
 namespace Service.Service
 {
@@ -19,14 +21,16 @@ namespace Service.Service
         {
             this.accountRepository = new AccountRepository();
         }
-        public async Task<ServiceResult> AddAccount(AccountAdd key)
+        public async Task<ServiceResult> AddAccount(SignupRequest request)
         {
             try
             {
                 Account account = new Account
                 {
-                    Email = key.userName,
-                    PasswordHash = key.password,
+                    UserName = request.UserName,
+                    Email = request.Email,
+                    PasswordHash = BC.EnhancedHashPassword(request.Password, 13),
+                    RoleId = 3,
                     //AccessToken = key.accessToken,
                 };
                 await accountRepository.CreateAsync(account);
@@ -46,11 +50,11 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> LoginAccount(string email, string password)
+        public async Task<ServiceResult> LoginAccount(LoginRequest request)
         {
             try
             {
-                var account = await accountRepository.CheckAccount(email, password);
+                var account = await accountRepository.CheckAccount(request);
                 if(account != null)
                 {
                     return new ServiceResult
