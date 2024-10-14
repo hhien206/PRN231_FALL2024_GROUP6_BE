@@ -341,7 +341,7 @@ namespace Service.Service
                 var account = await accountRepository.GetByIdAsync(id);
                 if (account != null)
                 {
-                    await accountRepository.DeleteAsync(account);
+                    await accountRepository.RemoveAsync(account);
 
                     return new ServiceResult
                     {
