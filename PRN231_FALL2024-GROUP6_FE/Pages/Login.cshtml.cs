@@ -42,5 +42,10 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
                 return Page();
             }
         }
+
+        public IActionResult OnGetRegister()
+        {
+            return RedirectToPage("/Register");  // Change to the path of your registration page
+        }
     }
 }

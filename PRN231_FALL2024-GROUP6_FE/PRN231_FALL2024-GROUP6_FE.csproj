@@ -21,4 +21,11 @@
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Home\bs4\.DS_Store" />
+    <None Include="wwwroot\Home\fonts\.DS_Store" />
+    <None Include="wwwroot\Home\fonts\line-icons\.DS_Store" />
+    <None Include="wwwroot\Home\scss\.DS_Store" />
+  </ItemGroup>
+
 </Project>
