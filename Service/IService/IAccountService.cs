@@ -13,6 +13,11 @@ namespace Service.IService
     {
         public Task<ServiceResult> AddAccount(SignupRequest request);
         public Task<ServiceResult> LoginAccount(LoginRequest request);
+        Task<ServiceResult> AddAccountAsync(CreateAccountRequest request);
+        Task<ServiceResult> GetAllAccountsAsync();
+        Task<ServiceResult> GetAccountByIdAsync(int id);
+        Task<ServiceResult> UpdateAccountAsync(UpdateAccountRequest request);
+        Task<ServiceResult> DeleteAccountAsync(int id);
         //public Task<ServiceResult> LoginToken(string accessToken);
         //public Task<ServiceResult> SendToken(string email);
         //public Task<ServiceResult> ResetPassword(string email, string password, string token);
