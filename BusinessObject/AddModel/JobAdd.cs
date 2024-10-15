@@ -8,19 +8,20 @@ namespace BusinessObject.AddModel
 {
     public class JobAdd
     {
-        public string JobTitle { get; set; }
+        public string? JobTitle { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public string Requirement { get; set; }
+        public string? Requirement { get; set; }
 
-        public string Benefit { get; set; }
+        public string? Benefit { get; set; }
 
-        public string JobTime { get; set; }
+        public string? JobTime { get; set; }
+        public string? Location {  get; set; }
 
-        public string SalaryRange { get; set; }
+        public string? SalaryRange { get; set; }
 
-        public string Experience { get; set; }
+        public string? Experience { get; set; }
 
         public DateTime? Deadline { get; set; }
 

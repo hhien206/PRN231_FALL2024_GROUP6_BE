@@ -19,6 +19,8 @@ public partial class Job
 
     public string JobTime { get; set; }
 
+    public string Location { get; set; }
+
     public string SalaryRange { get; set; }
 
     public string Experience { get; set; }

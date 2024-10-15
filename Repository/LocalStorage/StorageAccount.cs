@@ -37,7 +37,7 @@ namespace Repository.LocalStorage
             var acc = listStorageAccountVerify.SingleOrDefault(l => l.account == account);
             if (acc == null)
             {
-                listStorageAccountConfirm.Add(new StorageAccount
+                listStorageAccountVerify.Add(new StorageAccount
                 {
                     account = account,
                     confirmToken = token,
