@@ -33,7 +33,11 @@ public partial class Account
 
     public virtual ICollection<AccountJobSkill> AccountJobSkills { get; set; } = new List<AccountJobSkill>();
 
+    public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+
+    public virtual ICollection<InterviewProcess> InterviewProcesses { get; set; } = new List<InterviewProcess>();
 
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
 

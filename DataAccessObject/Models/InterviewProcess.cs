@@ -23,5 +23,7 @@ public partial class InterviewProcess
 
     public int? ApplicationId { get; set; }
 
+    public virtual Account Account { get; set; }
+
     public virtual Application Application { get; set; }
 }

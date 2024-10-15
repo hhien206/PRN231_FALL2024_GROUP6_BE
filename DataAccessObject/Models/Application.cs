@@ -17,6 +17,8 @@ public partial class Application
 
     public int? JobId { get; set; }
 
+    public virtual Account Account { get; set; }
+
     public virtual ICollection<InterviewProcess> InterviewProcesses { get; set; } = new List<InterviewProcess>();
 
     public virtual Job Job { get; set; }

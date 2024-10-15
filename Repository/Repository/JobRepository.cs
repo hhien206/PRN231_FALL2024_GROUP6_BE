@@ -40,6 +40,7 @@ namespace Repository.Repository
                     Requirement = key.Requirement,
                     Benefit = key.Benefit,
                     JobTime = key.JobTime,
+                    Location = key.Location,
                     SalaryRange = key.SalaryRange,
                     Experience = key.Experience,
                     Deadline = key.Deadline,
