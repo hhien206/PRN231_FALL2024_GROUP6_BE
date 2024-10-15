@@ -20,8 +20,6 @@ namespace BusinessObject.ViewModel.Request
 
         public string Address { get; set; }
 
-        public DateOnly? DateOfBirth { get; set; }
-
         public string Gender { get; set; }
 
         public int? RoleId { get; set; }
