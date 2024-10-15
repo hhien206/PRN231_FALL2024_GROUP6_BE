@@ -35,6 +35,19 @@ namespace Repository.Repository
                 throw;
             }
         }
+        public async Task<AccountView> GetAccountById(int accountId)
+        {
+            try
+            {
+                var account = GetById(accountId);
+                var result = await ConvertAccountIntoAccountView(account);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<AccountView?> AddAccount(AccountAdd key, int roleId)
         {
             try

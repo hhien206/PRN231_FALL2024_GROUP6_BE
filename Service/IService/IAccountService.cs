@@ -11,6 +11,7 @@ namespace Service.IService
     public interface IAccountService
     {
         public Task<ServiceResult> GetAllAccount(int sizePaging, int indexPaging);
+        public Task<ServiceResult> GetAccountById(int accountId);
         public Task<ServiceResult> AddAccount(AccountAdd key, int roleId);
         public Task<ServiceResult> LoginAccount(string email, string password);
         public Task<ServiceResult> SendToken(string email, string type);
