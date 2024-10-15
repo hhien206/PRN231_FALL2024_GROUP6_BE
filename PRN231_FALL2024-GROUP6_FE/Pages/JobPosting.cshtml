@@ -112,90 +112,121 @@
     </section>
 
         <!-- JobPosting Start -->
-    <section class="site-section">
-      <div class="container">        
-        <div class="row mb-5">
-          <div class="col-lg-12">
-            <form class="p-4 p-md-5 border rounded" method="post">
-              <h3 class="text-black mb-5 border-bottom pb-2">Job Details</h3>
-              
-              <div class="form-group">
-                <label for="company-website-tw d-block">Upload Featured Image</label> <br>
-                <label class="btn btn-primary btn-md btn-file">
-                  Browse File<input type="file" hidden>
-                </label>
-                            </div>
+        <section class="site-section">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        <form class="p-4 p-md-5 border rounded" method="post">
+                            <h3 class="text-black mb-5 border-bottom pb-2">Job Details</h3>
+
                             <div class="form-group">
                                 <label for="jobTitle">Job Title</label>
-                                <input type="text" class="form-control" id="jobTitle" placeholder="Product Designer">
+                                <input type="text" class="form-control" asp-for="Job.JobTitle" placeholder="Product Designer">
                             </div>
+
                             <div class="form-group">
-                                <label for="email">Requirement</label>
-                                <input type="text" class="form-control" id="requirement" placeholder="">
+                                <label for="description">Job Description</label>
+                                <textarea class="form-control" asp-for="Job.Description" placeholder="Write Job Description!"></textarea>
                             </div>
-                              <div class="form-group">
-                                <label for="job-location">Location</label>
-                                <input type="text" class="form-control" id="job-location" placeholder="e.g. New York">
-                              </div>
+
                             <div class="form-group">
-                                <label for="salary-range">Salary Range</label>
-                                <input type="text" class="form-control" id="salary-range" placeholder=" >5000$ ">
+                                <label for="requirement">Requirement</label>
+                                <input type="text" class="form-control" asp-for="Job.Requirement" placeholder="Requirement details">
                             </div>
+
+                            <div class="form-group">
+                                <label for="benefit">Benefit</label>
+                                <input type="text" class="form-control" asp-for="Job.Benefit" placeholder="Benefit details">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="jobTime">Job Time</label>
+                                <input type="text" class="form-control" asp-for="Job.JobTime" placeholder="Full Time, Part Time, etc.">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" class="form-control" asp-for="Job.Location" placeholder="e.g. New York">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salaryRange">Salary Range</label>
+                                <input type="text" class="form-control" asp-for="Job.SalaryRange" placeholder=">5000$">
+                            </div>
+
                             <div class="form-group">
                                 <label for="experience">Experience</label>
-                                <input type="text" class="form-control" id="experience" placeholder="3 years">
+                                <input type="text" class="form-control" asp-for="Job.Experience" placeholder="3 years">
                             </div>
+
                             <div class="form-group">
                                 <label for="deadline">Deadline</label>
-                                <input type="text" class="form-control" id="deadline" placeholder="24/10/2024">
+                                <input type="datetime-local" class="form-control" asp-for="Job.Deadline">
                             </div>
+
                             <div class="form-group">
                                 <label for="jobLevel">Job Level</label>
-                                <select class="selectpicker border rounded" id="jobLevel" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Level">
-                      <option>Intern</option>
-                      <option>Fresher</option>
-                      <option>Junior</option>
-                      <option>Middle</option>
-                      <option>Senior</option>
-                      <option>PM</option>
-                      <option>SA</option>
-                    </select>
+                                <select class="form-control" asp-for="Job.JobLevelId">
+                                    <option value="">Select Level</option>
+                                    <option value="1">Intern</option>
+                                    <option value="2">Fresher</option>
+                                    <option value="3">Junior</option>
+                                    <option value="4">Middle</option>
+                                    <option value="5">Senior</option>
+                                    <option value="6">PM</option>
+                                    <option value="7">SA</option>
+                                </select>
                             </div>
 
-              <div class="form-group">
+                            <div class="form-group">
                                 <label for="jobType">Job Type</label>
-                                <select class="selectpicker border rounded" id="jobType" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Type">
-                  <option>Part Time</option>
-                  <option>Full Time</option>
-                </select>
-              </div>
+                                <select class="form-control" asp-for="Job.JobTypeId">
+                                    <option value="">Select Job Type</option>
+                                    <option value="1">Part Time</option>
+                                    <option value="2">Full Time</option>
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="jobCategoryId">Job Category</label>
+                                <select class="form-control" asp-for="Job.JobCategoryId">
+                                    <option value="">Select Job Category</option>
+                                    <option value="1">IT</option>
+                                    <option value="2">Marketing</option>
+                                    <option value="3">Finance</option>
+                                    <!-- Thêm các loại công việc khác nếu cần -->
+                                </select>
+                            </div>
 
-              <div class="form-group">
-                                <label for="description">Job Description</label>
-                <div class="editor" id="editor-1">
-                  <p>Write Job Description!</p>
+                            <div class="form-group">
+                                <label for="listJobSkillId">Job Skills</label>
+                                <select class="form-control" asp-for="Job.listJobSkillId" multiple>
+                                    <option value="1">C#</option>
+                                    <option value="2">Java</option>
+                                    <option value="3">Python</option>
+                                    <!-- Thêm các kỹ năng khác nếu cần -->
+                                </select>
+                            </div>
+
+                            <div class="row align-items-center mb-5">
+                                <div class="col-lg-4 ml-auto">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-block btn-primary btn-md">Save Job</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="#" class="btn btn-block btn-light btn-md"><span class="icon-open_in_new mr-2"></span>Preview</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>        
-        </div>
-        <div class="row align-items-center mb-5">
-          
-          <div class="col-lg-4 ml-auto">
-            <div class="row">
-              <div class="col-6">
-                <a href="#" class="btn btn-block btn-light btn-md"><span class="icon-open_in_new mr-2"></span>Preview</a>
-              </div>
-              <div class="col-6">
-                <a href="#" class="btn btn-block btn-primary btn-md">Save Job</a>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
         <!-- JobPosting End -->
+
 
     <footer class="site-footer">
 
