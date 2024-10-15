@@ -6,49 +6,113 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessObject.AddModel;
+using BusinessObject.ViewModel;
 
 namespace Repository.Repository
 {
     public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
-
+        ICertificateRepository certiRepo;
+        IResumeRepository resumeRepo;
+        IRoleRepository roleRepo;
         public AccountRepository()
         {
-
+            certiRepo = new CertificateRepository();
+            resumeRepo = new ResumeRepository();
+            roleRepo = new RoleRepository();
         }
-        public async Task<Account?> CheckAccount(string email,string password)
+        public async Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging)
+        {
+            try
+            {
+                var accounts = Paging((await GetAllAsync()), sizePaging, indexPaging);
+                var result = await ConvertListAccountIntoListAccountView(accounts);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<AccountView?> AddAccount(AccountAdd key, int roleId)
+        {
+            try
+            {
+                Account account = new()
+                {
+                    Email = key.email,
+                    PasswordHash = key.password,
+                    FullName = key.FullName,
+                    PhoneNumber = key.PhoneNumber,
+                    Address = key.Address,
+                    Gender = key.gender,
+                    RoleId = roleId,
+                };
+                await CreateAsync(account);
+                var result = await ConvertAccountIntoAccountView(account);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<AccountView?> CheckAccount(string email, string password)
         {
             try
             {
                 var listAccount = await GetAllAsync();
-                return listAccount?.SingleOrDefault(l => l.Email == email && l.PasswordHash == password);
+                var account = listAccount?.SingleOrDefault(l => l.Email == email && l.PasswordHash == password);
+                if (account == null) return null;
+                var result = await ConvertAccountIntoAccountView(account);
+                return result;
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        /*public async Task<Account?> CheckAccessToken(string accessToken)
+        public async Task<List<AccountView>> ViewListAccount(int sizePaging,int indexPaging)
         {
             try
             {
-                var listAccount = await GetAllAsync();
-                return listAccount?.SingleOrDefault(l => l.AccessToken == accessToken);
+                var list = await GetAllAsync();
+                list = Paging(list, sizePaging, indexPaging);
+                var result = await ConvertListAccountIntoListAccountView(list);
+                return result;
             }
-            catch (Exception)
+            catch(Exception) 
             {
                 throw;
             }
-        }*/
-        public async Task<string> CreateConfirmTokenAccoutn(string email)
+        }
+        public async Task<string> CreateConfirmTokenAccount(string email, string type)
         {
             try
             {
-                var account = (await GetAllAsync()).SingleOrDefault(l => l.Email == email);
-                if (account == null) return "";
-                var token = CreateConfirmToken(6);
-                ListStorageAccount.AddAccountConfirm(account, token);
-                return token;
+                if (type == "FORGET")
+                {
+                    var account = (await GetAllAsync()).SingleOrDefault(l => l.Email == email);
+                    if (account == null) return "";
+                    var token = CreateConfirmToken(6);
+                    ListStorageAccount.AddAccountConfirm(account, token);
+                    return token;
+                }
+                else if (type == "VERIFY")
+                {
+                    var account = new Account
+                    {
+                        Email = email,
+                    };
+                    var token = CreateConfirmToken(6);
+                    ListStorageAccount.AddAccountVerify(account, token);
+                    return token;
+                }
+                else
+                {
+                    return "";
+                }
             }
             catch (Exception)
             {
@@ -56,16 +120,17 @@ namespace Repository.Repository
             }
 
         }
-        public async Task<Account> ForgetPasswork(string email,string password,string token)
+        public async Task<AccountView> ForgetPasswork(string email, string password, string token)
         {
             try
             {
                 var account = (await GetAllAsync()).SingleOrDefault(l => l.Email == email);
-                if(ListStorageAccount.RemoveAccountConfirm(account, token) == true)
+                if (ListStorageAccount.RemoveAccountConfirm(account, token) == true)
                 {
                     account.PasswordHash = password;
                     await UpdateAsync(account);
-                    return account;
+                    var result = await ConvertAccountIntoAccountView(account);
+                    return result;
                 }
                 return null;
             }
@@ -73,7 +138,17 @@ namespace Repository.Repository
             {
                 throw;
             }
-
+        }
+        public async Task<bool> VerifyAccount(string email, string token)
+        {
+            try
+            {
+                return ListStorageAccount.RemoveAccountVerify(email, token);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         private string CreateConfirmToken(int length)
         {
@@ -87,18 +162,28 @@ namespace Repository.Repository
             }
             return new string(code);
         }
-        public async Task<List<Account>> ViewListAccount(int sizePaging,int indexPaging)
+
+        private async Task<List<AccountView>> ConvertListAccountIntoListAccountView(List<Account> key)
         {
-            try
+            List<AccountView> results = new List<AccountView>();
+            foreach (var item in key)
             {
-                var list = await GetAllAsync();
-                list = Paging(list, sizePaging, indexPaging);
-                return list;
+                results.Add(await ConvertAccountIntoAccountView(item));
             }
-            catch(Exception) 
-            {
-                throw;
-            }
+            return results;
+        }
+        private async Task<AccountView> ConvertAccountIntoAccountView(Account key)
+        {
+            var certificates = await certiRepo.ListCertificateAccount(key.AccountId);
+            var resumes = await resumeRepo.ListResumeAccount(key.AccountId);
+            RoleView? role = new RoleView();
+            if (key.RoleId == null)
+                role = null;
+            else 
+                role = await roleRepo.RoleDetail(key.RoleId);
+            AccountView result = new AccountView();
+            result.ConvertAccountIntoAccountView(key, role, certificates, resumes);
+            return result;
         }
     }
 }

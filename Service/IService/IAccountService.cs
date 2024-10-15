@@ -1,4 +1,4 @@
-﻿using BusinessObject.ViewModel;
+﻿using BusinessObject.AddModel;
 using Service.Service;
 using System;
 using System.Collections.Generic;
@@ -10,11 +10,11 @@ namespace Service.IService
 {
     public interface IAccountService
     {
-        public Task<ServiceResult> AddAccount(AccountAdd key);
+        public Task<ServiceResult> GetAllAccount(int sizePaging, int indexPaging);
+        public Task<ServiceResult> AddAccount(AccountAdd key, int roleId);
         public Task<ServiceResult> LoginAccount(string email, string password);
-        //public Task<ServiceResult> LoginToken(string accessToken);
-        public Task<ServiceResult> SendToken(string email);
+        public Task<ServiceResult> SendToken(string email, string type);
         public Task<ServiceResult> ResetPassword(string email, string password, string token);
-        public Task<ServiceResult> ViewListAccount(int sizePaging, int indexPaging);
+        public Task<ServiceResult> VerifyAccount(string email, string token);
     }
 }

@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.OData.Query;
+using BusinessObject.AddModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IndieGameHubSever.Controllers
 {
@@ -29,67 +31,114 @@ namespace IndieGameHubSever.Controllers
         {
             _configuration = configuration;
         }
-        [HttpGet("ViewList")]
-        [EnableQuery]
-        public async Task<IActionResult> ViewListAccount(int sizePaging,int indexPaging)
+        [Authorize(Roles = "Applicant")]
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll(int sizePaging, int indexPaging)
         {
-            var result = await service.ViewListAccount(sizePaging, indexPaging);
+            var result = await service.GetAllAccount(sizePaging, indexPaging);
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
-        [HttpGet("Login")]
+        [HttpGet("LoginAccount")]
         public async Task<IActionResult> LoginAccount(string email, string password)
         {
             var result = await service.LoginAccount(email, password);
-            if (result.Status == 200) return Ok(result);
-            else return BadRequest(result);
-        }
-        /*[HttpGet("LoginToken")]
-        public async Task<IActionResult> LoginToken(string token)
-        {
-            var result = await service.LoginToken(token);
-            if (result.Status == 200) return Ok(result);
-            else return BadRequest(result);
-        }*/
-        [HttpGet("Register")]
-        public async Task<IActionResult> Register(string email,string password)
-        {
-            var token = GenerateJwtToken(email);
-            var result = await service.AddAccount(new AccountAdd
+            
+            if (result.Status == 200)
             {
-                userName = email,
-                password = password,
-                accessToken = token
-            });
+                string role = ((AccountView)result.Data).Role.RoleName;
+                var token = GenerateJwtToken(email, role);
+                result.Data = new
+                {
+                    result = new
+                    {
+                        Account = result.Data,
+                        Token = token
+                    }
+                };
+                return Ok(result);
+            }
+            else return BadRequest(result);
+        }
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(AccountAdd key)
+        {
+            var result = await service.AddAccount(key, 3);
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
-        private string GenerateJwtToken(string email)
+        [HttpPost("AddAdmin")]
+        public async Task<IActionResult> AddAdmin(AccountAdd key)
+        {
+            var result = await service.AddAccount(key, 1);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        private string GenerateJwtToken()
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GZGrzxj6a0G+hO2Fy6K3+n5UzO/GByYhPZ1T3vxA7Zs="));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(JwtRegisteredClaimNames.Sub, "user"),
-                new Claim(ClaimTypes.Role, "User"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+            new Claim(JwtRegisteredClaimNames.Sub, "testuser"),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
             var token = new JwtSecurityToken(
-                issuer: "JobFindingIssuer",
-                audience: "JobFindingAudience",
+                issuer: "IndieGameIssuer",
+                audience: "IndieGameAudience",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        [HttpPost("send")]
-        public async Task<IActionResult> SendEmail(string toEmail)
+        [HttpPost("SendTokenReset")]
+        public async Task<IActionResult> SendTokenReset(string toEmail)
         {
-            var result = await service.SendToken(toEmail);
-            if (result.Status != 200) return BadRequest(result);
+            try
+            {
+                var result = await service.SendToken(toEmail, "FORGET");
+                if (result.Status != 200) return BadRequest(result);
+                await SendMail(toEmail, "Mã reset password của bạn là: " + (string)result.Data);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi khi gửi email: {ex.Message}");
+            }
+        }
+        [HttpPost("SendTokenVerify")]
+        public async Task<IActionResult> SendTokenVerify(string toEmail)
+        {
+            try
+            {
+                var result = await service.SendToken(toEmail, "VERIFY");
+                if (result.Status != 200) return BadRequest(result);
+                await SendMail(toEmail, "mã xác nhận tài khoản của bạn là: " + (string)result.Data);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi khi gửi email: {ex.Message}");
+            }
+        }
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string email, string password, string token)
+        {
+            var result = await service.ResetPassword(email, password, token);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        [HttpPost("VerifyAccount")]
+        public async Task<IActionResult> VerifyAccount(string email, string token)
+        {
+            var result = await service.VerifyAccount(email, token);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        private async Task<IActionResult> SendMail(string toEmail, string message)
+        {
             var smtpSettings = _configuration.GetSection("Smtp");
 
             var smtpClient = new SmtpClient(smtpSettings["Host"])
@@ -103,7 +152,7 @@ namespace IndieGameHubSever.Controllers
             {
                 From = new MailAddress(smtpSettings["UserName"]),
                 Subject = "Confirm Token",
-                Body = (String)result.Data,
+                Body = message,
                 IsBodyHtml = true,
             };
 
@@ -112,20 +161,36 @@ namespace IndieGameHubSever.Controllers
             try
             {
                 await smtpClient.SendMailAsync(mailMessage);
-                return Ok(result);
+                return Ok();
             }
             catch (SmtpException ex)
             {
-                return StatusCode(500, $"Lỗi khi gửi email: {ex.Message}");
+                throw;
             }
         }
-        [HttpPost("resetPassword")]
-        public async Task<IActionResult> ResetPassword(string email,string password,string token)
+        private string GenerateJwtToken(string email, string role)
         {
-            var result = await service.ResetPassword(email, password, token);
-            if (result.Status == 200) return Ok(result);
-            else return BadRequest(result);
-        }
+            var key = _configuration["JwtSettings:Key"];
+            var issuer = _configuration["JwtSettings:Issuer"];
+            var audience = _configuration["JwtSettings:Audience"];
 
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(ClaimTypes.Role, role),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }

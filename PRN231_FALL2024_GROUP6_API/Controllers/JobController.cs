@@ -1,4 +1,5 @@
-﻿using BusinessObject.ViewModel;
+﻿using BusinessObject.AddModel;
+using BusinessObject.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;

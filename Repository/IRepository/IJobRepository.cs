@@ -1,4 +1,5 @@
-﻿using BusinessObject.ViewModel;
+﻿using BusinessObject.AddModel;
+using BusinessObject.ViewModel;
 using DataAccessObject.Models;
 using System;
 using System.Collections.Generic;
