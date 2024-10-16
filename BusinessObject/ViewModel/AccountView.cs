@@ -20,7 +20,8 @@ namespace BusinessObject.ViewModel
         public RoleView? Role { get; set; }
         public List<CertificateView>? Certificates { get; set; }
         public List<ResumeView>? Resumes { get; set; }
-        public void ConvertAccountIntoAccountView(Account account, RoleView role, List<CertificateView> certificates, List<ResumeView> resumes)
+        public List<AccountJobSkillView>? AccountJobSkill { get; set; }
+        public void ConvertAccountIntoAccountView(Account account, RoleView role, List<CertificateView> certificates, List<ResumeView> resumes, List<AccountJobSkillView> accountJobSkill)
         {
             AccountId = account.AccountId;
             Email = account.Email;
@@ -33,6 +34,7 @@ namespace BusinessObject.ViewModel
             Role = role;
             Certificates = certificates;
             Resumes = resumes;
+            AccountJobSkill = accountJobSkill;
         }
     }
 }

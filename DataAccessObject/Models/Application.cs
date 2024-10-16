@@ -11,6 +11,8 @@ public partial class Application
 
     public DateTime? ApplicationDate { get; set; }
 
+    public string UrlCv { get; set; }
+
     public string Status { get; set; }
 
     public int? AccountId { get; set; }
