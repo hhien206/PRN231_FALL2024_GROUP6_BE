@@ -3,34 +3,199 @@
 @{
     ViewData["Title"] = "Register";
 }
-<h2>Register</h2>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .row {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            box-shadow: 0 0 10px 0 #4EB748;
+        }
 
-<form method="post">
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            background-color: #FAF9F7;
+            padding: 10px;
+            width: 450px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 12px;
+        }
+
+        ::placeholder {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .form button {
+            align-self: flex-end;
+        }
+
+        .flex-column > label {
+            color: #124DA3;
+            font-weight: 600;
+        }
+
+        .inputForm {
+            border: 1.5px solid #ecedec;
+            border-radius: 10px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            transition: 0.2s ease-in-out;
+        }
+
+        .input {
+            margin-left: 5px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+            .input:focus {
+                outline: none;
+            }
+
+        .inputForm:focus-within {
+            border: 1.5px solid #2d79f3;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+            justify-content: space-between;
+        }
+
+            .flex-row > div > label {
+                font-size: 14px;
+                color: black;
+                font-weight: 400;
+            }
+
+        .span {
+            font-size: 12px;
+            margin-left: 5px;
+            color: #2d79f3;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .button-submit {
+            margin: 5px 0 5px 0;
+            background-color: #F37022;
+            border: none;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 10px;
+            height: 35px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            .button-submit:hover {
+                background-color: #4EB748;
+            }
+
+        .p {
+            text-align: center;
+            color: black;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+
+        .btn {
+            margin-top: 5px;
+            width: 100%;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 500;
+            gap: 5px;
+            border: 1px solid #ededef;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+            .btn:hover {
+                border: 1px solid #2d79f3;
+                ;
+            }
+    </style>
+</head>
+
+<body>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="">
+                    <div class="row">
+                        <div class="d-flex justify-content-center align-items-center">
+                        </div>
+                        <form class="form" id="loginForm" method="post">
+                            <div class="flex-column" id="error" style="color: red"></div>
+                            <div class="flex-column" id="ok" style="color: green"></div>
+                            <div class="flex-column">
+                                <label>Register </label>
+                            </div>
+
+                            <div class="flex-column">
+                                <label>Email </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.email">Email</label>
         <input asp-for="Account.email" class="form-control" />
         <span asp-validation-for="Account.email" class="text-danger"></span>
     </div>
+
+                            <div class="flex-column">
+                                <label>Password </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.password">Password</label>
         <input asp-for="Account.password" type="password" class="form-control" />
         <span asp-validation-for="Account.password" class="text-danger"></span>
     </div>
+                            <div class="flex-column">
+                                <label>Fullname </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.FullName">Full Name</label>
         <input asp-for="Account.FullName" class="form-control" />
         <span asp-validation-for="Account.FullName" class="text-danger"></span>
     </div>
+                            <div class="flex-column">
+                                <label>PhoneNumber </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.PhoneNumber">Phone Number</label>
         <input asp-for="Account.PhoneNumber" class="form-control" />
         <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
     </div>
+                            <div class="flex-column">
+                                <label>Address </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.Address">Address</label>
         <input asp-for="Account.Address" class="form-control" />
         <span asp-validation-for="Account.Address" class="text-danger"></span>
     </div>
+                            <div class="flex-column">
+                                <label>Gender </label>
+                            </div>
     <div class="form-group">
         <label asp-for="Account.gender">Gender</label>
         <select asp-for="Account.gender" class="form-control">
@@ -42,6 +207,12 @@
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</body>
 
 @if (ViewData["ErrorMessage"] != null)
 {
