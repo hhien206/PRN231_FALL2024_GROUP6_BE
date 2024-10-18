@@ -4,170 +4,25 @@
     ViewData["Title"] = "Login";
 }
 
-<style>
-    body {
-        background-color: #f4f7fc;
-        font-family: Arial, sans-serif;
-    }
+<h2>Login</h2>
 
-    .btn-color {
-        background-color: #0e1c36;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-        .btn-color:hover {
-            background-color: #1c2b4d;
-        }
-
-    .profile-image-pic {
-        height: 120px;
-        width: 120px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid #fff;
-    }
-
-    .cardbody-color {
-        background-color: #ebf2fa;
-        border-radius: 10px;
-        padding: 30px;
-    }
-
-    .card {
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-    }
-
-    .form-outline input {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        width: 100%;
-    }
-
-        .form-outline input:focus {
-            border-color: #0e1c36;
-        }
-
-    .form-outline label {
-        font-size: 0.9em;
-        font-weight: bold;
-        color: #0e1c36;
-    }
-
-    .form-check-label {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .text-center a {
-        color: #0e1c36;
-        text-decoration: none;
-    }
-
-        .text-center a:hover {
-            text-decoration: underline;
-        }
-
-    .forgot-password {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .social-btns .btn {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        color: #0e1c36;
-        border-radius: 50%;
-        padding: 12px;
-        margin: 5px;
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .social-btns .btn:hover {
-            background-color: #0e1c36;
-            color: #fff;
-        }
-
-    .social-btns i {
-        font-size: 18px;
-    }
-</style>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card my-5">
-                <form class="card-body cardbody-color p-lg-5" method="post">
-                    <div class="text-center">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNV5Pa7SZd2brkGNFg0xOmHfQEBokKwV1aoQ&usqp=CAU"
-                             class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
-                             alt="profile">
-                    </div>
-
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <input type="email" id="form2Example1" class="form-control" />
-                        <label class="form-label" for="form2Example1">Email address</label>
-                    </div>
-
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <input type="password" id="form2Example2" class="form-control" />
-                        <label class="form-label" for="form2Example2">Password</label>
-                    </div>
-
-                    <!-- Remember me and Forgot password -->
-                    <div class="row mb-4">
-                        <div class="col d-flex justify-content-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                                <label class="form-check-label" for="form2Example31"> Remember me </label>
-                            </div>
-                        </div>
-                        <div class="col text-right">
-                            <a href="/ResetPassword" class="forgot-password">Forgot password?</a>
-                        </div>
-                    </div>
-
-                    <!-- Sign In Button (Centered) -->
-                    <div class="text-center">
-                        <button type="button" class="btn btn-color btn-block mx-auto mb-4">Sign in</button>
-                    </div>
-
-                    <!-- Register and Social Media buttons -->
-                    <div class="text-center">
-                        <p>Not a member? <a href="/Register">Register</a></p>
-                        <p>or sign up with:</p>
-                        <div class="social-btns">
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-facebook-f"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-google"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-twitter"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-github"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Account.email">Email</label>
+        <input asp-for="Account.email" class="form-control" />
+        <span asp-validation-for="Account.email" class="text-danger"></span>
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="Account.password">Password</label>
+        <input asp-for="Account.password" type="password" class="form-control" />
+        <span asp-validation-for="Account.password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["ErrorMessage"]
+    </div>
+}
