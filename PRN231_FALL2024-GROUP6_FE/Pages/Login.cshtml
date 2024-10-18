@@ -4,170 +4,243 @@
     ViewData["Title"] = "Login";
 }
 
-<style>
-    body {
-        background-color: #f4f7fc;
-        font-family: Arial, sans-serif;
-    }
 
-    .btn-color {
-        background-color: #0e1c36;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-        .btn-color:hover {
-            background-color: #1c2b4d;
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .row {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            box-shadow: 0 0 10px 0 #4EB748;
         }
 
-    .profile-image-pic {
-        height: 120px;
-        width: 120px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid #fff;
-    }
-
-    .cardbody-color {
-        background-color: #ebf2fa;
-        border-radius: 10px;
-        padding: 30px;
-    }
-
-    .card {
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-    }
-
-    .form-outline input {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        width: 100%;
-    }
-
-        .form-outline input:focus {
-            border-color: #0e1c36;
+        .form {
+            display: flex;
+            flex-direction: column; 
+            gap: 10px;
+            background-color: #FAF9F7;
+            padding: 30px;
+            width: 450px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-    .form-outline label {
-        font-size: 0.9em;
-        font-weight: bold;
-        color: #0e1c36;
-    }
-
-    .form-check-label {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .text-center a {
-        color: #0e1c36;
-        text-decoration: none;
-    }
-
-        .text-center a:hover {
-            text-decoration: underline;
+        ::placeholder {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-    .forgot-password {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .social-btns .btn {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        color: #0e1c36;
-        border-radius: 50%;
-        padding: 12px;
-        margin: 5px;
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .social-btns .btn:hover {
-            background-color: #0e1c36;
-            color: #fff;
+        .form button {
+            align-self: flex-end;
         }
 
-    .social-btns i {
-        font-size: 18px;
-    }
-</style>
+        .flex-column > label {
+            color: #124DA3;
+            font-weight: 600;
+        }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card my-5">
-                <form class="card-body cardbody-color p-lg-5" method="post">
-                    <div class="text-center">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNV5Pa7SZd2brkGNFg0xOmHfQEBokKwV1aoQ&usqp=CAU"
-                             class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
-                             alt="profile">
-                    </div>
+        .inputForm {
+            border: 1.5px solid #ecedec;
+            border-radius: 10px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            transition: 0.2s ease-in-out;
+        }
 
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <input type="email" id="form2Example1" class="form-control" />
-                        <label class="form-label" for="form2Example1">Email address</label>
-                    </div>
+        .input {
+            margin-left: 10px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
 
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <input type="password" id="form2Example2" class="form-control" />
-                        <label class="form-label" for="form2Example2">Password</label>
-                    </div>
+            .input:focus {
+                outline: none;
+            }
 
-                    <!-- Remember me and Forgot password -->
-                    <div class="row mb-4">
-                        <div class="col d-flex justify-content-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                                <label class="form-check-label" for="form2Example31"> Remember me </label>
+        .inputForm:focus-within {
+            border: 1.5px solid #2d79f3;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+            .flex-row > div > label {
+                font-size: 14px;
+                color: black;
+                font-weight: 400;
+            }
+
+        .span {
+            font-size: 14px;
+            margin-left: 5px;
+            color: #2d79f3;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .button-submit {
+            margin: 20px 0 10px 0;
+            background-color: #F37022;
+            border: none;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 10px;
+            height: 50px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            .button-submit:hover {
+                background-color: #4EB748;
+            }
+
+        .p {
+            text-align: center;
+            color: black;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .btn {
+            margin-top: 10px;
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            gap: 10px;
+            border: 1px solid #ededef;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+            .btn:hover {
+                border: 1px solid #2d79f3;
+                ;
+            }
+    </style>
+</head>
+
+
+<body>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="">
+                    <div class="row">
+                        <div class="d-flex justify-content-center align-items-center">
+                        </div>
+                        <form class="form" id="loginForm" method="post">
+                            <div class="flex-column" id="error" style="color: red"></div>
+                            <div class="flex-column" id="ok" style="color: green"></div>
+                            <div class="flex-column">
+                                <label>Tên đăng nhập </label>
                             </div>
-                        </div>
-                        <div class="col text-right">
-                            <a href="/ResetPassword" class="forgot-password">Forgot password?</a>
-                        </div>
+                            <div class="form-group">
+                                <label asp-for="Account.email">Email</label>
+                                <input asp-for="Account.email" class="form-control" />
+                                <span asp-validation-for="Account.email" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="flex-column">
+                                <label>Mật khẩu </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Account.password">Password</label>
+                                <input asp-for="Account.password" type="password" class="form-control" />
+                                <span asp-validation-for="Account.password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group text-danger">
+                                <div class="flex-row">
+                                    <div>
+                                        <input type="radio" id="remember">
+                                        <label>Nhớ đăng nhập</label>
+                                    </div>
+                                    <a href="Resetpassword" class="nav-item nav-link">Resetpassword</a>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                                <p class="p">
+                                    Bạn chưa có tài khoản? <a href="Register" class="nav-item nav-link">Register</a>
+
+                                </p><p class="p line">- Hoặc -</p>
+
+                                <div class="flex-row">
+                                    <button class="btn google">
+                                        <svg xml:space="preserve" style="enable-background:new 0 0 512 512;" viewBox="0 0 512 512" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Layer_1" width="20" version="1.1" id="google">
+                                        <path d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
+	                c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456
+	                C103.821,274.792,107.225,292.797,113.47,309.408z" style="fill:#FBBB00;"></path>
+                                        <path d="M507.527,208.176C510.467,223.662,512,239.655,512,256c0,18.328-1.927,36.206-5.598,53.451
+	                c-12.462,58.683-45.025,109.925-90.134,146.187l-0.014-0.014l-73.044-3.727l-10.338-64.535
+	                c29.932-17.554,53.324-45.025,65.646-77.911h-136.89V208.176h138.887L507.527,208.176L507.527,208.176z" style="fill:#518EF8;"></path>
+                                        <path d="M416.253,455.624l0.014,0.014C372.396,490.901,316.666,512,256,512
+	                    c-97.491,0-182.252-54.491-225.491-134.681l82.961-67.91c21.619,57.698,77.278,98.771,142.53,98.771
+	                    c28.047,0,54.323-7.582,76.87-20.818L416.253,455.624z" style="fill:#28B446;"></path>
+                                        <path d="M419.404,58.936l-82.933,67.896c-23.335-14.586-50.919-23.012-80.471-23.012
+	                    c-66.729,0-123.429,42.957-143.965,102.724l-83.397-68.276h-0.014C71.23,56.123,157.06,0,256,0
+	                    C318.115,0,375.068,22.126,419.404,58.936z" style="fill:#F14336;"></path>
+
+                </svg>
+
+                                        Google
+
+                                    </button><button class="btn apple">
+                                        <svg xml:space="preserve" style="enable-background:new 0 0 22.773 22.773;" viewBox="0 0 22.773 22.773" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Capa_1" width="20" height="20" version="1.1"> <g> <g> <path d="M15.769,0c0.053,0,0.106,0,0.162,0c0.13,1.606-0.483,2.806-1.228,3.675c-0.731,0.863-1.732,1.7-3.351,1.573 c-0.108-1.583,0.506-2.694,1.25-3.561C13.292,0.879,14.557,0.16,15.769,0z"></path> <path d="M20.67,16.716c0,0.016,0,0.03,0,0.045c-0.455,1.378-1.104,2.559-1.896,3.655c-0.723,0.995-1.609,2.334-3.191,2.334 c-1.367,0-2.275-0.879-3.676-0.903c-1.482-0.024-2.297,0.735-3.652,0.926c-0.155,0-0.31,0-0.462,0 c-0.995-0.144-1.798-0.932-2.383-1.642c-1.725-2.098-3.058-4.808-3.306-8.276c0-0.34,0-0.679,0-1.019 c0.105-2.482,1.311-4.5,2.914-5.478c0.846-0.52,2.009-0.963,3.304-0.765c0.555,0.086,1.122,0.276,1.619,0.464 c0.471,0.181,1.06,0.502,1.618,0.485c0.378-0.011,0.754-0.208,1.135-0.347c1.116-0.403,2.21-0.865,3.652-0.648 c1.733,0.262,2.963,1.032,3.723,2.22c-1.466,0.933-2.625,2.339-2.427,4.74C17.818,14.688,19.086,15.964,20.67,16.716z" id="apple"></path> </g></g></svg>
+
+                                        Apple
+
+                                    </button>
+                                </div>
+                        </form>
                     </div>
-
-                    <!-- Sign In Button (Centered) -->
-                    <div class="text-center">
-                        <button type="button" class="btn btn-color btn-block mx-auto mb-4">Sign in</button>
-                    </div>
-
-                    <!-- Register and Social Media buttons -->
-                    <div class="text-center">
-                        <p>Not a member? <a href="/Register">Register</a></p>
-                        <p>or sign up with:</p>
-                        <div class="social-btns">
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-facebook-f"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-google"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-twitter"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-link">
-                                <i class="fab fa-github"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </body>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#registerLink').click(function () {
+            alert('Đang cập nhật tính năng đăng ký!');
+        });
+    });
+    $(document).ready(function () {
+        $('#apple').click(function () {
+            alert('Đang cập nhật tính năng đăng nhập bằng tài khoản apple!');
+        });
+    });
+    $(document).ready(function () {
+        $('#google').click(function () {
+            alert('Đang cập nhật tính năng  đăng nhập bằng tài khoản google!');
+        });
+    });
+    $(document).ready(function () {
+        $('#forgot').click(function () {
+            alert('Đang cập nhật tính năng quên mật khẩu!');
+        });
+    });
+    $(document).ready(function () {
+        $('#remember').click(function () {
+            alert('Đang cập nhật tính năng nhớ tài khoản đăng nhập!');
+        });
+    });
+</script>

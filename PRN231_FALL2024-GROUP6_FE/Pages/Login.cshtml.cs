@@ -1,51 +1,56 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
-using System.Text;
-using System.Runtime.InteropServices.JavaScript;
-using Newtonsoft.Json.Linq;
+using BusinessObject.AddModel;
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
     public class LoginModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        public LoginModel(IHttpClientFactory httpClientFactory)
+
+        public LoginModel(HttpClient httpClient)
         {
-            _httpClient = httpClientFactory.CreateClient();
+            _httpClient = httpClient;
         }
 
         [BindProperty]
-        public string Email { get; set; }
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        public string ErrorMessage { get; set; }
+        public AccountAdd Account { get; set; } = new AccountAdd();
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var json = JsonSerializer.Serialize(new { email = Email, password = Password });
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.GetAsync($"https://localhost:7008/api/Account/LoginAccount?email={Email}&password={Password}");
-
-            if (response.IsSuccessStatusCode)
+            if (!ModelState.IsValid)
             {
-                return RedirectToPage("/Index");
-            }
-            else
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                JObject jsonResponse = JObject.Parse(responseContent);
-                ErrorMessage = jsonResponse["message"]?.ToString() ?? "Login failed!";
                 return Page();
             }
-        }
 
-        public IActionResult OnGetRegister()
-        {
-            return RedirectToPage("/Register");  // Change to the path of your registration page
+            try
+            {
+                // Create the API URL with query parameters for email and password
+                var requestUri = $"https://localhost:7008/api/Account/LoginAccount?email={Account.email}&password={Account.password}";
+
+                // Send the GET request to your login API
+                var response = await _httpClient.GetAsync(requestUri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Optionally, you can read the response content (e.g., JWT token or user data)
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    // Process the response (e.g., save token, redirect)
+                    return RedirectToPage("/Index"); // Redirect to a dashboard after successful login
+                }
+                else
+                {
+                    // Handle invalid login response
+                    ViewData["ErrorMessage"] = "Invalid login credentials.";
+                    return Page();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+                return Page();
+            }
         }
     }
 }

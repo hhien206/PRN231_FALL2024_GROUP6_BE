@@ -1,83 +1,57 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json.Linq;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+using BusinessObject.AddModel;
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
     public class RegisterModel : PageModel
     {
-      
-            private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
-            public RegisterModel(IHttpClientFactory httpClientFactory)
+        public RegisterModel(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        [BindProperty]
+        public AccountAdd Account { get; set; } = new AccountAdd();
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
             {
-                _httpClient = httpClientFactory.CreateClient();
+                return Page();
             }
 
-            [BindProperty]
-            public string Name { get; set; }
-
-            [BindProperty]
-            public string Username { get; set; }
-
-            [BindProperty]
-            public string Email { get; set; }
-
-            [BindProperty]
-            public string Password { get; set; }
-
-            [BindProperty]
-            public string RepeatPassword { get; set; }
-
-            public string ErrorMessage { get; set; }
-            public string SuccessMessage { get; set; }
-
-            // Handle the form submission
-            public async Task<IActionResult> OnPostAsync()
+            try
             {
-                // Basic validation
-                if (Password != RepeatPassword)
+               
+
+                // Convert the register data to JSON format
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(Account), Encoding.UTF8, "application/json");
+
+                // Send the POST request to your register API
+                var response = await _httpClient.PostAsync("https://localhost:7008/api/Account/Register", jsonContent);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    ErrorMessage = "Passwords do not match.";
+                    // Handle successful registration (e.g., redirect to login)
+                    return RedirectToPage("/Login");
+                }
+                else
+                {
+                    // Handle registration failure
+                    ViewData["ErrorMessage"] = "Registration failed. Please try again.";
                     return Page();
                 }
-
-                var registrationData = new
-                {
-                    name = Name,
-                    username = Username,
-                    email = Email,
-                    password = Password
-                };
-
-                var json = JsonSerializer.Serialize(registrationData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                try
-                {
-                    // Send the data to the Register API endpoint
-                    var response = await _httpClient.PostAsync("https://localhost:7008/api/Account/Register", content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        SuccessMessage = "Registration successful! Please login.";
-                        return RedirectToPage("/Login");  // Redirect to the login page after successful registration
-                    }
-                    else
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        JObject jsonResponse = JObject.Parse(responseContent);
-                        ErrorMessage = jsonResponse["message"]?.ToString() ?? "Registration failed!";
-                        return Page();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = $"Error: {ex.Message}";
-                    return Page();
-                }
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+                return Page();
             }
         }
     }
+}
