@@ -40,6 +40,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> GetAccountById(int accountId)
+        {
+            try
+            {
+                var account = await accountRepository.GetAccountById(accountId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Account",
+                    Data = account
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> AddAccount(AccountAdd key, int roleId)
         {
             try

@@ -11,11 +11,15 @@ public partial class Application
 
     public DateTime? ApplicationDate { get; set; }
 
+    public string UrlCv { get; set; }
+
     public string Status { get; set; }
 
     public int? AccountId { get; set; }
 
     public int? JobId { get; set; }
+
+    public virtual Account Account { get; set; }
 
     public virtual ICollection<InterviewProcess> InterviewProcesses { get; set; } = new List<InterviewProcess>();
 

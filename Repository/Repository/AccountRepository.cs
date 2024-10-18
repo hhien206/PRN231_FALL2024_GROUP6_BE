@@ -16,11 +16,13 @@ namespace Repository.Repository
         ICertificateRepository certiRepo;
         IResumeRepository resumeRepo;
         IRoleRepository roleRepo;
+        IAccountJobSkillRepository accountJobSkillRepo;
         public AccountRepository()
         {
             certiRepo = new CertificateRepository();
             resumeRepo = new ResumeRepository();
             roleRepo = new RoleRepository();
+            accountJobSkillRepo = new AccountJobskillRepository();
         }
         public async Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging)
         {
@@ -28,6 +30,19 @@ namespace Repository.Repository
             {
                 var accounts = Paging((await GetAllAsync()), sizePaging, indexPaging);
                 var result = await ConvertListAccountIntoListAccountView(accounts);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<AccountView> GetAccountById(int accountId)
+        {
+            try
+            {
+                var account = GetById(accountId);
+                var result = await ConvertAccountIntoAccountView(account);
                 return result;
             }
             catch (Exception)
@@ -181,8 +196,9 @@ namespace Repository.Repository
                 role = null;
             else 
                 role = await roleRepo.RoleDetail(key.RoleId);
+            var accountJobSkill = await accountJobSkillRepo.ListAccountJobSkillAccount(key.AccountId);
             AccountView result = new AccountView();
-            result.ConvertAccountIntoAccountView(key, role, certificates, resumes);
+            result.ConvertAccountIntoAccountView(key, role, certificates, resumes, accountJobSkill);
             return result;
         }
     }

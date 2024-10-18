@@ -13,6 +13,7 @@ namespace Repository.IRepository
     public interface IAccountRepository : IGenericRepository<Account>
     {
         public Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging);
+        public Task<AccountView> GetAccountById(int accountId);
         public Task<AccountView?> AddAccount(AccountAdd key, int roleId);
         public Task<AccountView?> CheckAccount(string email, string password);
         public Task<string> CreateConfirmTokenAccount(string email, string type);
