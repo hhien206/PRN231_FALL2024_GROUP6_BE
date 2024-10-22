@@ -31,7 +31,6 @@ namespace IndieGameHubSever.Controllers
         {
             _configuration = configuration;
         }
-        [Authorize(Roles = "Applicant")]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(int sizePaging, int indexPaging)
         {
@@ -55,14 +54,8 @@ namespace IndieGameHubSever.Controllers
             {
                 string role = ((AccountView)result.Data).Role.RoleName;
                 var token = GenerateJwtToken(email, role);
-                result.Data = new
-                {
-                    result = new
-                    {
-                        Account = result.Data,
-                        Token = token
-                    }
-                };
+                var account = (AccountView)result.Data;
+                account.Token = token;
                 return Ok(result);
             }
             else return BadRequest(result);
