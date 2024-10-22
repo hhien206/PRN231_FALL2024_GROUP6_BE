@@ -195,6 +195,7 @@ namespace Repository.Repository
                 role = await roleRepo.RoleDetail(key.RoleId);
             var accountJobSkill = await accountJobSkillRepo.ListAccountJobSkillAccount(key.AccountId);
             AccountView result = new AccountView();
+            result.ConvertAccountIntoAccountView(key,role,certificates,accountJobSkill);
             return result;
         }
     }

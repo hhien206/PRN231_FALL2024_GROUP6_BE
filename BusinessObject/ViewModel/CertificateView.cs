@@ -10,11 +10,13 @@ namespace BusinessObject.ViewModel
     public class CertificateView
     {
         public int CertificateId {  get; set; }
+        public string? CertificateName { get; set; }
         public string? CertificateUrl {  get; set; }
 
         public void ConvertCertificateIntoCertificateView(Certificate key)
         {
             CertificateId = key.CertificateId;
+            CertificateName = key.CertificateName;
             CertificateUrl = key.CertificateUrl;
         }
     }
