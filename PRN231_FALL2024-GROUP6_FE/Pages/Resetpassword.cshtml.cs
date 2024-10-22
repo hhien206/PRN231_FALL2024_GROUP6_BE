@@ -1,3 +1,4 @@
+﻿using BusinessObject.AddModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json.Linq;
@@ -8,54 +9,50 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
     public class ResetpasswordModel : PageModel
     {
-       
-            private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
 
-            public ResetpasswordModel(IHttpClientFactory httpClientFactory)
+        public ResetpasswordModel(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        [BindProperty]
+        public AccountAdd Account { get; set; } = new AccountAdd();
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
             {
-                _httpClient = httpClientFactory.CreateClient();
+                return Page();
             }
 
-            [BindProperty]
-            public string Email { get; set; }
+            // Tạo URL từ API của bạn
+            string apiUrl = $"https://localhost:7008/api/Account/SendTokenReset?toEmail={Account.email}";
 
-            public string Message { get; set; }
-            public string ErrorMessage { get; set; }
-
-            public async Task<IActionResult> OnPostAsync()
+            try
             {
-                if (string.IsNullOrEmpty(Email))
+                // Gọi API để gửi token reset qua email
+                HttpResponseMessage response = await _httpClient.PostAsync(apiUrl, null);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    ErrorMessage = "Email is required.";
+                    // Nếu thành công, điều hướng đến trang xác nhận
+                    return RedirectToPage("ResetPasswordConfirmation");
+                }
+                else
+                {
+                    // Nếu thất bại, hiển thị thông báo lỗi
+                    ModelState.AddModelError(string.Empty, "Không thể gửi yêu cầu reset mật khẩu.");
                     return Page();
                 }
-
-                var json = JsonSerializer.Serialize(new { email = Email });
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                try
-                {
-                    var response = await _httpClient.PostAsync("https://localhost:7008/api/Account/resetPassword", content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Message = "Password reset link has been sent to your email.";
-                        return Page();
-                    }
-                    else
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        JObject jsonResponse = JObject.Parse(responseContent);
-                        ErrorMessage = jsonResponse["message"]?.ToString() ?? "Failed to send password reset link.";
-                        return Page();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = $"Error: {ex.Message}";
-                    return Page();
-                }
+            }
+            catch (Exception ex)
+            {
+                // Bắt lỗi và hiển thị thông báo
+                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra: " + ex.Message);
+                return Page();
             }
         }
     }
+}
 

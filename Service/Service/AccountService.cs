@@ -65,12 +65,12 @@ namespace Service.Service
         {
             try
             {
-                if ((await accountRepository.GetAllAsync()).SingleOrDefault(l => l.Email == key.email) != null)
+                /*if ((await accountRepository.GetAllAsync()).SingleOrDefault(l => l.Email == key.email) != null)
                     return new ServiceResult
                     {
                         Status = 400,
                         Message = "Email had exist!"
-                    };
+                    };*/
                 var account = await accountRepository.AddAccount(key, roleId);
                 return new ServiceResult
                 {

@@ -3,164 +3,221 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<style>
-    body {
-        background-color: #f4f7fc;
-        font-family: Arial, sans-serif;
-    }
-
-    .btn-color {
-        background-color: #0e1c36;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-        .btn-color:hover {
-            background-color: #1c2b4d;
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .row {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            box-shadow: 0 0 10px 0 #4EB748;
         }
 
-    .profile-image-pic {
-        height: 120px;
-        width: 120px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid #fff;
-    }
-
-    .cardbody-color {
-        background-color: #ebf2fa;
-        border-radius: 10px;
-        padding: 30px;
-    }
-
-    .card {
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-    }
-
-    .form-outline input {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        width: 100%;
-    }
-
-        .form-outline input:focus {
-            border-color: #0e1c36;
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            background-color: #FAF9F7;
+            padding: 10px;
+            width: 450px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 12px;
         }
 
-    .form-outline label {
-        font-size: 0.9em;
-        font-weight: bold;
-        color: #0e1c36;
-    }
-
-    .form-check-label {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .text-center a {
-        color: #0e1c36;
-        text-decoration: none;
-    }
-
-        .text-center a:hover {
-            text-decoration: underline;
+        ::placeholder {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-    .forgot-password {
-        color: #0e1c36;
-        font-size: 0.9em;
-    }
-
-    .social-btns .btn {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        color: #0e1c36;
-        border-radius: 50%;
-        padding: 12px;
-        margin: 5px;
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .social-btns .btn:hover {
-            background-color: #0e1c36;
-            color: #fff;
+        .form button {
+            align-self: flex-end;
         }
 
-    .social-btns i {
-        font-size: 18px;
-    }
-</style>
+        .flex-column > label {
+            color: #124DA3;
+            font-weight: 600;
+        }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card my-5">
-                <form class="card-body cardbody-color p-lg-5" method="post">
-                    <div class="text-center">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNV5Pa7SZd2brkGNFg0xOmHfQEBokKwV1aoQ&usqp=CAU"
-                             class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
-                             alt="profile">
+        .inputForm {
+            border: 1.5px solid #ecedec;
+            border-radius: 10px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            transition: 0.2s ease-in-out;
+        }
+
+        .input {
+            margin-left: 5px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+            .input:focus {
+                outline: none;
+            }
+
+        .inputForm:focus-within {
+            border: 1.5px solid #2d79f3;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+            justify-content: space-between;
+        }
+
+            .flex-row > div > label {
+                font-size: 14px;
+                color: black;
+                font-weight: 400;
+            }
+
+        .span {
+            font-size: 12px;
+            margin-left: 5px;
+            color: #2d79f3;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .button-submit {
+            margin: 5px 0 5px 0;
+            background-color: #F37022;
+            border: none;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 10px;
+            height: 35px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            .button-submit:hover {
+                background-color: #4EB748;
+            }
+
+        .p {
+            text-align: center;
+            color: black;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+
+        .btn {
+            margin-top: 5px;
+            width: 100%;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 500;
+            gap: 5px;
+            border: 1px solid #ededef;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+            .btn:hover {
+                border: 1px solid #2d79f3;
+                ;
+            }
+    </style>
+</head>
+
+<body>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="">
+                    <div class="row">
+                        <div class="d-flex justify-content-center align-items-center">
+                        </div>
+                        <form class="form" id="loginForm" method="post">
+                            <div class="flex-column" id="error" style="color: red"></div>
+                            <div class="flex-column" id="ok" style="color: green"></div>
+                            <div class="flex-column">
+                                <label>Register </label>
+                            </div>
+
+                            <div class="flex-column">
+                                <label>Email </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.email">Email</label>
+        <input asp-for="Account.email" class="form-control" />
+        <span asp-validation-for="Account.email" class="text-danger"></span>
+    </div>
+
+                            <div class="flex-column">
+                                <label>Password </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.password">Password</label>
+        <input asp-for="Account.password" type="password" class="form-control" />
+        <span asp-validation-for="Account.password" class="text-danger"></span>
+    </div>
+                            <div class="flex-column">
+                                <label>Fullname </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.FullName">Full Name</label>
+        <input asp-for="Account.FullName" class="form-control" />
+        <span asp-validation-for="Account.FullName" class="text-danger"></span>
+    </div>
+                            <div class="flex-column">
+                                <label>PhoneNumber </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.PhoneNumber">Phone Number</label>
+        <input asp-for="Account.PhoneNumber" class="form-control" />
+        <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
+    </div>
+                            <div class="flex-column">
+                                <label>Address </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.Address">Address</label>
+        <input asp-for="Account.Address" class="form-control" />
+        <span asp-validation-for="Account.Address" class="text-danger"></span>
+    </div>
+                            <div class="flex-column">
+                                <label>Gender </label>
+                            </div>
+    <div class="form-group">
+        <label asp-for="Account.gender">Gender</label>
+        <select asp-for="Account.gender" class="form-control">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <span asp-validation-for="Account.gender" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+                            <a href="Login" class="nav-item nav-link">Login</a>
+</form>
                     </div>
-
-                    <!-- Name input -->
-                    <div class="form-outline mb-4">
-                        <input type="text" id="registerName" class="form-control" />
-                        <label class="form-label" for="registerName">Name</label>
-                    </div>
-
-                    <!-- Username input -->
-                    <div class="form-outline mb-4">
-                        <input type="text" id="registerUsername" class="form-control" />
-                        <label class="form-label" for="registerUsername">Username</label>
-                    </div>
-
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <input type="email" id="registerEmail" class="form-control" />
-                        <label class="form-label" for="registerEmail">Email address</label>
-                    </div>
-
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <input type="password" id="registerPassword" class="form-control" />
-                        <label class="form-label" for="registerPassword">Password</label>
-                    </div>
-
-                    <!-- Repeat Password input -->
-                    <div class="form-outline mb-4">
-                        <input type="password" id="registerRepeatPassword" class="form-control" />
-                        <label class="form-label" for="registerRepeatPassword">Repeat Password</label>
-                    </div>
-
-                    <!-- Remember me checkbox -->
-                    <div class="form-check d-flex justify-content-center mb-4">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                               aria-describedby="registerCheckHelpText" />
-                        <label class="form-check-label" for="registerCheck">
-                            I have read and agree to the terms
-                        </label>
-                    </div>
-
-                    <!-- Sign up Button (Centered) -->
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-color btn-block mx-auto mb-4">Sign up</button>
-                    </div>
-
-                    
-                </form>
+                </div>
             </div>
         </div>
+    </body>
+</body>
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["ErrorMessage"]
     </div>
-</div>
+}
