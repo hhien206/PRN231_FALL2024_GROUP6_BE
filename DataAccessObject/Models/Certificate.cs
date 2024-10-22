@@ -9,6 +9,8 @@ public partial class Certificate
 {
     public int CertificateId { get; set; }
 
+    public string CertificateName { get; set; }
+
     public string CertificateUrl { get; set; }
 
     public int? AccountId { get; set; }

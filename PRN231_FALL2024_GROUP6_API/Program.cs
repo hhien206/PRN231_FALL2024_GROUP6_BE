@@ -8,8 +8,13 @@ using Microsoft.OpenApi.Models;
 using PRN231_FALL2024_GROUP6_API.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
 // Add services to the container.

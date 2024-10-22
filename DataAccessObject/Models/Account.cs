@@ -41,7 +41,5 @@ public partial class Account
 
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
 
-    public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
-
     public virtual Role Role { get; set; }
 }

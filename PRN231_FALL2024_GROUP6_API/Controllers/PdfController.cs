@@ -1,9 +1,10 @@
-﻿
-using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using iText.Layout;
-using Microsoft.AspNetCore.Http;
+﻿using DinkToPdf.Contracts;
+using DinkToPdf;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.draw;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace PRN231_FALL2024_GROUP6_API.Controllers
 {
@@ -11,42 +12,82 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
     [ApiController]
     public class PdfController : ControllerBase
     {
-        [HttpGet("Create")]
-        public IActionResult CreatePdf()
-        {
-            string filePath = "encrypted_CV_NguyenVanA.pdf";
+        private readonly IConverter _converter;
 
-            // Gọi hàm tạo PDF với mã hóa và nhận đường dẫn file sau khi hoàn thành
-            string pdfPath = CreateEncryptedPdf(filePath);
-            return Ok(pdfPath);
+        public PdfController(IConverter converter)
+        {
+            _converter = converter;
         }
-        public static string CreateEncryptedPdf(string dest)
+
+        [HttpGet("generatepdf")]
+        public IActionResult GeneratePdf()
         {
-            // Mật khẩu để mã hóa file PDF
-            string userPassword = "user123";
-            string ownerPassword = "owner123";
+            // Nội dung HTML
+            var htmlContent = @"
+                <html>
+                    <head>
+                        <style>
+                            body { font-family: 'DejaVu Sans', sans-serif; }
+                            h1 { text-align: center; }
+                            .info { text-align: center; margin-bottom: 20px; }
+                            .section { margin-top: 20px; }
+                            .title { font-weight: bold; font-size: 14pt; }
+                            .text { font-size: 12pt; }
+                            .line { border-bottom: 1px solid black; margin-top: 10px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Hieu</h1>
+                        <div class='info'>
+                            <p>Male</p>
+                            <p>nguyenvana@gmail.com | 0123456789 | Hà Nội</p>
+                        </div>
+                        <div class='line'></div>
+                        <div class='section'>
+                            <p class='title'>JOB SKILL</p>
+                            <ul class='text'>
+                                <li>Trường timviec.com.vn (03/2015 - Hiện tại) - Giáo viên: Đảm bảo chất lượng chăm sóc và giáo dục trẻ theo tiêu chí của trường.</li>
+                                <li>Trung tâm timviec.com.vn (11/2014 - 02/2015) - Trợ giảng.</li>
+                                <li>Trung tâm gia sư timviec.com.vn (06/2014 - 01/2014) - Gia sư.</li>
+                            </ul>
+                        </div>
+                        <div class='section'>
+                            <p class='title'>CERTIFICATES</p>
+                            <ul class='text'>
+                                <li>Trường timviec.com.vn (03/2015 - Hiện tại) - Giáo viên: Đảm bảo chất lượng chăm sóc và giáo dục trẻ theo tiêu chí của trường.</li>
+                                <li>Trung tâm timviec.com.vn (11/2014 - 02/2015) - Trợ giảng.</li>
+                                <li>Trung tâm gia sư timviec.com.vn (06/2014 - 01/2014) - Gia sư.</li>
+                            </ul>
+                        </div>
+                        <div class='section'>
+                            <p class='title'>HOẠT ĐỘNG</p>
+                            <p class='text'>Nhóm tình nguyện timviec.com.vn - Tình nguyện viên (10/2013 - 08/2014)</p>
+                        </div>
+                    </body>
+                </html>";
 
-            // Khởi tạo PDF writer với mã hóa AES 128
-            PdfWriter writer = new PdfWriter(dest, new WriterProperties()
-                .SetStandardEncryption(
-                    System.Text.Encoding.UTF8.GetBytes(userPassword),    // Mật khẩu người dùng
-                    System.Text.Encoding.UTF8.GetBytes(ownerPassword),   // Mật khẩu chủ sở hữu
-                    EncryptionConstants.ALLOW_PRINTING,                  // Quyền
-                    EncryptionConstants.ENCRYPTION_AES_128));            // Mã hóa AES 128
+            // Cấu hình chuyển đổi HTML sang PDF
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                },
+                Objects = {
+                    new ObjectSettings() {
+                        PagesCount = true,
+                        HtmlContent = htmlContent,
+                        WebSettings = { DefaultEncoding = "utf-8" }
+                    }
+                }
+            };
 
-            // Tạo tài liệu PDF
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document document = new Document(pdfDoc);
+            // Chuyển đổi HTML sang PDF
+            byte[] pdf = _converter.Convert(doc);
 
-            // Thêm nội dung vào file PDF
-            document.Add(new Paragraph("Thông tin ứng viên mã hóa").SetBold().SetFontSize(20));
-            document.Add(new Paragraph("Dữ liệu bí mật: Nguyễn Văn A, Kỹ sư phần mềm"));
-
-            // Đóng tài liệu PDF sau khi hoàn tất
-            document.Close();
-
-            // Trả về đường dẫn của file PDF
-            return dest;
+            // Trả về file PDF
+            return File(pdf, "application/pdf", "cv_nguyenvana.pdf");
         }
     }
 }
