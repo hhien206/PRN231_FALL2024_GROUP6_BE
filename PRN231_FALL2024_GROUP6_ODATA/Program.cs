@@ -7,6 +7,7 @@ using PRN231_FALL2024_GROUP6_ODATA;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddControllers()
     .AddOData(options =>
     {

@@ -11,6 +11,7 @@ namespace BusinessObject.ViewModel
     {
         public int AccountId {  get; set; }
         public string Email { get; set; }
+        public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public DateOnly? DateOfBirth { get; set; }
@@ -19,12 +20,12 @@ namespace BusinessObject.ViewModel
         public DateTime? DateCreate { get; set; }
         public RoleView? Role { get; set; }
         public List<CertificateView>? Certificates { get; set; }
-        public List<ResumeView>? Resumes { get; set; }
         public List<AccountJobSkillView>? AccountJobSkill { get; set; }
-        public void ConvertAccountIntoAccountView(Account account, RoleView role, List<CertificateView> certificates, List<ResumeView> resumes, List<AccountJobSkillView> accountJobSkill)
+        public void ConvertAccountIntoAccountView(Account account, RoleView role, List<CertificateView> certificates, List<AccountJobSkillView> accountJobSkill)
         {
             AccountId = account.AccountId;
             Email = account.Email;
+            FullName = account.FullName;
             PhoneNumber = account.PhoneNumber;
             Address = account.Address;
             DateOfBirth = account.DateOfBirth;
@@ -33,7 +34,6 @@ namespace BusinessObject.ViewModel
             DateCreate = account.DateCreate;
             Role = role;
             Certificates = certificates;
-            Resumes = resumes;
             AccountJobSkill = accountJobSkill;
         }
     }

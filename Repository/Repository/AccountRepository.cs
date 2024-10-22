@@ -14,13 +14,11 @@ namespace Repository.Repository
     public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
         ICertificateRepository certiRepo;
-        IResumeRepository resumeRepo;
         IRoleRepository roleRepo;
         IAccountJobSkillRepository accountJobSkillRepo;
         public AccountRepository()
         {
             certiRepo = new CertificateRepository();
-            resumeRepo = new ResumeRepository();
             roleRepo = new RoleRepository();
             accountJobSkillRepo = new AccountJobskillRepository();
         }
@@ -190,7 +188,6 @@ namespace Repository.Repository
         private async Task<AccountView> ConvertAccountIntoAccountView(Account key)
         {
             var certificates = await certiRepo.ListCertificateAccount(key.AccountId);
-            var resumes = await resumeRepo.ListResumeAccount(key.AccountId);
             RoleView? role = new RoleView();
             if (key.RoleId == null)
                 role = null;
@@ -198,7 +195,6 @@ namespace Repository.Repository
                 role = await roleRepo.RoleDetail(key.RoleId);
             var accountJobSkill = await accountJobSkillRepo.ListAccountJobSkillAccount(key.AccountId);
             AccountView result = new AccountView();
-            result.ConvertAccountIntoAccountView(key, role, certificates, resumes, accountJobSkill);
             return result;
         }
     }
