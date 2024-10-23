@@ -14,7 +14,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
         {
             _httpClient = httpClient;
         }
-
+        [BindProperty]
         public List<JobView> Jobs { get; set; } = new List<JobView>();
 
         public async Task OnGetAsync()
@@ -35,6 +35,4 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             }
         }
     }
-
-
 }

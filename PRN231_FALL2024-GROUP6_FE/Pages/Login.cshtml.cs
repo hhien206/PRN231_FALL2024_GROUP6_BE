@@ -2,53 +2,67 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 using BusinessObject.AddModel;
+using Microsoft.AspNetCore.Http;
+using Service.Service;
+using BusinessObject.ViewModel;
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
     public class LoginModel : PageModel
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginModel(HttpClient httpClient)
+        public LoginModel(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
+            _httpClient.BaseAddress = new Uri("https://localhost:7008/");
         }
 
         [BindProperty]
         public AccountAdd Account { get; set; } = new AccountAdd();
 
+        public string ErrorMessage { get; set; }
+        public void OnGetAsync()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove("AccountId");
+            _httpContextAccessor.HttpContext.Session.Remove("Token");
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var url = $"api/Account/LoginAccount?email={Account.email}&password={Account.password}";
+
+            var loginData = new
             {
-                return Page();
-            }
+                email = Account.email,
+                password = Account.password,
+            };
 
-            try
+            var response = await _httpClient.PostAsJsonAsync(url, loginData);
+
+            if (response.IsSuccessStatusCode)
             {
-                // Create the API URL with query parameters for email and password
-                var requestUri = $"https://localhost:7008/api/Account/LoginAccount?email={Account.email}&password={Account.password}";
-
-                // Send the GET request to your login API
-                var response = await _httpClient.GetAsync(requestUri);
-
-                if (response.IsSuccessStatusCode)
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                var options = new JsonSerializerOptions
                 {
-                    // Optionally, you can read the response content (e.g., JWT token or user data)
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    // Process the response (e.g., save token, redirect)
-                    return RedirectToPage("/Index"); // Redirect to a dashboard after successful login
-                }
-                else
+                    PropertyNameCaseInsensitive = true
+                };
+
+                AccountView data = JsonSerializer.Deserialize<AccountView>(result.Data.ToString(), options);
+
+                if (data != null)
                 {
-                    // Handle invalid login response
-                    ViewData["ErrorMessage"] = "Invalid login credentials.";
-                    return Page();
+                    _httpContextAccessor.HttpContext.Session.SetString("AccountId", data.AccountId.ToString());
+                    _httpContextAccessor.HttpContext.Session.SetString("Token", data.Token);
                 }
+
+                return RedirectToPage("/Index");
             }
-            catch (Exception ex)
+            else
             {
-                ViewData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+                ErrorMessage = "Login Fail!";
                 return Page();
             }
         }

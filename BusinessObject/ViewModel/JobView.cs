@@ -22,6 +22,7 @@ namespace BusinessObject.ViewModel
         public string Benefit { get; set; }
 
         public string JobTime { get; set; }
+        public string Location { get; set; }
 
         public string SalaryRange { get; set; }
 
@@ -40,6 +41,7 @@ namespace BusinessObject.ViewModel
             Description = job.Description;
             Requirement = job.Requirement;
             Benefit = job.Benefit;
+            Location = job.Location;
             JobTime = job.JobTime;
             SalaryRange = job.SalaryRange;
             Experience = job.Experience;

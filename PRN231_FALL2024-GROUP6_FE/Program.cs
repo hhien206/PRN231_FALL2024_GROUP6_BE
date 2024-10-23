@@ -4,10 +4,20 @@ using Service.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddRazorPages(); // For Razor Pages
+builder.Services.AddControllers(); // For API controllers (if you're using them)
+builder.Services.AddHttpClient(); // HTTP client for API calls
+builder.Services.AddScoped<IJobService, JobService>(); // Register JobService
 
+// Add session services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+    options.Cookie.HttpOnly = true; // Security: prevent client-side access
+    options.Cookie.IsEssential = true; // Essential cookies
+});
+
+builder.Services.AddHttpContextAccessor(); // Needed to access the HTTP context
 
 var app = builder.Build();
 
@@ -15,22 +25,20 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); // Enable HSTS for production
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-app.UseStaticFiles();
+app.UseHttpsRedirection(); // Redirect HTTP to HTTPS
+app.UseStaticFiles(); // Serve static files like CSS, JS, and images
 
-app.UseRouting();
+app.UseRouting(); // Enable routing
 
-app.UseAuthorization();
+app.UseSession(); // Enable session handling (must come before app.UseAuthorization)
 
-app.MapRazorPages();
+app.UseAuthorization(); // Enable authorization handling
+
+// Map routes
+app.MapRazorPages(); // Map Razor Pages
+app.MapControllers(); // Map API controllers
 
 app.Run();

@@ -45,7 +45,7 @@ namespace IndieGameHubSever.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
-        [HttpGet("LoginAccount")]
+        [HttpPost("LoginAccount")]
         public async Task<IActionResult> LoginAccount(string email, string password)
         {
             var result = await service.LoginAccount(email, password);
