@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using BusinessObject.AddModel;
 
-namespace PRN231_FALL2024_GROUP6_FE.Pages
+namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
 {
     public class RegisterModel : PageModel
     {
@@ -27,7 +27,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 
             try
             {
-               
+
 
                 // Convert the register data to JSON format
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(Account), Encoding.UTF8, "application/json");

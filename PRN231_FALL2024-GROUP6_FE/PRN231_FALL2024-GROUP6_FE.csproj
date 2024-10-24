@@ -28,4 +28,8 @@
     <None Include="wwwroot\Home\scss\.DS_Store" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Authentication\" />
+  </ItemGroup>
+
 </Project>

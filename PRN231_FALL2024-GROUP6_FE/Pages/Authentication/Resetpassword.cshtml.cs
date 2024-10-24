@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Text.Json;
 
-namespace PRN231_FALL2024_GROUP6_FE.Pages
+namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
 {
     public class ResetpasswordModel : PageModel
     {

@@ -1,12 +1,11 @@
+using BusinessObject.AddModel;
+using BusinessObject.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
-using BusinessObject.AddModel;
-using Microsoft.AspNetCore.Http;
 using Service.Service;
-using BusinessObject.ViewModel;
+using System.Text.Json;
 
-namespace PRN231_FALL2024_GROUP6_FE.Pages
+namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
 {
     public class LoginModel : PageModel
     {
@@ -66,5 +65,6 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
                 return Page();
             }
         }
+
     }
 }
