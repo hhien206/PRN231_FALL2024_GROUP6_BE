@@ -8,7 +8,7 @@ namespace BusinessObject.AddModel
 {
     public class AccountJobSkillAdd
     {
-        public int AccountId {  get; set; }
+        public int? AccountId {  get; set; }
         public int JobSkillId { get; set; }
         public string Experient {  get; set; }
     }

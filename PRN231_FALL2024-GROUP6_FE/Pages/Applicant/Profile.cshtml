@@ -2,6 +2,7 @@
 @model PRN231_FALL2024_GROUP6_FE.Pages.Applicant.ProfileModel
 @{
     var userProfile = Model.UserProfile;
+    var jobskillAdd = Model.jobSkillAdd;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -183,27 +184,23 @@
                                     <div class="modal-body">
                                         <form id="addSkillForm" method="post">
                                             <div class="mb-3">
-                                                <label for="skillName" class="form-label">Tên kỹ năng</label>
-                                                <input type="text" class="form-control" id="skillName" name="skillName" placeholder="Nhập tên kỹ năng">
+                                                <label for="skillSelect" class="form-label">Chọn kỹ năng</label>
+                                                <select asp-for="jobSkillAdd.JobSkillId" class="form-select" id="skillSelect" name="jobSkillAdd.JobSkillId">
+                                                    <option value="1">C#</option>
+                                                    <option value="3">Nextjs</option>
+                                                    <option value="4">Java</option>
+                                                    <option value="5">Flutter</option>
+                                                </select>
                                             </div>
-                                            <!-- Thêm các trường khác nếu cần -->
+                                            <button type="submit" class="btn btn-primary" >Thêm</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                        <button type="button" class="btn btn-primary" onclick="submitSkill()">Thêm</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <script>
-                            function submitSkill() {
-                                // Thêm mã xử lý để gửi form thêm kỹ năng ở đây
-                                document.getElementById("addSkillForm").submit();
-                            }
-                        </script>
-
                     </div>
                 </div>
                 <div class="card">

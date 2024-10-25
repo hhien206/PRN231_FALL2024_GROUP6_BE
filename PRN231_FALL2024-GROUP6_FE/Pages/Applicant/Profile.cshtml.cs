@@ -22,7 +22,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
         }
         [BindProperty]
         public AccountView UserProfile { get; set; } = new AccountView();
-
+        [BindProperty]
         public AccountJobSkillAdd  jobSkillAdd { get; set; } = new AccountJobSkillAdd();
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,8 +59,10 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             var jsonContent = JsonSerializer.Serialize(jobSkillAdd);
             Console.WriteLine(jsonContent);
+            jobSkillAdd.AccountId = Convert.ToInt32(accountId);
+            jobSkillAdd.Experient = "ngu loz";
 
-            var response = await _httpClient.PostAsJsonAsync("https://localhost:7257/api/NewsArticle/Add", jobSkillAdd);
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7008/api/AccountJobSkill/Add", jobSkillAdd);
 
             if (response.IsSuccessStatusCode)
             {
