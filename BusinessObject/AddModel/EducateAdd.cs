@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.AddModel
 {
-    public class CertificateAdd
+    public class EducateAdd
     {
-        public string? CertificateName {  get; set; }
-        public string? UrlCertificate {  get; set; }
         public int AccountId {  get; set; }
+        public string EducateName { get; set; }
+        public string Description {  get; set; }
+        public DateTime Date {  get; set; }
     }
 }

@@ -18,6 +18,7 @@ using System.Net;
 using Microsoft.AspNetCore.OData.Query;
 using BusinessObject.AddModel;
 using Microsoft.AspNetCore.Authorization;
+using BusinessObject.UpdateModel;
 
 namespace IndieGameHubSever.Controllers
 {
@@ -71,6 +72,13 @@ namespace IndieGameHubSever.Controllers
         public async Task<IActionResult> AddAdmin(AccountAdd key)
         {
             var result = await service.AddAccount(key, 1);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        [HttpPut("UpdateAccount")]
+        public async Task<IActionResult> UpdateAccount(AccountUpdate key)
+        {
+            var result = await service.UpdateAccount(key);
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }

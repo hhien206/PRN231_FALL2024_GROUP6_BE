@@ -45,6 +45,8 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
+    public virtual DbSet<Educate> Educates { get; set; }
+
     public virtual DbSet<InterviewProcess> InterviewProcesses { get; set; }
 
     public virtual DbSet<Job> Jobs { get; set; }
@@ -65,7 +67,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__Account__F267251EA0358F47");
+            entity.HasKey(e => e.AccountId).HasName("PK__Account__F267251E55B68511");
 
             entity.ToTable("Account");
 
@@ -77,6 +79,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("dateCreate");
             entity.Property(e => e.DateOfBirth).HasColumnName("dateOfBirth");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
@@ -102,12 +105,12 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK__Account__roleId__4CA06362");
+                .HasConstraintName("FK__Account__roleId__4E88ABD4");
         });
 
         modelBuilder.Entity<AccountJobSkill>(entity =>
         {
-            entity.HasKey(e => e.AccountJobSkillId).HasName("PK__AccountJ__978CAB086ABB8558");
+            entity.HasKey(e => e.AccountJobSkillId).HasName("PK__AccountJ__978CAB08C31FDC45");
 
             entity.ToTable("AccountJobSkill");
 
@@ -119,16 +122,16 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.AccountJobSkills)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__AccountJo__accou__4D94879B");
+                .HasConstraintName("FK__AccountJo__accou__4F7CD00D");
 
             entity.HasOne(d => d.JobSkill).WithMany(p => p.AccountJobSkills)
                 .HasForeignKey(d => d.JobSkillId)
-                .HasConstraintName("FK__AccountJo__jobSk__4E88ABD4");
+                .HasConstraintName("FK__AccountJo__jobSk__5070F446");
         });
 
         modelBuilder.Entity<Application>(entity =>
         {
-            entity.HasKey(e => e.ApplicationId).HasName("PK__Applicat__79FDB1CF941F5CEA");
+            entity.HasKey(e => e.ApplicationId).HasName("PK__Applicat__79FDB1CFA550251B");
 
             entity.ToTable("Application");
 
@@ -145,16 +148,16 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Applicati__accou__4F7CD00D");
+                .HasConstraintName("FK__Applicati__accou__5165187F");
 
             entity.HasOne(d => d.Job).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.JobId)
-                .HasConstraintName("FK__Applicati__jobId__5070F446");
+                .HasConstraintName("FK__Applicati__jobId__52593CB8");
         });
 
         modelBuilder.Entity<Certificate>(entity =>
         {
-            entity.HasKey(e => e.CertificateId).HasName("PK__Certific__A15CBEAE54C9D88C");
+            entity.HasKey(e => e.CertificateId).HasName("PK__Certific__A15CBEAE250606B3");
 
             entity.ToTable("Certificate");
 
@@ -169,12 +172,31 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Certificates)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Certifica__accou__5165187F");
+                .HasConstraintName("FK__Certifica__accou__534D60F1");
+        });
+
+        modelBuilder.Entity<Educate>(entity =>
+        {
+            entity.HasKey(e => e.EducateId).HasName("PK__Educate__CBF6E7171A9A14D1");
+
+            entity.ToTable("Educate");
+
+            entity.Property(e => e.EducateId).HasColumnName("educateId");
+            entity.Property(e => e.AccountId).HasColumnName("accountId");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EducateName)
+                .HasMaxLength(255)
+                .HasColumnName("educateName");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.Educates)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK__Educate__account__5441852A");
         });
 
         modelBuilder.Entity<InterviewProcess>(entity =>
         {
-            entity.HasKey(e => e.InterviewProcessId).HasName("PK__Intervie__6ED07DF78E705FA1");
+            entity.HasKey(e => e.InterviewProcessId).HasName("PK__Intervie__6ED07DF7F678721E");
 
             entity.ToTable("InterviewProcess");
 
@@ -197,16 +219,16 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.InterviewProcesses)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Interview__accou__52593CB8");
+                .HasConstraintName("FK__Interview__accou__5535A963");
 
             entity.HasOne(d => d.Application).WithMany(p => p.InterviewProcesses)
                 .HasForeignKey(d => d.ApplicationId)
-                .HasConstraintName("FK__Interview__appli__534D60F1");
+                .HasConstraintName("FK__Interview__appli__5629CD9C");
         });
 
         modelBuilder.Entity<Job>(entity =>
         {
-            entity.HasKey(e => e.JobId).HasName("PK__Job__164AA1A8A8A9823C");
+            entity.HasKey(e => e.JobId).HasName("PK__Job__164AA1A890CE51C1");
 
             entity.ToTable("Job");
 
@@ -249,24 +271,24 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Job__accountId__5441852A");
+                .HasConstraintName("FK__Job__accountId__571DF1D5");
 
             entity.HasOne(d => d.JobCategory).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.JobCategoryId)
-                .HasConstraintName("FK__Job__JobCategory__5535A963");
+                .HasConstraintName("FK__Job__JobCategory__5812160E");
 
             entity.HasOne(d => d.JobLevel).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.JobLevelId)
-                .HasConstraintName("FK__Job__JobLevelId__5629CD9C");
+                .HasConstraintName("FK__Job__JobLevelId__59063A47");
 
             entity.HasOne(d => d.JobType).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.JobTypeId)
-                .HasConstraintName("FK__Job__JobTypeId__571DF1D5");
+                .HasConstraintName("FK__Job__JobTypeId__59FA5E80");
         });
 
         modelBuilder.Entity<JobCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__JobCateg__3214EC07AD9857D3");
+            entity.HasKey(e => e.Id).HasName("PK__JobCateg__3214EC077D4A2FA1");
 
             entity.ToTable("JobCategory");
 
@@ -276,7 +298,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
         modelBuilder.Entity<JobJobSkill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__JobJobSk__3214EC07E365CE65");
+            entity.HasKey(e => e.Id).HasName("PK__JobJobSk__3214EC0787343DBC");
 
             entity.ToTable("JobJobSkill");
 
@@ -286,16 +308,16 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
             entity.HasOne(d => d.Job).WithMany(p => p.JobJobSkills)
                 .HasForeignKey(d => d.JobId)
-                .HasConstraintName("FK__JobJobSki__JobId__5812160E");
+                .HasConstraintName("FK__JobJobSki__JobId__5AEE82B9");
 
             entity.HasOne(d => d.JobSkill).WithMany(p => p.JobJobSkills)
                 .HasForeignKey(d => d.JobSkillId)
-                .HasConstraintName("FK__JobJobSki__JobSk__59063A47");
+                .HasConstraintName("FK__JobJobSki__JobSk__5BE2A6F2");
         });
 
         modelBuilder.Entity<JobLevel>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__JobLevel__3214EC074CE4FD3C");
+            entity.HasKey(e => e.Id).HasName("PK__JobLevel__3214EC075FFB9D5F");
 
             entity.ToTable("JobLevel");
 
@@ -305,7 +327,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
         modelBuilder.Entity<JobSkill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__jobSkill__3214EC070B96636F");
+            entity.HasKey(e => e.Id).HasName("PK__jobSkill__3214EC07A7CB9634");
 
             entity.ToTable("jobSkill");
 
@@ -315,7 +337,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
         modelBuilder.Entity<JobType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__JobType__3214EC07B1BFB58A");
+            entity.HasKey(e => e.Id).HasName("PK__JobType__3214EC072F9FBB00");
 
             entity.ToTable("JobType");
 
@@ -325,7 +347,7 @@ public partial class PRN231_DB_Job_RecruitmentContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98462A24AB1171");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98462AEF87003B");
 
             entity.ToTable("Role");
 

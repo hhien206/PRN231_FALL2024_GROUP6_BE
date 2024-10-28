@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Principal;
 using BusinessObject.AddModel;
+using BusinessObject.UpdateModel;
 
 namespace Service.Service
 {
@@ -65,17 +66,32 @@ namespace Service.Service
         {
             try
             {
-                /*if ((await accountRepository.GetAllAsync()).SingleOrDefault(l => l.Email == key.email) != null)
-                    return new ServiceResult
-                    {
-                        Status = 400,
-                        Message = "Email had exist!"
-                    };*/
                 var account = await accountRepository.AddAccount(key, roleId);
                 return new ServiceResult
                 {
                     Status = 200,
                     Message = "Create Account Success",
+                    Data = account
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
+        public async Task<ServiceResult> UpdateAccount(AccountUpdate key)
+        {
+            try
+            {
+                var account = await accountRepository.UpdateAccount(key);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Update Account Success",
                     Data = account
                 };
             }

@@ -23,6 +23,8 @@ public partial class Account
 
     public DateOnly? DateOfBirth { get; set; }
 
+    public string Description { get; set; }
+
     public string UrlPicture { get; set; }
 
     public string Gender { get; set; }
@@ -36,6 +38,8 @@ public partial class Account
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+
+    public virtual ICollection<Educate> Educates { get; set; } = new List<Educate>();
 
     public virtual ICollection<InterviewProcess> InterviewProcesses { get; set; } = new List<InterviewProcess>();
 

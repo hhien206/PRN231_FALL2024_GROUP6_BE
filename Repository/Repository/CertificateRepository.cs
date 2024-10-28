@@ -51,6 +51,7 @@ namespace Repository.Repository
             {
                 Certificate certificate = new()
                 {
+                    CertificateName = key.CertificateName,
                     CertificateUrl = key.UrlCertificate,
                     AccountId = key.AccountId,
                 };
