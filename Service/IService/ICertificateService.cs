@@ -13,5 +13,6 @@ namespace Service.IService
         public Task<ServiceResult> ViewAllCertificateAccount(int accountId);
         public Task<ServiceResult> ViewDetailCertificate(int certificateId);
         public Task<ServiceResult> AddCertificate(CertificateAdd key);
+        public Task<ServiceResult> DeleteCertificate(int certificateId);
     }
 }

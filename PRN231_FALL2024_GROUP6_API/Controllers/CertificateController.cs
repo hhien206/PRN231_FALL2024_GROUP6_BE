@@ -38,5 +38,12 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteCertificate(int certificateId)
+        {
+            var result = await service.DeleteCertificate(certificateId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
     }
 }
