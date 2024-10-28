@@ -13,5 +13,6 @@ namespace Service.IService
         public Task<ServiceResult> ViewAllAccountJobSkillAccount(int accountId);
         public Task<ServiceResult> ViewDetailAccountJobSkill(int AccountJobSkillId);
         public Task<ServiceResult> AddAccountJobSkill(AccountJobSkillAdd key);
+        public Task<ServiceResult> DeleteAccountJobSkill(int accountJobSkillId);
     }
 }
