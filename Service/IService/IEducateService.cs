@@ -13,5 +13,6 @@ namespace Service.IService
         public Task<ServiceResult> ViewAllEducateAccount(int accountId);
         public Task<ServiceResult> ViewDetailEducate(int educateId);
         public Task<ServiceResult> AddEducate(EducateAdd key);
+        public Task<ServiceResult> DeleteEducate(int educateId);
     }
 }
