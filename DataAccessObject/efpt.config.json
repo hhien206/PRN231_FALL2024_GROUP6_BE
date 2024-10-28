@@ -31,6 +31,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Educate]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[InterviewProcess]",
          "ObjectType": 0
       },
