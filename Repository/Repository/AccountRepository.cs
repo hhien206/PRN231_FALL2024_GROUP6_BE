@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessObject.AddModel;
 using BusinessObject.ViewModel;
+using BusinessObject.UpdateModel;
 
 namespace Repository.Repository
 {
@@ -16,11 +17,13 @@ namespace Repository.Repository
         ICertificateRepository certiRepo;
         IRoleRepository roleRepo;
         IAccountJobSkillRepository accountJobSkillRepo;
+        IEducateRepository educateRepo;
         public AccountRepository()
         {
             certiRepo = new CertificateRepository();
             roleRepo = new RoleRepository();
             accountJobSkillRepo = new AccountJobskillRepository();
+            educateRepo = new EducateRepository();
         }
         public async Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging)
         {
@@ -63,6 +66,26 @@ namespace Repository.Repository
                     RoleId = roleId,
                 };
                 await CreateAsync(account);
+                var result = await ConvertAccountIntoAccountView(account);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<AccountView?> UpdateAccount(AccountUpdate key)
+        {
+            try
+            {
+                var account = GetById(key.AccountId);
+                account.FullName = key.FullName;
+                account.Description = key.Description;
+                account.PhoneNumber = key.PhoneNumber;
+                account.Address = key.Address;
+                account.DateOfBirth = key.DateOfBirth;
+                account.UrlPicture = key.urlPicture;
+                await UpdateAsync(account);
                 var result = await ConvertAccountIntoAccountView(account);
                 return result;
             }
@@ -188,6 +211,7 @@ namespace Repository.Repository
         private async Task<AccountView> ConvertAccountIntoAccountView(Account key)
         {
             var certificates = await certiRepo.ListCertificateAccount(key.AccountId);
+            var educates = await educateRepo.ListEducateAccount(key.AccountId);
             RoleView? role = new RoleView();
             if (key.RoleId == null)
                 role = null;
@@ -195,7 +219,7 @@ namespace Repository.Repository
                 role = await roleRepo.RoleDetail(key.RoleId);
             var accountJobSkill = await accountJobSkillRepo.ListAccountJobSkillAccount(key.AccountId);
             AccountView result = new AccountView();
-            result.ConvertAccountIntoAccountView(key,role,certificates,accountJobSkill);
+            result.ConvertAccountIntoAccountView(key,role,certificates,accountJobSkill, educates);
             return result;
         }
     }

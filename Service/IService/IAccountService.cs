@@ -1,4 +1,5 @@
 ﻿using BusinessObject.AddModel;
+using BusinessObject.UpdateModel;
 using Service.Service;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Service.IService
         public Task<ServiceResult> GetAllAccount(int sizePaging, int indexPaging);
         public Task<ServiceResult> GetAccountById(int accountId);
         public Task<ServiceResult> AddAccount(AccountAdd key, int roleId);
+        public Task<ServiceResult> UpdateAccount(AccountUpdate key);
         public Task<ServiceResult> LoginAccount(string email, string password);
         public Task<ServiceResult> SendToken(string email, string type);
         public Task<ServiceResult> ResetPassword(string email, string password, string token);

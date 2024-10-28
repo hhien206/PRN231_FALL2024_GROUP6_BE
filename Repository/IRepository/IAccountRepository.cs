@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessObject.AddModel;
 using BusinessObject.ViewModel;
+using BusinessObject.UpdateModel;
 
 namespace Repository.IRepository
 {
@@ -15,6 +16,7 @@ namespace Repository.IRepository
         public Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging);
         public Task<AccountView> GetAccountById(int accountId);
         public Task<AccountView?> AddAccount(AccountAdd key, int roleId);
+        public Task<AccountView?> UpdateAccount(AccountUpdate key);
         public Task<AccountView?> CheckAccount(string email, string password);
         public Task<string> CreateConfirmTokenAccount(string email, string type);
         public Task<AccountView> ForgetPasswork(string email, string password, string token);
