@@ -37,5 +37,12 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteAccountJobSkill([FromQuery] int accountJobSkillId)
+        {
+            var result = await service.DeleteAccountJobSkill(accountJobSkillId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
     }
 }

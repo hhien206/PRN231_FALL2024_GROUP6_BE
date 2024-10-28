@@ -80,5 +80,26 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> DeleteAccountJobSkill(int accountJobSkillId)
+        {
+            try
+            {
+                var accountJobSkill = await AccountJobSkillRepository.GetByIdAsync(accountJobSkillId);
+                AccountJobSkillRepository.RemoveAsync(accountJobSkill);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Delete Success",
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
     }
 }
