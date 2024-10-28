@@ -74,6 +74,17 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             return Page();
         }
+        public async Task<IActionResult> OnPostDeleteSkillAsync(int accountJobSkillId)
+        {
+            var response = await _httpClient.DeleteAsync($"https://localhost:7008/api/AccountJobSkill/Delete?accountJobSkillId={accountJobSkillId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return new JsonResult(new { success = true });
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            return new JsonResult(new { success = false, error = errorMessage });
+        }
     }
 }
 

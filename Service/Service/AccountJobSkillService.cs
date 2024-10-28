@@ -85,6 +85,14 @@ namespace Service.Service
             try
             {
                 var accountJobSkill = await AccountJobSkillRepository.GetByIdAsync(accountJobSkillId);
+                if(accountJobSkill == null)
+                {
+                    return new ServiceResult
+                    {
+                        Status = 404,
+                        Message = "Not Found",
+                    };
+                }
                 AccountJobSkillRepository.RemoveAsync(accountJobSkill);
                 return new ServiceResult
                 {

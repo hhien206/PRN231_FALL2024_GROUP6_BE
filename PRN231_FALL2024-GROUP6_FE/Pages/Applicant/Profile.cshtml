@@ -164,14 +164,71 @@
                             <div class="d-flex gap-2 flex-wrap">
                                 @foreach (var skill in @userProfile.AccountJobSkill)
                                 {
-                                    <span class="badge badge-soft-secondary p-2">@skill.JobSkillName</span>
+                                    <span class="badge badge-soft-secondary p-2 position-relative">
+                                        @skill.JobSkillName
+                                        <button type="button" class="btn-close position-absolute top-0 end-0"
+                                                style="right: 0; top: 0; width: 12px; height: 12px; font-size: 0.4rem;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmDeleteModal"
+                                                data-skill-id="@skill.AccountJobSkillId"
+                                                aria-label="Close"></button>
+                                    </span>
                                 }
                             </div>
-                            <!-- Nút để mở popup -->
                             <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addSkillModal">
                                 Thêm kỹ năng
                             </button>
                         </div>
+                        <!-- Popup xóa kỹ năng -->
+                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa kỹ năng</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa kỹ năng này không?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            let skillIdToDelete = null;
+
+                            // Gán giá trị skillId vào khi mở modal
+                            document.querySelectorAll('.btn-close').forEach(button => {
+                                button.addEventListener('click', function () {
+                                    skillIdToDelete = this.getAttribute('data-skill-id');
+                                });
+                            });
+
+                            // Gọi hàm xóa kỹ năng khi người dùng xác nhận xóa
+                            document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+                                if (skillIdToDelete) {
+                                    try {
+                                        const response = await fetch(`/Applicant/Profile?handler=DeleteSkill&accountJobSkillId=${skillIdToDelete}`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                                            }
+                                        });
+
+                                        if (response.ok) {
+                                            location.reload();
+                                        } else {
+                                            alert("Có lỗi xảy ra khi xóa kỹ năng.");
+                                        }
+                                    } catch (error) {
+                                        console.error("Error:", error);
+                                    }
+                                }
+                            });
+                        </script>
 
                         <!-- Popup thêm kỹ năng -->
                         <div class="modal fade" id="addSkillModal" tabindex="-1" aria-labelledby="addSkillModalLabel" aria-hidden="true">
