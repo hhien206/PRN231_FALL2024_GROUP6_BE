@@ -82,5 +82,32 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> DeleteCertificate(int certificateId)
+        {
+            try
+            {
+                var certificate = certificateRepository.GetById(certificateId);
+                if(certificate == null)
+                    return new ServiceResult
+                    {
+                        Status = 200,
+                        Message = "Not Found",
+                    };
+                await certificateRepository.RemoveAsync(certificate);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Create Certificate Success",
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 @model PRN231_FALL2024_GROUP6_FE.Pages.Applicant.ProfileModel
 @{
     var userProfile = Model.UserProfile;
+    var jobskillAdd = Model.jobSkillAdd;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -147,15 +148,8 @@
                         <div class="pb-2">
                             <h4 class="card-title mb-3">About</h4>
                             <p>
-                                Hi I'm Jansh, has been the industry's standard dummy text To an English
-                                person, it will seem like
-                                simplified.
+                                @userProfile.Description
                             </p>
-                            <ul class="ps-3 mb-0">
-                                <li>it will seem like simplified.</li>
-                                <li>To achieve this, it would be necessary to have uniform pronunciation</li>
-                            </ul>
-
                         </div>
                         <hr>
                         <div class="pt-2">
@@ -163,14 +157,71 @@
                             <div class="d-flex gap-2 flex-wrap">
                                 @foreach (var skill in @userProfile.AccountJobSkill)
                                 {
-                                    <span class="badge badge-soft-secondary p-2">@skill.JobSkillName</span>
+                                    <span class="badge badge-soft-secondary p-2 position-relative">
+                                        @skill.JobSkillName
+                                        <button type="button" class="btn-close position-absolute top-0 end-0"
+                                                style="right: 0; top: 0; width: 12px; height: 12px; font-size: 0.4rem;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmDeleteModal"
+                                                data-skill-id="@skill.AccountJobSkillId"
+                                                aria-label="Close"></button>
+                                    </span>
                                 }
                             </div>
-                            <!-- Nút để mở popup -->
                             <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addSkillModal">
                                 Thêm kỹ năng
                             </button>
                         </div>
+                        <!-- Popup xóa kỹ năng -->
+                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa kỹ năng</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa kỹ năng này không?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            let skillIdToDelete = null;
+
+                            // Gán giá trị skillId vào khi mở modal
+                            document.querySelectorAll('.btn-close').forEach(button => {
+                                button.addEventListener('click', function () {
+                                    skillIdToDelete = this.getAttribute('data-skill-id');
+                                });
+                            });
+
+                            // Gọi hàm xóa kỹ năng khi người dùng xác nhận xóa
+                            document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+                                if (skillIdToDelete) {
+                                    try {
+                                        const response = await fetch(`/Applicant/Profile?handler=DeleteSkill&accountJobSkillId=${skillIdToDelete}`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                                            }
+                                        });
+
+                                        if (response.ok) {
+                                            location.reload();
+                                        } else {
+                                            alert("Có lỗi xảy ra khi xóa kỹ năng.");
+                                        }
+                                    } catch (error) {
+                                        console.error("Error:", error);
+                                    }
+                                }
+                            });
+                        </script>
 
                         <!-- Popup thêm kỹ năng -->
                         <div class="modal fade" id="addSkillModal" tabindex="-1" aria-labelledby="addSkillModalLabel" aria-hidden="true">
@@ -183,27 +234,23 @@
                                     <div class="modal-body">
                                         <form id="addSkillForm" method="post">
                                             <div class="mb-3">
-                                                <label for="skillName" class="form-label">Tên kỹ năng</label>
-                                                <input type="text" class="form-control" id="skillName" name="skillName" placeholder="Nhập tên kỹ năng">
+                                                <label for="skillSelect" class="form-label">Chọn kỹ năng</label>
+                                                <select asp-for="jobSkillAdd.JobSkillId" class="form-select" id="skillSelect" name="jobSkillAdd.JobSkillId">
+                                                    <option value="1">C#</option>
+                                                    <option value="3">Nextjs</option>
+                                                    <option value="4">Java</option>
+                                                    <option value="5">Flutter</option>
+                                                </select>
                                             </div>
-                                            <!-- Thêm các trường khác nếu cần -->
+                                            <button type="submit" class="btn btn-primary" >Thêm</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                        <button type="button" class="btn btn-primary" onclick="submitSkill()">Thêm</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <script>
-                            function submitSkill() {
-                                // Thêm mã xử lý để gửi form thêm kỹ năng ở đây
-                                document.getElementById("addSkillForm").submit();
-                            }
-                        </script>
-
                     </div>
                 </div>
                 <div class="card">
@@ -241,25 +288,19 @@
                 <div class="card">
                     <div class="card-body">
                         <div>
-                            <h4 class="card-title mb-4">Work Experince</h4>
-                            <ul class="list-unstyled work-activity mb-0">
-                                <li class="work-item" data-date="2020-21">
-                                    <h6 class="lh-base mb-0">ABCD Company</h6>
-                                    <p class="font-size-13 mb-2">Web Designer</p>
-                                    <p>
-                                        To achieve this, it would be necessary to have uniform grammar, and more
-                                        common words.
-                                    </p>
-                                </li>
-                                <li class="work-item" data-date="2019-20">
-                                    <h6 class="lh-base mb-0">XYZ Company</h6>
-                                    <p class="font-size-13 mb-2">Graphic Designer</p>
-                                    <p class="mb-0">
-                                        It will be as simple as occidental in fact, it will be
-                                        Occidental person, it will seem like simplified.
-                                    </p>
-                                </li>
-                            </ul>
+                            <h4 class="card-title mb-4">Education</h4>
+                            @foreach (var edu in @userProfile.Educates)
+                            {
+                                <ul class="list-unstyled work-activity mb-0">
+                                    <li class="work-item" data-date="@edu.Date">
+                                        <h6 class="lh-base mb-0">@edu.EducateName</h6>
+                                        <p class="font-size-13 mb-2">Web Designer</p>
+                                        <p>
+                                            @edu.Description
+                                        </p>
+                                    </li>
+                                </ul>
+                            }
                         </div>
                     </div>
                 </div>

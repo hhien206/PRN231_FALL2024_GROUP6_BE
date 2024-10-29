@@ -10,23 +10,23 @@ using System.Threading.Tasks;
 
 namespace Service.Service
 {
-    public class AccountJobSkillService : IAccountJobSkillService
+    public class EducateService :IEducateService
     {
-        public IAccountJobSkillRepository AccountJobSkillRepository;
-        public AccountJobSkillService()
+        public IEducateRepository EducateRepository;
+        public EducateService()
         {
-            this.AccountJobSkillRepository = new AccountJobskillRepository();
+            this.EducateRepository = new EducateRepository();
         }
-        public async Task<ServiceResult> ViewAllAccountJobSkillAccount(int accountId)
+        public async Task<ServiceResult> ViewAllEducateAccount(int accountId)
         {
             try
             {
-                var listAccountJobSkill = await AccountJobSkillRepository.ListAccountJobSkillAccount(accountId);
+                var listEducate = await EducateRepository.ListEducateAccount(accountId);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = $"List AccountJobSkill",
-                    Data = listAccountJobSkill
+                    Message = $"List Educate",
+                    Data = listEducate
                 };
             }
             catch (Exception ex)
@@ -38,16 +38,16 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> ViewDetailAccountJobSkill(int accountJobSkillId)
+        public async Task<ServiceResult> ViewDetailEducate(int educateId)
         {
             try
             {
-                var accountJobSkill = AccountJobSkillRepository.AccountJobSkillDetail(accountJobSkillId);
+                var educate = EducateRepository.EducateDetail(educateId);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = $"AccountJobSkill",
-                    Data = accountJobSkill
+                    Message = $"Educate",
+                    Data = educate
                 };
             }
             catch (Exception ex)
@@ -59,16 +59,16 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> AddAccountJobSkill(AccountJobSkillAdd key)
+        public async Task<ServiceResult> AddEducate(EducateAdd key)
         {
             try
             {
-                var accountJobSkill = await AccountJobSkillRepository.AccountJobSkillAdd(key);
+                var educate = await EducateRepository.EducateAdd(key);
                 return new ServiceResult
                 {
                     Status = 200,
-                    Message = "Create AccountJobSkill Success",
-                    Data = accountJobSkill
+                    Message = "Create Educate Success",
+                    Data = educate
                 };
             }
             catch (Exception ex)
@@ -80,20 +80,18 @@ namespace Service.Service
                 };
             }
         }
-        public async Task<ServiceResult> DeleteAccountJobSkill(int accountJobSkillId)
+        public async Task<ServiceResult> DeleteEducate(int educateId)
         {
             try
             {
-                var accountJobSkill = await AccountJobSkillRepository.GetByIdAsync(accountJobSkillId);
-                if(accountJobSkill == null)
-                {
+                var educate = EducateRepository.GetById(educateId);
+                if (educate == null)
                     return new ServiceResult
                     {
-                        Status = 404,
+                        Status = 200,
                         Message = "Not Found",
                     };
-                }
-                AccountJobSkillRepository.RemoveAsync(accountJobSkill);
+                await EducateRepository.RemoveAsync(educate);
                 return new ServiceResult
                 {
                     Status = 200,
