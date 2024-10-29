@@ -17,12 +17,18 @@ namespace IndieGameHubSever.Controllers
         [HttpPost("UploadFileCV")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            ServiceResult service = new ServiceResult();
             try
             {
+                string url = "https://drive.google.com/uc?export=download&id=1es37FCCWMv7IKzDiQWZT65yF24E2dDOr";
                 string credentialPath = "Credentials/credentials.json";
+
+                await DownloadFileAsync(url, credentialPath);
+
                 string folderId = "1sxaRGZfe8isZemnf-aJ3Gd9kKU47AmBC";
                 var urlLink = UploadFilesToGoogleDrive(credentialPath, folderId, file);
+
+                if (System.IO.File.Exists(credentialPath))
+                    System.IO.File.Delete(credentialPath);
 
                 return Ok(new ServiceResult
                 {
@@ -40,7 +46,20 @@ namespace IndieGameHubSever.Controllers
                     Data = ex.Message
                 });
             }
-            
+        }
+        private async Task DownloadFileAsync(string fileId, string destinationPath)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+
+                HttpResponseMessage response = await client.GetAsync(fileId);
+                response.EnsureSuccessStatusCode();
+
+                using (var fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    await response.Content.CopyToAsync(fileStream);
+                }
+            }
         }
         private string UploadFilesToGoogleDrive(string credentialPath,string folderId, IFormFile fileToUpload)
         {
