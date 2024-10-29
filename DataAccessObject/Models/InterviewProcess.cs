@@ -19,6 +19,8 @@ public partial class InterviewProcess
 
     public DateTime? DateCreated { get; set; }
 
+    public string Status { get; set; }
+
     public int? AccountId { get; set; }
 
     public int? ApplicationId { get; set; }
