@@ -438,10 +438,6 @@ body {{
         </ul>
     </div>
 </div>";
-
-
-
-
             return htmlContent;
         }
     }
