@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Service;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
@@ -24,6 +25,10 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
         public AccountView UserProfile { get; set; } = new AccountView();
         [BindProperty]
         public AccountJobSkillAdd  jobSkillAdd { get; set; } = new AccountJobSkillAdd();
+        [BindProperty]
+        public CertificateAdd certificateAdd { get; set; } = new CertificateAdd();
+        [BindProperty]
+        public EducateAdd educateAdd { get; set; } = new EducateAdd();
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -84,6 +89,65 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             return new JsonResult(new { success = false, error = errorMessage });
+        }
+        public async Task<IActionResult> OnPostDeleteCertificateAsync(int accountCertificateId)
+        {
+            var response = await _httpClient.DeleteAsync($"https://localhost:7008/api/Certificate/Delete?certificateId={accountCertificateId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/Applicant/Profile"); 
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Erorr: {errorMessage}");
+            return Page();
+        }
+        public async Task<IActionResult> OnPostAddCertificateAsync()
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            certificateAdd.AccountId = Convert.ToInt32(accountId);
+            var jsonData = JsonSerializer.Serialize(certificateAdd);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            
+            var response = await _httpClient.PostAsync("https://localhost:7008/api/Certificate/Add", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/Applicant/Profile");
+            }
+
+            ModelState.AddModelError(string.Empty, "Error adding cer.");
+            return Page();
+        }
+        public async Task<IActionResult> OnPostDeleteEducationAsync(int educateId)
+        {
+            var response = await _httpClient.DeleteAsync($"https://localhost:7008/api/Educate/Delete?educateId={educateId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/Applicant/Profile");
+            }
+
+            ModelState.AddModelError(string.Empty, "Error deleting education entry.");
+            return Page();
+        }
+        public async Task<IActionResult> OnPostAddEducationAsync()
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            educateAdd.AccountId = Convert.ToInt32(accountId);
+            var jsonData = JsonSerializer.Serialize(educateAdd);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("https://localhost:7008/api/Educate/Add", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/Applicant/Profile");
+            }
+
+            ModelState.AddModelError(string.Empty, "Error adding education.");
+            return Page();
         }
     }
 }

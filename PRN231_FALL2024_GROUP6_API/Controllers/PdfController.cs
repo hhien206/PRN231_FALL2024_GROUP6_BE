@@ -1,14 +1,17 @@
 ﻿using DinkToPdf.Contracts;
 using DinkToPdf;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.draw;
+
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
 using BusinessObject.ViewModel;
 using Service.Service;
 using Service.IService;
 using DataAccessObject.Models;
+using Rotativa.AspNetCore;
+using iText.Html2pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+
+using iTextPath = iText.Kernel.Geom.Path;
 
 namespace PRN231_FALL2024_GROUP6_API.Controllers
 {
@@ -35,9 +38,9 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
                 float percent = 0;
                 if(skill.Experience != null)
                 {
-                    percent = float.Parse(skill.Experience) / 5f * 100;
+                    percent = (int)(float.Parse(skill.Experience) / 5f * 100);
                 }
-                skillsHtml += $"<li>             <div class=\"skill_name\">              {skill.JobSkillName}             </div>             <div class=\"skill_progress\">               <span style=\"width: 80%;\"></span>             </div>             <div class=\"skill_per\">{percent}%</div>           </li>           <li>";
+                skillsHtml += $"<li>\r\n             <div class=\"skill_name\">\r\n               {skill.JobSkillName}\r\n             </div>\r\n             <div class=\"skill_progress\">\r\n               <span style=\"width: {percent}%;\"></span>\r\n             </div>\r\n             <div class=\"skill_per\">{percent}%</div>\r\n           </li>";
             }
             var certificatesHtml = "";
             foreach (var certificate in account.Certificates)
@@ -50,32 +53,35 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
                 
                 educatesHtml += $"<li>                <div class=\"date\">{educate.Date}</div>                 <div class=\"info\">                     <p class=\"semi-bold\">{educate.EducateName}</p>                   <p>{educate.Description}</p>                </div>            </li>";
             }
-            var htmlContent = LayoutPdf(account.FullName,account.Gender,account.Email,account.PhoneNumber,account.Address,account.Description,skillsHtml,certificatesHtml,educatesHtml);
+            var htmlContent = LayoutPdf(account.UrlPicture,account.FullName,account.Gender,account.Email,account.PhoneNumber,account.Address,account.Description,skillsHtml,certificatesHtml,educatesHtml);
 
-            // Cấu hình chuyển đổi HTML sang PDF
-            var doc = new HtmlToPdfDocument()
+            var pdfFileName = "output.pdf";
+            var pdfPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), pdfFileName);
+
+            using (var fileStream = new FileStream(pdfPath, FileMode.Create, FileAccess.Write))
             {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4,
-                },
-                Objects = {
-                    new ObjectSettings() {
-                        PagesCount = true,
-                        HtmlContent = htmlContent,
-                        WebSettings = { DefaultEncoding = "utf-8" }
-                    }
-                }
-            };
+                // Đặt kích thước trang PDF
+                var pageSize = iText.Kernel.Geom.PageSize.A3;
 
-           // Chuyển đổi HTML sang PDF
-            byte[] pdf = _converter.Convert(doc);
+                // Tạo PdfWriter với nén
+                var pdfWriter = new iText.Kernel.Pdf.PdfWriter(fileStream, new iText.Kernel.Pdf.WriterProperties().SetCompressionLevel(9));
+                var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfWriter);
 
-            // Trả về file PDF
-            return File(pdf, "application/pdf", "cv_nguyenvana.pdf");
+                // Đặt kích thước trang cho tài liệu PDF
+                pdfDocument.SetDefaultPageSize(pageSize);
+
+                // Thay đổi kích thước PDF
+                var converterProperties = new ConverterProperties();
+                converterProperties.SetBaseUri("baseUri"); // Nếu có sử dụng CSS từ file
+                                                           // Chuyển đổi HTML thành PDF
+                HtmlConverter.ConvertToPdf(htmlContent, pdfDocument, converterProperties);
+
+                pdfDocument.Close(); // Đảm bảo đóng tài liệu PDF
+            }
+
+            return PhysicalFile(pdfPath, "application/pdf", pdfFileName);
         }
-        private string LayoutPdf(string fullName, string gender, string email, string phoneNumber, string address, string description,string skill, string certificate, string educate)
+        private string LayoutPdf(string imageUrl,string fullName, string gender, string email, string phoneNumber, string address, string description,string skill, string certificate, string educate)
         {
             var htmlContent = $@"<script src=""https://kit.fontawesome.com/b99e675b6e.js""></script>
 
@@ -320,7 +326,7 @@ body {{
 <div class=""resume"">
    <div class=""resume_left"">
      <div class=""resume_profile"">
-       <img src=""https://i.imgur.com/eCijVBe.png"" alt=""profile_pic"">
+       <img src=""{imageUrl}"" alt=""profile_pic"">
      </div>
      <div class=""resume_content"">
        <div class=""resume_item resume_info"">
@@ -432,6 +438,8 @@ body {{
         </ul>
     </div>
 </div>";
+
+
 
 
             return htmlContent;
