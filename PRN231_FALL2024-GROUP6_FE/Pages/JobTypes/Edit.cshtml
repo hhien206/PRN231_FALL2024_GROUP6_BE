@@ -1,0 +1,40 @@
+﻿@page
+@model PRN231_FALL2024_GROUP6_FE.Pages.JobTypes.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>JobType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="JobType.Id" />
+            <div class="form-group">
+                <label asp-for="JobType.Name" class="control-label"></label>
+                <input asp-for="JobType.Name" class="form-control" />
+                <span asp-validation-for="JobType.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobType.Description" class="control-label"></label>
+                <input asp-for="JobType.Description" class="form-control" />
+                <span asp-validation-for="JobType.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
