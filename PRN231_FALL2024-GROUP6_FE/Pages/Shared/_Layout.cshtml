@@ -35,7 +35,10 @@
                                 </ul>
                             </li>
                             <li><a class="" asp-area="" asp-page="/JobPosting" style="color: #19fa91;">Post a Job</a></li>
-                            <li><a class="" asp-area="" asp-page="/Authentication/Login" style="color: #19fa91;">Log In</a></li>
+                            @if (Context.Session.GetString("AccountId") == null)
+                            {
+                                <li><a class="" asp-area="" asp-page="/Authentication/Login" style="color: #19fa91;">Log In</a></li>
+                            }
                             <li><a class="" asp-area="" asp-page="/Applicant/Profile" style="color: #19fa91;">Profile</a></li>
                         }
                     </ul>
