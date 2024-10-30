@@ -4,6 +4,21 @@
     ViewData["Title"] = "Job Detail";
     ViewData["HideNavbar"] = true;
 }
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                    toastr.success("@TempData["SuccessMessage"]");
+            </text>
+        }
+                });
+    </script>
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,25 +134,13 @@
 
                         <div class="">
                             <h4 class="mb-4">Apply For The Job</h4>
-                            <form>
+                            <form method="post" enctype="multipart/form-data">
                                 <div class="row g-3">
                                     <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Your Name">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="email" class="form-control" placeholder="Your Email">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Portfolio Website">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="file" class="form-control bg-white">
+                                        <input type="file" class="form-control bg-white" asp-for="CVFile">
                                     </div>
                                     <div class="col-12">
-                                        <textarea class="form-control" rows="5" placeholder="Cover Letter"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                                        <button class="btn btn-primary w-100" type="submit" asp-page-handler="Apply">Apply Now</button>
                                     </div>
                                 </div>
                             </form>
