@@ -38,7 +38,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
                 if (response.IsSuccessStatusCode)
                 {
                     // Handle successful registration (e.g., redirect to login)
-                    return RedirectToPage("/Login");
+                    return RedirectToPage("/Authentication/Login");
                 }
                 else
                 {

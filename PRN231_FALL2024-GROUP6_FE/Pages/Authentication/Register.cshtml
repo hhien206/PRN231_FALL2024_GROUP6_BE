@@ -2,222 +2,151 @@
 @model PRN231_FALL2024_GROUP6_FE.Pages.Authentication.RegisterModel
 @{
     ViewData["Title"] = "Register";
+    ViewData["HideNavbar"] = true;
 }
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
     <style>
-        .row {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 12px;
-            box-shadow: 0 0 10px 0 #4EB748;
-        }
-
-        .form {
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            gap: 3px;
-            background-color: #FAF9F7;
-            padding: 10px;
-            width: 450px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 12px;
+            align-items: center;
         }
 
-        ::placeholder {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        .register-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            margin: 2rem auto;
         }
 
-        .form button {
-            align-self: flex-end;
-        }
-
-        .flex-column > label {
-            color: #124DA3;
+        .form-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
             font-weight: 600;
         }
 
-        .inputForm {
-            border: 1.5px solid #ecedec;
-            border-radius: 10px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            transition: 0.2s ease-in-out;
+        .form-floating {
+            margin-bottom: 1rem;
         }
 
-        .input {
-            margin-left: 5px;
-            border-radius: 10px;
+        .form-control:focus {
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 0.2rem rgba(74,144,226,0.25);
+        }
+
+        .btn-register {
+            background: #4A90E2;
             border: none;
-            width: 100%;
-            height: 100%;
-        }
-
-            .input:focus {
-                outline: none;
-            }
-
-        .inputForm:focus-within {
-            border: 1.5px solid #2d79f3;
-        }
-
-        .flex-row {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 5px;
-            justify-content: space-between;
-        }
-
-            .flex-row > div > label {
-                font-size: 14px;
-                color: black;
-                font-weight: 400;
-            }
-
-        .span {
-            font-size: 12px;
-            margin-left: 5px;
-            color: #2d79f3;
+            padding: 0.8rem;
+            font-size: 1.1rem;
             font-weight: 500;
-            cursor: pointer;
-        }
-
-        .button-submit {
-            margin: 5px 0 5px 0;
-            background-color: #F37022;
-            border: none;
-            color: white;
-            font-size: 12px;
-            font-weight: 500;
-            border-radius: 10px;
-            height: 35px;
             width: 100%;
-            cursor: pointer;
+            margin-top: 1rem;
         }
 
-            .button-submit:hover {
-                background-color: #4EB748;
+            .btn-register:hover {
+                background: #357ABD;
             }
 
-        .p {
+        .login-link {
             text-align: center;
-            color: black;
-            font-size: 12px;
-            margin: 3px 0;
+            display: block;
+            margin-top: 1rem;
+            color: #4A90E2;
+            text-decoration: none;
         }
 
-        .btn {
-            margin-top: 5px;
-            width: 100%;
-            height: 35px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 500;
-            gap: 5px;
-            border: 1px solid #ededef;
-            background-color: white;
-            cursor: pointer;
-            transition: 0.2s ease-in-out;
-        }
-
-            .btn:hover {
-                border: 1px solid #2d79f3;
-                ;
+            .login-link:hover {
+                color: #357ABD;
             }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .alert {
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
 <body>
-    <body>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="">
-                    <div class="row">
-                        <div class="d-flex justify-content-center align-items-center">
-                        </div>
-                        <form class="form" id="loginForm" method="post">
-                            <div class="flex-column" id="error" style="color: red"></div>
-                            <div class="flex-column" id="ok" style="color: green"></div>
-                            <div class="flex-column">
-                                <label>Register </label>
-                            </div>
+    <div class="container">
+        <div class="register-container">
+            <h2 class="form-title">Create Account</h2>
 
-                            <div class="flex-column">
-                                <label>Email </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.email">Email</label>
-        <input asp-for="Account.email" class="form-control" />
-        <span asp-validation-for="Account.email" class="text-danger"></span>
-    </div>
-
-                            <div class="flex-column">
-                                <label>Password </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.password">Password</label>
-        <input asp-for="Account.password" type="password" class="form-control" />
-        <span asp-validation-for="Account.password" class="text-danger"></span>
-    </div>
-                            <div class="flex-column">
-                                <label>Fullname </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.FullName">Full Name</label>
-        <input asp-for="Account.FullName" class="form-control" />
-        <span asp-validation-for="Account.FullName" class="text-danger"></span>
-    </div>
-                            <div class="flex-column">
-                                <label>PhoneNumber </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.PhoneNumber">Phone Number</label>
-        <input asp-for="Account.PhoneNumber" class="form-control" />
-        <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
-    </div>
-                            <div class="flex-column">
-                                <label>Address </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.Address">Address</label>
-        <input asp-for="Account.Address" class="form-control" />
-        <span asp-validation-for="Account.Address" class="text-danger"></span>
-    </div>
-                            <div class="flex-column">
-                                <label>Gender </label>
-                            </div>
-    <div class="form-group">
-        <label asp-for="Account.gender">Gender</label>
-        <select asp-for="Account.gender" class="form-control">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <span asp-validation-for="Account.gender" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-                            <a href="Login" class="nav-item nav-link">Login</a>
-</form>
-                    </div>
+            <form id="registerForm" method="post">
+                <div class="form-floating">
+                    <input asp-for="Account.email" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                    <label for="floatingEmail">Email address</label>
+                    <span asp-validation-for="Account.email" class="text-danger"></span>
                 </div>
-            </div>
-        </div>
-    </body>
-</body>
 
-@if (ViewData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @ViewData["ErrorMessage"]
+                <div class="form-floating">
+                    <input asp-for="Account.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                    <span asp-validation-for="Account.password" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating">
+                    <input asp-for="Account.FullName" class="form-control" id="floatingFullName" placeholder="Full Name">
+                    <label for="floatingFullName">Full Name</label>
+                    <span asp-validation-for="Account.FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating">
+                    <input asp-for="Account.PhoneNumber" class="form-control" id="floatingPhone" placeholder="Phone Number">
+                    <label for="floatingPhone">Phone Number</label>
+                    <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating">
+                    <input asp-for="Account.Address" class="form-control" id="floatingAddress" placeholder="Address">
+                    <label for="floatingAddress">Address</label>
+                    <span asp-validation-for="Account.Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating">
+                    <select asp-for="Account.gender" class="form-control" id="floatingGender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label for="floatingGender">Gender</label>
+                    <span asp-validation-for="Account.gender" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-register">
+                    Register
+                </button>
+
+                <a href="Login" class="login-link">
+                    Already have an account? Login here
+                </a>
+            </form>
+
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewData["ErrorMessage"]
+                </div>
+            }
+        </div>
     </div>
-}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
