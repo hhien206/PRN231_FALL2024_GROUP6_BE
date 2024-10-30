@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:200,300,400,700");
-.site-navbar {
-  margin-bottom: 0px;
-  z-index: 1999;
-  position: absolute;
-  width: 100%;
-  top: 2rem; }
+
   .site-navbar .container-fluid {
     padding-left: 7rem;
     padding-right: 7rem; }
