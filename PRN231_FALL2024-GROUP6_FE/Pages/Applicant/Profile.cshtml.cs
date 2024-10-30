@@ -149,6 +149,30 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             ModelState.AddModelError(string.Empty, "Error adding education.");
             return Page();
         }
+        public async Task<IActionResult> OnPostExportPdfAsync()
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+
+            if (accountId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            // G?i API l?y file PDF
+            var response = await _httpClient.GetAsync($"https://localhost:7008/api/Pdf/generatepdf?accountId={accountId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var pdfContent = await response.Content.ReadAsByteArrayAsync();
+                var fileName = $"Profile_{accountId}.pdf";
+
+                // Tr? v? file ð? t?i xu?ng
+                return File(pdfContent, "application/pdf", fileName);
+            }
+
+            ModelState.AddModelError(string.Empty, "Failed to export PDF.");
+            return Page();
+        }
     }
 }
 
