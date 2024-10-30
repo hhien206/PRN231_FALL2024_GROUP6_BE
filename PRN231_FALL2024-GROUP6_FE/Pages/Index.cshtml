@@ -2,6 +2,7 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    ViewData["HideNavbar"] = true;
 }
 
 <!DOCTYPE html>
@@ -27,6 +28,7 @@
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="~/Home/css/style.css" />
 </head>
+@await Html.PartialAsync("Shared/Navbar")
     <div class="site-wrap">
         <div class="site-mobile-menu site-navbar-target">
             <div class="site-mobile-menu-header">
