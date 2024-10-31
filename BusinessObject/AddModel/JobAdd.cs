@@ -25,7 +25,7 @@ namespace BusinessObject.AddModel
 
         public DateTime? Deadline { get; set; }
 
-        public List<int>? listJobSkillId { get; set; }
+        public List<JobJobSkillAdd>? listJobSkill { get; set; }
         public int? JobCategoryId { get; set; }
         public int? JobLevelId { get; set; }
         public int? JobTypeId { get; set; }

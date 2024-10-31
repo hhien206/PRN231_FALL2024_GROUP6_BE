@@ -123,5 +123,25 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> RefuseAllApplicationInsufficient(int jobId)
+        {
+            try
+            {
+                await applicationRepository.RefuseAllApplicationInsufficient(jobId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Success",
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
     }
 }

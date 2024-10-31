@@ -29,11 +29,11 @@ namespace BusinessObject.ViewModel
         public string Experience { get; set; }
 
         public DateTime? Deadline { get; set; }
-        public List<JobSkill> ListJobSkill { get; set; }
+        public List<JobJobSkillView> ListJobSkill { get; set; }
         public JobCategory JobCategory { get; set; }
         public JobLevel JobLevel { get; set; }
         public JobType JobType { get; set; }
-        public void ConvertJob(Job job, List<JobSkill> listJobSkill, JobCategory jobCategory,
+        public void ConvertJob(Job job, List<JobJobSkillView> listJobSkill, JobCategory jobCategory,
             JobLevel jobLevel,JobType jobType)
         {
             JobId = job.JobId;

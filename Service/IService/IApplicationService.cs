@@ -16,5 +16,6 @@ namespace Service.IService
         public Task<ServiceResult> ViewApplicationDetail(int applicationId);
         public Task<ServiceResult> AddApplication(ApplicationAdd key);
         public Task<ServiceResult> UpdateApplicationStatus(ApplicationUpdate key);
+        public Task<ServiceResult> RefuseAllApplicationInsufficient(int jobId);
     }
 }

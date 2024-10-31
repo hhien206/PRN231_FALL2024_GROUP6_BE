@@ -16,5 +16,6 @@ namespace Repository.IRepository
         public Task<Application> ApplicationDetail(int applicationId);
         public Task<Application> ApplicationAdd(ApplicationAdd key);
         public Task<Application> ApplicationStatusUpdate(ApplicationUpdate key);
+        public Task RefuseAllApplicationInsufficient(int jobId);
     }
 }
