@@ -14,6 +14,9 @@ namespace Repository.Repository
         {
 
         }
-        
+        public async Task<List<JobJobSkill>> GetAllJobJobSkillByJobId(int jobId)
+        {
+            return (await GetAllAsync()).FindAll(l => l.JobId == jobId);
+        }
     }
 }

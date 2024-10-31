@@ -9,5 +9,6 @@ namespace Repository.IRepository
 {
     public interface IJobJobSkillRepository : IGenericRepository<JobJobSkill>
     {
+        public Task<List<JobJobSkill>> GetAllJobJobSkillByJobId(int jobId);
     }
 }

@@ -51,7 +51,7 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             var result = await service.UpdateApplicationStatus(new ApplicationUpdate
             {
                 ApplicationId = applicationId,
-                Status = "Accepted"
+                Status = "ACCEPTED"
             });
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
@@ -62,8 +62,15 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             var result = await service.UpdateApplicationStatus(new ApplicationUpdate
             {
                 ApplicationId = applicationId,
-                Status = "Refused"
+                Status = "REFUSED"
             });
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
+        [HttpPut("RefuseInsufficiant")]
+        public async Task<IActionResult> RefuseInsufficiant([FromQuery] int jobId)
+        {
+            var result = await service.RefuseAllApplicationInsufficient(jobId);
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }

@@ -1,4 +1,5 @@
-﻿using DataAccessObject.Models;
+﻿using BusinessObject.ViewModel;
+using DataAccessObject.Models;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,20 @@ namespace Repository.Repository
                 var listJobSkill = (await GetAllAsync()).ToList();
                 if (nameQuickSerch == null) return listJobSkill;
                 return listJobSkill?.FindAll(l => l.Name.ToLower().Contains(nameQuickSerch));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<JobJobSkillView?> JobSkillViewDetail(int jobSkillId)
+        {
+            try
+            {
+                var jobSkill = GetById(jobSkillId);
+                JobJobSkillView result = new();
+                result.CovertJobSkillIntoJobJobSkillView(jobSkill);
+                return result;
             }
             catch (Exception)
             {

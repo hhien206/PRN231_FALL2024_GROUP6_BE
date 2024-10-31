@@ -13,14 +13,14 @@ namespace Repository.Repository
     public class JobRepository : GenericRepository<Job>, IJobRepository
     {
         IJobJobSkillRepository jJSkillRepo;
-        IJobSkillRepository SkillRepo;
+        IJobSkillRepository skillRepo;
         IJobCategoryRepository cateRepo;
         IJobLevelRepository levelRepo;
         IJobTypeRepository typeRepo;
         public JobRepository()
         {
             jJSkillRepo = new JobJobSkillRepository();
-            SkillRepo = new JobSkillRepository();
+            skillRepo = new JobSkillRepository();
             cateRepo = new JobCategoryRepository();
             levelRepo = new JobLevelRepository();
             typeRepo = new JobTypeRepository();
@@ -49,14 +49,18 @@ namespace Repository.Repository
                     JobTypeId = key.JobTypeId,
                 };
                 await CreateAsync(job);
-                List<JobSkill> jobSkills = new List<JobSkill>();
-                foreach (var item in key.listJobSkillId)
+                List<JobJobSkillView> jobSkills = new List<JobJobSkillView>();
+                foreach (var item in key.listJobSkill)
                 {
-                    jobSkills.Add(SkillRepo.GetById(item));
+                    JobJobSkillView jobSkill = new();
+                    jobSkill = await skillRepo.JobSkillViewDetail(item.JobId);
+                    jobSkill.ExperienceRequirement = item.ExperienceRequirement;
+                    jobSkills.Add(jobSkill);
                     await jJSkillRepo.CreateAsync(new JobJobSkill()
                     {
                         JobId = job.JobId,
-                        JobSkillId = item
+                        JobSkillId = item.JobId,
+                        ExperienceRequired = item.ExperienceRequirement
                     });
                 }
                 JobView jView = new();
@@ -145,11 +149,14 @@ namespace Repository.Repository
             List<JobView> result = new List<JobView>();
             foreach (var item in listJobs)
             {
-                List<JobSkill> listSkill = new();
+                List<JobJobSkillView> listSkill = new();
                 List<JobJobSkill> listjJSkill = (await jJSkillRepo.GetAllAsync()).FindAll(l => l.JobId == item.JobId);
                 foreach (var item1 in listjJSkill)
                 {
-                    listSkill.Add(SkillRepo.GetById((int)item1.JobSkillId));
+                    JobJobSkillView jobSkill = new();
+                    jobSkill = await skillRepo.JobSkillViewDetail((int)item1.JobSkillId);
+                    jobSkill.ExperienceRequirement = item1.ExperienceRequired;
+                    listSkill.Add(jobSkill);
                 }
                 JobView jView = new();
                 jView.ConvertJob(item, listSkill, cateRepo.GetById(item.JobCategoryId),
@@ -158,15 +165,18 @@ namespace Repository.Repository
             }
             return result;
         }
-        private async Task<List<JobSkill>> GetAllSkillOfJob(Job job)
+        private async Task<List<JobJobSkillView>> GetAllSkillOfJob(Job job)
         {
             try
             {
                 var jJobSkills = (await jJSkillRepo.GetAllAsync()).FindAll(l => l.JobId == job.JobId);
-                List<JobSkill> jobSkills = new();
+                List<JobJobSkillView> jobSkills = new();
                 foreach (var item in jJobSkills)
                 {
-                    jobSkills.Add(SkillRepo.GetById((int)item.JobSkillId));
+                    JobJobSkillView jobSkill = new JobJobSkillView();
+                    jobSkill = await skillRepo.JobSkillViewDetail((int)item.JobSkillId);
+                    jobSkill.ExperienceRequirement = item.ExperienceRequired;
+                    jobSkills.Add(jobSkill);
                 }
                 return jobSkills;
             }

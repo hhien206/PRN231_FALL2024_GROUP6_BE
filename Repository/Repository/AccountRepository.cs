@@ -62,6 +62,7 @@ namespace Repository.Repository
                     FullName = key.FullName,
                     PhoneNumber = key.PhoneNumber,
                     Address = key.Address,
+                    Major = null,
                     Gender = key.gender,
                     RoleId = roleId,
                 };
@@ -83,7 +84,8 @@ namespace Repository.Repository
                 account.Description = key.Description;
                 account.PhoneNumber = key.PhoneNumber;
                 account.Address = key.Address;
-                account.DateOfBirth = key.DateOfBirth;
+                account.Major = key.Major;
+                account.DateOfBirth = DateOnly.FromDateTime((DateTime)key.DateOfBirth);
                 account.UrlPicture = key.urlPicture;
                 await UpdateAsync(account);
                 var result = await ConvertAccountIntoAccountView(account);
