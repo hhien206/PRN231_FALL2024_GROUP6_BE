@@ -47,13 +47,29 @@
                     <a asp-page="/JobDetail" class="dropdown-item active">Job Detail</a>
                 </div>
             </div>
-            <a asp-page="/Applicant/Profile" class="nav-item nav-link">Profile</a>
-            <a asp-page="/Authentication/Login" class="nav-item nav-link">Login</a>
+            @if (Context.Session.GetString("AccountId") != null)
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Authentication/Login">LogOut</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Authentication/Login">Login</a>
+                </li>
+            }
             @{
                 var fullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
                 if (!string.IsNullOrEmpty(fullName))
                 {
-                    <a asp-page="" class="nav-item nav-link">Hello, @fullName!</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Hello, @fullName!!</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a asp-page="/Applicant/Profile" class="dropdown-item">Profile</a>
+                            <a asp-page="/Applicant/Application" class="dropdown-item active">Application</a>
+                        </div>
+                    </div>
                 }
             }
         </div>
