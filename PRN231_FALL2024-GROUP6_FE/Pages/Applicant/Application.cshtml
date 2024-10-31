@@ -1,0 +1,145 @@
+﻿@page
+@model PRN231_FALL2024_GROUP6_FE.Pages.Applicant.ApplicationModel
+@{
+    ViewData["HideNavbar"] = true;
+}
+<html>
+<head>
+    <title>
+        Việc làm đã ứng tuyển
+    </title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .job-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+            .job-card.highlight {
+                background-color: #e6f7f1;
+                border-left: 5px solid #00c853;
+            }
+
+            .job-card .company-logo {
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+                margin-right: 15px;
+            }
+
+            .job-card .job-title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .job-card .company-name {
+                font-size: 14px;
+                color: #666;
+            }
+
+            .job-card .application-time,
+            .job-card .cv-link,
+            .job-card .status-time {
+                font-size: 14px;
+                color: #666;
+            }
+
+            .job-card .salary {
+                font-size: 16px;
+                font-weight: bold;
+                color: #00c853;
+            }
+
+            .job-card .btn {
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+
+        .status-dropdown {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    @await Html.PartialAsync("Shared/Navbar")
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>
+                Việc làm đã ứng tuyển
+            </h4>
+            <div class="dropdown status-dropdown">
+                <button aria-expanded="false" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton" type="button">
+                    Trạng thái
+                </button>
+                <ul aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Action
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Another action
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Something else here
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        @foreach (var job in Model.applications)
+        {
+            <div class="job-card ">
+                <div class="d-flex align-items-center">
+                    <img alt="Company logo" class="company-logo" height="50" src="/img/com-logo-1.jpg" width="50" />
+                    <div>
+                        <div class="job-title">
+                            @job. - TP HCM
+                        </div>
+                        <div class="company-name">
+                            JobEntry
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div>
+                        <div class="application-time">
+                            Thời gian ứng tuyển: @job.ApplicationDate
+                        </div>
+                        <div class="cv-link">
+                            CV đã ứng tuyển:
+                            <a href="@job.UrlCv">
+                                CV tải lên
+                            </a>
+                        </div>
+                        <div class="status-time">
+                            @job.Status (@job.Status)
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="salary">
+                            @job.JobId
+                        </div>
+                        <button class="btn btn-outline-success" asp-page="/Authentication/Profile">
+                            <i class="fas fa-file-alt"></i> Xem CV
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -27,6 +27,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
         {
             _httpContextAccessor.HttpContext.Session.Remove("AccountId");
             _httpContextAccessor.HttpContext.Session.Remove("Token");
+            _httpContextAccessor.HttpContext.Session.Remove("FullName");
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -55,6 +56,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
                 {
                     _httpContextAccessor.HttpContext.Session.SetString("AccountId", data.AccountId.ToString());
                     _httpContextAccessor.HttpContext.Session.SetString("Token", data.Token);
+                    _httpContextAccessor.HttpContext.Session.SetString("FullName", data.FullName);
                 }
 
                 return RedirectToPage("/Index");
