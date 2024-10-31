@@ -21,6 +21,8 @@ public partial class Account
 
     public string Address { get; set; }
 
+    public string Major { get; set; }
+
     public DateOnly? DateOfBirth { get; set; }
 
     public string Description { get; set; }
