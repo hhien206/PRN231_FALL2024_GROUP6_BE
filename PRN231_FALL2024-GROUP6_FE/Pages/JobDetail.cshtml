@@ -85,7 +85,7 @@
                             <img class="flex-shrink-0 img-fluid border rounded" src="~/img/com-logo-2.jpg" alt="" style="width: 80px; height: 80px;">
                             <div class="text-start ps-4">
                                 <h3 class="mb-3">@Model.Job.JobTitle</h3>
-                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>Location: @Model.Job.Description</span>
+                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>Location: @Model.Job.Location</span>
                                 <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>@Model.Job.JobTime</span>
                                 <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>@Model.Job.SalaryRange</span>
                             </div>
@@ -120,11 +120,11 @@
                             <h4 class="mb-4">Job Summary</h4>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: @Model.Job.Deadline?.ToString("dd MMM, yyyy")</p>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: @Model.Job.JobTime</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: @Model.Job.Description</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: @Model.Job.Location</p>
                         </div>
                         <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
                             <h4 class="mb-4">Company Detail</h4>
-                            <p class="m-0">... (Thêm chi tiết công ty) ...</p>
+                            <p class="m-0">@Model.</p>
                         </div>
                     </div>
                 </div>
