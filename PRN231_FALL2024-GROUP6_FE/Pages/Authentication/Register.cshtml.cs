@@ -22,6 +22,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Authentication
         {
             if (!ModelState.IsValid)
             {
+                ViewData["ErrorMessage"] = "Please correct the errors and try again.";
                 return Page();
             }
 

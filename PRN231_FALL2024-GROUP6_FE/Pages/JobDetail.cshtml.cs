@@ -1,8 +1,10 @@
 ﻿using BusinessObject.ViewModel;
+using DataAccessObject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Service;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace PRN231_FALL2024_GROUP6_FE.Pages
 {
@@ -16,6 +18,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
         }
 
         public JobView Job { get; set; } = new JobView();
+        public CompanyView Company { get; set; } = new CompanyView();
 
         [BindProperty]
         public IFormFile CVFile { get; set; }
@@ -30,6 +33,20 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             else
             {
                 Console.WriteLine($"Error: {response.StatusCode}");
+            }
+            var responseCompany = await _httpClient.GetAsync("https://localhost:7008/api/Company/View");
+            if (responseCompany.IsSuccessStatusCode)
+            {
+                var result = await responseCompany.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    Company = JsonSerializer.Deserialize<CompanyView>(result.Data.ToString(), options);
+                }
             }
         }
 
