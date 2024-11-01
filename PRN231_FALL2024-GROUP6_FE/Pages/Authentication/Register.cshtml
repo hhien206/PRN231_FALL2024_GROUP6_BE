@@ -4,6 +4,11 @@
     ViewData["Title"] = "Register";
     ViewData["HideNavbar"] = true;
 }
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
     <style>
+        /* Your existing styles */
         body {
             background: #f8f9fa;
             min-height: 100vh;
@@ -102,6 +108,13 @@
                     <span asp-validation-for="Account.password" class="text-danger"></span>
                 </div>
 
+                <!-- Confirm Password Field -->
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password" required>
+                    <label for="floatingConfirmPassword">Confirm Password</label>
+                    <span class="text-danger" id="confirmPasswordError"></span>
+                </div>
+
                 <div class="form-floating">
                     <input asp-for="Account.FullName" class="form-control" id="floatingFullName" placeholder="Full Name">
                     <label for="floatingFullName">Full Name</label>
@@ -147,6 +160,25 @@
             }
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#registerForm').on('submit', function (e) {
+                const password = $('#floatingPassword').val();
+                const confirmPassword = $('#floatingConfirmPassword').val();
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    $('#confirmPasswordError').text('Passwords do not match.');
+                } else {
+                    $('#confirmPasswordError').text('');
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
