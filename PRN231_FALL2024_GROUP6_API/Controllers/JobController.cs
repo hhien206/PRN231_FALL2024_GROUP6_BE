@@ -22,6 +22,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("ViewAllAccount")]
+        public async Task<IActionResult> ViewAllJobAccount([FromQuery] int accountId)
+        {
+            var result = await service.ViewAllJobAccount(accountId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
         [HttpPost("ViewSearch")]
         public async Task<IActionResult> ViewJobSearch(int sizePaging, int indexPaging, [FromBody] JobSearch key)
         {

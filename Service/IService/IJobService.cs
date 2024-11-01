@@ -12,6 +12,7 @@ namespace Service.IService
     public interface IJobService
     {
         public Task<ServiceResult> ViewAllJob();
+        public Task<ServiceResult> ViewAllJobAccount(int accountId);
         public Task<ServiceResult> ViewJobSearch(int sizePaging, int indexPaging, JobSearch key);
         public Task<ServiceResult> ViewJobDetail(int jobId);
         public Task<ServiceResult> AddJob(JobAdd key);

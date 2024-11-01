@@ -33,8 +33,9 @@ namespace BusinessObject.ViewModel
         public JobCategory JobCategory { get; set; }
         public JobLevel JobLevel { get; set; }
         public JobType JobType { get; set; }
+        public AccountView Account { get; set; }
         public void ConvertJob(Job job, List<JobJobSkillView> listJobSkill, JobCategory jobCategory,
-            JobLevel jobLevel,JobType jobType)
+            JobLevel jobLevel,JobType jobType, AccountView account)
         {
             JobId = job.JobId;
             JobTitle = job.JobTitle;
@@ -50,6 +51,7 @@ namespace BusinessObject.ViewModel
             this.JobCategory = jobCategory;
             this.JobLevel = jobLevel;
             this.JobType = jobType;
+            this.Account = account;
         }
     }
 }

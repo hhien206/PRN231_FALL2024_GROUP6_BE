@@ -8,6 +8,7 @@ namespace BusinessObject.AddModel
 {
     public class JobAdd
     {
+        public int AccountId { get; set; }
         public string? JobTitle { get; set; }
 
         public string? Description { get; set; }
