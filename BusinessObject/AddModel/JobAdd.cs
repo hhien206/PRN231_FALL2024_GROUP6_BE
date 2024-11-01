@@ -25,6 +25,7 @@ namespace BusinessObject.AddModel
         public string? Experience { get; set; }
 
         public DateTime? Deadline { get; set; }
+        public int MaxQuantiy { get; set; }
 
         public List<JobJobSkillAdd>? listJobSkill { get; set; }
         public int? JobCategoryId { get; set; }

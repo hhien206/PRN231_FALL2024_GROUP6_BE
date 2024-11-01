@@ -67,6 +67,23 @@ namespace Repository.Repository
         {
             try
             {
+                var app = (await GetAllAsync()).FirstOrDefault(l => l.JobId == key.JobId && l.AccountId == key.AccountId);
+                if (app != null)
+                {
+                    return new ApplicationView
+                    {
+                        Status = "ALREADY"
+                    };
+                }
+
+                if ((await jobRepository.CheckQuantity((int)key.JobId)) == false)
+                {
+                    return new ApplicationView
+                    {
+                        Status = "FULL"
+                    };
+                }
+                    
                 Application application = new()
                 {
                     ApplicationDate = DateTime.Now,
@@ -75,6 +92,7 @@ namespace Repository.Repository
                     AccountId = key.AccountId,
                     JobId = key.JobId
                 };
+                await jobRepository.IncreaseCurrentQuantityByOne((int)application.JobId);
                 await CreateAsync(application);
                 return await ConvertApplicationIntoApplicationView(application);
 

@@ -27,6 +27,10 @@ public partial class Job
 
     public DateTime? Deadline { get; set; }
 
+    public int? QuantityCurrent { get; set; }
+
+    public int? QuantityMax { get; set; }
+
     public string Status { get; set; }
 
     public DateTime? DateCreated { get; set; }
