@@ -113,11 +113,11 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("L?c thành công");
+                TempData["SuccessMessage"] = "L?c thành công.";
             }
             else
             {
-                Console.WriteLine($"L?c th?t b?i v?i m? l?i: {response.StatusCode}");
+                TempData["ErrorMessage"] = "L?c th?t b?i. Vui l?ng th? l?i.";
             }
 
             // T?i l?i danh sách công vi?c sau khi l?c
@@ -143,6 +143,5 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
 
             return Page();
         }
-
     }
 }

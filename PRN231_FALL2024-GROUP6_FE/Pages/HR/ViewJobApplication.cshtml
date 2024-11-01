@@ -228,6 +228,21 @@
                             </tr>
                         </thead>
                     }
+                    <div>
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success" id="successMessage">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger" id="errorMessage">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
+                    </div>
                     <tbody>
                         @foreach (var job in Model.Jobs)
                         {
@@ -258,6 +273,23 @@
                             </tr>
                         }
                     </tbody>
+                    @section Scripts {
+                        <script>
+                            window.onload = function () {
+                                setTimeout(function () {
+                                    var successMessage = document.getElementById('successMessage');
+                                    var errorMessage = document.getElementById('errorMessage');
+
+                                    if (successMessage) {
+                                        successMessage.style.display = 'none';
+                                    }
+                                    if (errorMessage) {
+                                        errorMessage.style.display = 'none';
+                                    }
+                                }, 3000); 
+                            };
+                        </script>
+                    }
                 </table>
                 @if (Model.IsViewingApplications)
                 {
@@ -296,10 +328,10 @@
                                     </div>
                                     <div class="card-footer">
                                         <div>
-                                            <button class="btn btn-custom">About this CV</button>
-                                            <button class="btn btn-custom">Get in touch</button>
+                                            <button class="btn btn-custom">Accecpt</button>
+                                            <button class="btn btn-custom">Deny</button>
                                         </div>
-                                        <button class="btn btn-custom">Delete draft</button>
+                                        <button class="btn btn-custom" onclick="window.open('@application.UrlCv', '_blank')">About this CV</button>
                                     </div>
                                 </div>
                             </div>
