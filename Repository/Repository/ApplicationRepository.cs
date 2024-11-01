@@ -24,12 +24,12 @@ namespace Repository.Repository
             jobJobSkillRepository = new JobJobSkillRepository();
             accountJobSkillRepository = new AccountJobskillRepository();
         }
-        public async Task<List<Application>> ListApplicationJob(int jobId)
+        public async Task<List<ApplicationView>> ListApplicationJob(int jobId)
         {
             try
             {
                 var listApplication = (await GetAllAsync()).FindAll(l => l.JobId == jobId);
-                return listApplication;
+                return await ConvertListApplicationIntoListApplicationView(listApplication);
 
             }
             catch (Exception)
@@ -37,12 +37,12 @@ namespace Repository.Repository
                 throw;
             }
         }
-        public async Task<List<Application>> ListApplicationAccount(int accountId)
+        public async Task<List<ApplicationView>> ListApplicationAccount(int accountId)
         {
             try
             {
                 var listApplication = (await GetAllAsync()).FindAll(l => l.AccountId == accountId);
-                return listApplication;
+                return await ConvertListApplicationIntoListApplicationView(listApplication);
 
             }
             catch (Exception)
@@ -50,12 +50,12 @@ namespace Repository.Repository
                 throw;
             }
         }
-        public async Task<Application> ApplicationDetail(int applicationId)
+        public async Task<ApplicationView> ApplicationDetail(int applicationId)
         {
             try
             {
                 var application = GetById(applicationId);
-                return application;
+                return await ConvertApplicationIntoApplicationView(application);
 
             }
             catch (Exception)
@@ -63,7 +63,7 @@ namespace Repository.Repository
                 throw;
             }
         }
-        public async Task<Application> ApplicationAdd(ApplicationAdd key)
+        public async Task<ApplicationView> ApplicationAdd(ApplicationAdd key)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Repository.Repository
                     JobId = key.JobId
                 };
                 await CreateAsync(application);
-                return application;
+                return await ConvertApplicationIntoApplicationView(application);
 
             }
             catch (Exception)
@@ -84,14 +84,14 @@ namespace Repository.Repository
                 throw;
             }
         }
-        public async Task<Application> ApplicationStatusUpdate(ApplicationUpdate key)
+        public async Task<ApplicationView> ApplicationStatusUpdate(ApplicationUpdate key)
         {
             try
             {
                 var application = GetById(key.ApplicationId);
                 application.Status = key.Status;
                 await UpdateAsync(application);
-                return application;
+                return await ConvertApplicationIntoApplicationView(application);
             }
             catch (Exception)
             {
@@ -138,6 +138,23 @@ namespace Repository.Repository
                     }
                 }
             }
+        }
+        private async Task<List<ApplicationView>> ConvertListApplicationIntoListApplicationView(List<Application> key)
+        {
+            List<ApplicationView> results = new List<ApplicationView>();
+            foreach (var item in key)
+            {
+                results.Add(await ConvertApplicationIntoApplicationView(item));
+            }
+            return results;
+        }
+        private async Task<ApplicationView> ConvertApplicationIntoApplicationView(Application key)
+        {
+            var account = await accountRepository.GetAccountById((int)key.AccountId);
+            var job = await jobRepository.ViewJobDetail((int)key.JobId);
+            ApplicationView result = new ApplicationView();
+            result.ConvertApplicationIntoApplicationView(key, account, job);
+            return result;
         }
     }
 }
