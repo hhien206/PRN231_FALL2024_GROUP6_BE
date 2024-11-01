@@ -39,6 +39,28 @@ namespace Service.Service
                 };
             }
         }
+
+        public async Task<ServiceResult> ViewAllJobAccount(int accountId)
+        {
+            try
+            {
+                var jobs = await jobRepository.GetAllJobByAccount(accountId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "List Job",
+                    Data = jobs
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> ViewJobSearch(int sizePaging, int indexPaging, JobSearch key)
         {
             try

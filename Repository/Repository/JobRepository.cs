@@ -17,6 +17,7 @@ namespace Repository.Repository
         IJobCategoryRepository cateRepo;
         IJobLevelRepository levelRepo;
         IJobTypeRepository typeRepo;
+        IAccountRepository accountRepo;
         public JobRepository()
         {
             jJSkillRepo = new JobJobSkillRepository();
@@ -24,10 +25,15 @@ namespace Repository.Repository
             cateRepo = new JobCategoryRepository();
             levelRepo = new JobLevelRepository();
             typeRepo = new JobTypeRepository();
+            accountRepo = new AccountRepository();
         }
         public async Task<List<JobView>> GetAllJob()
         {
             return await ConvertListJobToListJobView(await GetAllAsync());
+        }
+        public async Task<List<JobView>> GetAllJobByAccount(int accountId)
+        {
+            return await ConvertListJobToListJobView((await GetAllAsync()).FindAll(l=>l.AccountId == accountId));
         }
         public async Task<JobView?> AddJob(JobAdd key)
         {
@@ -47,6 +53,7 @@ namespace Repository.Repository
                     JobCategoryId = key.JobCategoryId,
                     JobLevelId = key.JobLevelId,
                     JobTypeId = key.JobTypeId,
+                    AccountId = key.AccountId
                 };
                 await CreateAsync(job);
                 List<JobJobSkillView> jobSkills = new List<JobJobSkillView>();
@@ -65,7 +72,7 @@ namespace Repository.Repository
                 }
                 JobView jView = new();
                 jView.ConvertJob(job, jobSkills,cateRepo.GetById(job.JobCategoryId),
-                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId));
+                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId), await accountRepo.GetAccountById((int)job.AccountId));
                 return jView;
             }
             catch (Exception)
@@ -136,7 +143,7 @@ namespace Repository.Repository
                 var job = GetById(jobId);
                 JobView jView = new();
                 jView.ConvertJob(job, await GetAllSkillOfJob(job),cateRepo.GetById(job.JobCategoryId),
-                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId));
+                    levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId), await accountRepo.GetAccountById((int)job.AccountId));
                 return jView;
             }
             catch (Exception ex)
@@ -160,7 +167,7 @@ namespace Repository.Repository
                 }
                 JobView jView = new();
                 jView.ConvertJob(item, listSkill, cateRepo.GetById(item.JobCategoryId),
-                    levelRepo.GetById(item.JobLevelId), typeRepo.GetById(item.JobTypeId));
+                    levelRepo.GetById(item.JobLevelId), typeRepo.GetById(item.JobTypeId), await accountRepo.GetAccountById((int)item.AccountId));
                 result.Add(jView);
             }
             return result;
