@@ -14,6 +14,8 @@ namespace Repository.IRepository
         public Task<List<JobView>> GetAllJob();
         public Task<List<JobView>> GetAllJobByAccount(int accountId);
         public Task<JobView?> AddJob(JobAdd key);
+        public Task IncreaseCurrentQuantityByOne(int jobId);
+        public Task<bool> CheckQuantity(int jobId);
         public Task<List<JobView>?> ViewListJob(int sizePaging, int indexPaging, JobSearch key);
         public Task<JobView?> ViewJobDetail(int jobId);
     }

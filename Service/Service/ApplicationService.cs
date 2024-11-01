@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service.Service
 {
@@ -86,6 +87,22 @@ namespace Service.Service
             try
             {
                 var application = await applicationRepository.ApplicationAdd(key);
+                if(application.Status == "FULL")
+                {
+                    return new ServiceResult
+                    {
+                        Status = 400,
+                        Message = $"Job Full",
+                    };
+                }
+                if (application.Status == "ALREADY")
+                {
+                    return new ServiceResult
+                    {
+                        Status = 400,
+                        Message = $"Submitted",
+                    };
+                }
                 return new ServiceResult
                 {
                     Status = 200,

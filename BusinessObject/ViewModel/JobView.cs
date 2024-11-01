@@ -29,6 +29,8 @@ namespace BusinessObject.ViewModel
         public string Experience { get; set; }
 
         public DateTime? Deadline { get; set; }
+        public int? MaxQuantity { get; set; }
+        public int? CurrentQuantity { get; set; }
         public List<JobJobSkillView> ListJobSkill { get; set; }
         public JobCategory JobCategory { get; set; }
         public JobLevel JobLevel { get; set; }
@@ -47,6 +49,8 @@ namespace BusinessObject.ViewModel
             SalaryRange = job.SalaryRange;
             Experience = job.Experience;
             Deadline = job.Deadline;
+            MaxQuantity = job.QuantityMax;
+            CurrentQuantity = job.QuantityCurrent;
             ListJobSkill = listJobSkill;
             this.JobCategory = jobCategory;
             this.JobLevel = jobLevel;

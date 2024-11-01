@@ -50,6 +50,8 @@ namespace Repository.Repository
                     SalaryRange = key.SalaryRange,
                     Experience = key.Experience,
                     Deadline = key.Deadline,
+                    QuantityMax = key.MaxQuantiy,
+                    QuantityCurrent = 0,
                     JobCategoryId = key.JobCategoryId,
                     JobLevelId = key.JobLevelId,
                     JobTypeId = key.JobTypeId,
@@ -74,6 +76,36 @@ namespace Repository.Repository
                 jView.ConvertJob(job, jobSkills,cateRepo.GetById(job.JobCategoryId),
                     levelRepo.GetById(job.JobLevelId), typeRepo.GetById(job.JobTypeId), await accountRepo.GetAccountById((int)job.AccountId));
                 return jView;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task IncreaseCurrentQuantityByOne(int jobId)
+        {
+            try
+            {
+                var job = GetById(jobId);
+                if (job == null) return;
+                if (job.QuantityCurrent == null) return;
+                job.QuantityCurrent += 1;
+                await UpdateAsync(job);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<bool> CheckQuantity(int jobId)
+        {
+            try
+            {
+                var job = GetById(jobId);
+                if (job == null) return false;
+                if (job.QuantityCurrent == null) return false;
+                if (job.QuantityCurrent >= job.QuantityMax) return false;
+                return true;
             }
             catch (Exception)
             {
