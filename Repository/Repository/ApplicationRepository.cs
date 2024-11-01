@@ -28,7 +28,7 @@ namespace Repository.Repository
         {
             try
             {
-                var listApplication = (await GetAllAsync()).FindAll(l => l.JobId == jobId);
+                var listApplication = (await GetAllAsync()).FindAll(l => l.JobId == jobId && l.Status == "PENDING");
                 return await ConvertListApplicationIntoListApplicationView(listApplication);
 
             }
