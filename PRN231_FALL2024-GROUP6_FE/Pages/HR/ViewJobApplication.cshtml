@@ -70,12 +70,46 @@
             }
 
         .toggle-switch {
-            width: 20px;
-            height: 20px;
-            background-color: #28a745;
-            border-radius: 50%;
-            display: inline-block;
+            position: relative;
+            width: 40px; /* Độ rộng của switch */
+            height: 20px; /* Chiều cao của switch */
         }
+
+            .toggle-switch input {
+                display: none; /* Ẩn checkbox */
+            }
+
+            .toggle-switch label {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                border-radius: 34px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+                .toggle-switch label:before {
+                    content: "";
+                    position: absolute;
+                    height: 16px;
+                    width: 16px;
+                    left: 2px;
+                    bottom: 2px;
+                    background-color: white;
+                    border-radius: 50%;
+                    transition: transform 0.3s;
+                }
+
+            .toggle-switch input:checked + label {
+                background-color: #28a745;
+            }
+
+                .toggle-switch input:checked + label:before {
+                    transform: translateX(20px); /* Di chuyển chấm tròn khi bật */
+                }
 
         .btn-custom {
             background-color: #28a745 !important;
@@ -141,7 +175,7 @@
                     <thead>
                         <tr>
                             <th>Chiến dịch tuyển dụng</th>
-                            <th>Tối ưu</th>
+                            <th>Thời Hạn</th>
                             <th>Tin tuyển dụng</th>
                             <th>CV từ hệ thống</th>
                             <th>Lọc CV</th>
@@ -152,16 +186,17 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="toggle-switch"></div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="switch-@job.JobId" />
+                                        <label for="switch-@job.JobId"></label>
+                                    </div>
                                     <span>@job.JobId</span><br>
                                     <span>@job.JobTitle</span><br>
-                                    <span class="text-muted">Active</span>
+                                    <span class="text-muted">@* @job.QuantityCurrent *@</span>
                                 </td>
                                 <td class="text-blue">@job.Deadline</td>
                                 <td><button class="btn btn-custom-outline">Đăng tin</button></td>
                                 <td>
-                                    <span>CV đề xuất</span><br>
-                                    <span class="text-muted">@* @job.RecommendationStatus *@</span><br>
                                     <span class="text-blue">
                                         <i class="fas fa-eye"></i>
                                         <a href="@* @job.ViewDetailsLink *@">Xem chi tiết</a>
