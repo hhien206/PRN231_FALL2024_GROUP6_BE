@@ -66,8 +66,15 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Hello, @fullName!!</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a asp-page="/Applicant/Template" class="dropdown-item">Template</a>
-                            <a asp-page="/Applicant/Application" class="dropdown-item active">Application</a>
+                            @if (Context.Session.GetInt32("Role") == 3)
+                            {
+                                <a asp-page="/Applicant/Template" class="dropdown-item">Template</a>
+                                <a asp-page="/Applicant/Application" class="dropdown-item active">Application</a>
+                            }
+                            else if (Context.Session.GetInt32("Role") == 2)
+                            {
+                                <a asp-page="/HR/ViewJobApplication" class="dropdown-item">View Application</a>
+                            }
                         </div>
                     </div>
                 }

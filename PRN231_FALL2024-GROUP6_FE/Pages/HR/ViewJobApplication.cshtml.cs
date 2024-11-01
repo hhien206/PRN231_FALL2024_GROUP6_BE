@@ -18,12 +18,17 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
             _httpClient = httpClient;
         }
         public List<JobView> Jobs { get; set; } = new List<JobView>();
+        public List<ApplicationView> ApplicationViews { get; set; } = new List<ApplicationView>();
+        public bool IsViewingApplications { get; set; } = false;
+
 
         public async Task<IActionResult> OnGetAsync()
         {
             var accountId = HttpContext.Session.GetString("AccountId");
+            var roleId = HttpContext.Session.GetInt32("Role");
 
-            if (accountId == null)
+
+            if (accountId == null || roleId != 2)
             {
                 return RedirectToPage("/Index");
             }
@@ -47,5 +52,97 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
             }
             return Page();
         }
+        public async Task<IActionResult> OnPostViewApplicationAsync(int jobId)
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var roleId = HttpContext.Session.GetInt32("Role");
+
+            if (accountId == null || roleId != 2)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var response = await _httpClient.GetAsync($"https://localhost:7008/api/Application/ViewJob?jobId={jobId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    ApplicationViews = JsonSerializer.Deserialize<List<ApplicationView>>(result.Data.ToString(), options);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
+            IsViewingApplications = true;
+            return Page();
+        }
+        public async Task<IActionResult> OnPostBackToJobListAsync()
+        {
+            IsViewingApplications = false; 
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var response = await _httpClient.GetAsync($"https://localhost:7008/api/Job/ViewAllAccount?accountId={accountId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Jobs = JsonSerializer.Deserialize<List<JobView>>(result.Data.ToString(), options);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostFilterJobAsync(int jobId)
+        {
+            var response = await _httpClient.PutAsync($"https://localhost:7008/api/Application/RefuseInsufficiant?jobId={jobId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("L?c thành công");
+            }
+            else
+            {
+                Console.WriteLine($"L?c th?t b?i v?i m? l?i: {response.StatusCode}");
+            }
+
+            // T?i l?i danh sách công vi?c sau khi l?c
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var jobResponse = await _httpClient.GetAsync($"https://localhost:7008/api/Job/ViewAllAccount?accountId={accountId}");
+
+            if (jobResponse.IsSuccessStatusCode)
+            {
+                var result = await jobResponse.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Jobs = JsonSerializer.Deserialize<List<JobView>>(result.Data.ToString(), options);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error: {jobResponse.StatusCode}");
+            }
+
+            return Page();
+        }
+
     }
 }

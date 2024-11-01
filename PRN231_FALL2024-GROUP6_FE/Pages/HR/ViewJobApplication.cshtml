@@ -111,6 +111,57 @@
                     transform: translateX(20px); /* Di chuyển chấm tròn khi bật */
                 }
 
+        .container {
+            max-width: 1900px !important;
+        }
+
+        .card {
+            border: 1px solid #e0e0e0 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .card-header {
+            background-color: #fff !important;
+            border-bottom: 1px solid #e0e0e0 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 16px !important;
+        }
+
+        .badge {
+            background-color: #f0e68c !important;
+            color: #8b4513 !important;
+            font-size: 14px !important;
+            padding: 6px 12px !important;
+            border-radius: 4px !important;
+        }
+
+        .card-body {
+            padding: 16px !important;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa !important;
+            border-top: 1px solid #e0e0e0 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 16px !important;
+        }
+
+        .btn-custom {
+            background-color: #007b7f !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 4px !important;
+        }
+
+            .btn-custom:hover {
+                background-color: #005f5f !important;
+            }
         .btn-custom {
             background-color: #28a745 !important;
             color: white !important;
@@ -156,13 +207,6 @@
             </select>
         </div>
         <div class="results">
-            <p>
-                Tìm thấy
-                <strong>
-                    0
-                </strong>
-                ứng viên
-            </p>
             <div class="d-flex justify-content-end">
                 <select class="form-select" style="width: auto;">
                     <option selected="">
@@ -170,17 +214,20 @@
                     </option>
                 </select>
             </div>
-            <div class="container table-container">
+            <div class="container table-container" id="jobList">
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Chiến dịch tuyển dụng</th>
-                            <th>Thời Hạn</th>
-                            <th>Tin tuyển dụng</th>
-                            <th>CV từ hệ thống</th>
-                            <th>Lọc CV</th>
-                        </tr>
-                    </thead>
+                    @if (!Model.IsViewingApplications) 
+                    {
+                        <thead>
+                            <tr>
+                                <th>Chiến dịch tuyển dụng</th>
+                                <th>Thời Hạn</th>
+                                <th>Trạng thái</th>
+                                <th>CV từ hệ thống</th>
+                                <th>Lọc CV</th>
+                            </tr>
+                        </thead>
+                    }
                     <tbody>
                         @foreach (var job in Model.Jobs)
                         {
@@ -192,24 +239,75 @@
                                     </div>
                                     <span>@job.JobId</span><br>
                                     <span>@job.JobTitle</span><br>
-                                    <span class="text-muted">@* @job.QuantityCurrent *@</span>
+                                    <span class="text-muted">@job.CurrentQuantity / @job.MaxQuantity</span>
                                 </td>
                                 <td class="text-blue">@job.Deadline</td>
-                                <td><button class="btn btn-custom-outline">Đăng tin</button></td>
+                                <td><button class="btn btn-custom-outline">Active</button></td>
                                 <td>
-                                    <span class="text-blue">
-                                        <i class="fas fa-eye"></i>
-                                        <a href="@* @job.ViewDetailsLink *@">Xem chi tiết</a>
-                                    </span>
+                                    <form method="post" asp-page-handler="ViewApplication">
+                                        <input type="hidden" name="jobId" value="@job.JobId" />
+                                        <button type="submit" class="btn btn-link">Xem chi tiết</button>
+                                    </form>
                                 </td>
-                                <td><button class="btn btn-custom">Tìm CV</button></td>
+                                <td>
+                                    <form method="post" asp-page-handler="FilterJob">
+                                        <input type="hidden" name="jobId" value="@job.JobId" />
+                                        <button type="submit" class="btn btn-custom">Lọc</button>
+                                    </form>
+                                </td>
                             </tr>
                         }
                     </tbody>
-
                 </table>
+                @if (Model.IsViewingApplications)
+                {
+                    <form method="post" asp-page-handler="BackToJobList">
+                        <button type="submit" class="btn btn-secondary mb-3">Quay lại danh sách công việc</button>
+                    </form>
+                }
+
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.
+            @if (Model.ApplicationViews.Count > 0)
+            {
+                <div class="application-list">
+                    <p>
+                        Tìm thấy
+                        <strong>
+
+                        </strong>
+                        ứng viên
+                    </p>
+                    <h3>Danh sách CV cho công việc</h3>
+                    <ul>
+                        @foreach (var application in Model.ApplicationViews)
+                        {
+                            <div class="container mt-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span class="badge">@application.Status</span>
+                                        <div class="text-end">
+                                            <small class="text-muted">Ref: TRAC-GEN-001</small><br>
+                                            <small class="text-muted">Application ID: @application.ApplicationId</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title fw-bold">@application.Account.FullName</h4>
+                                        <p class="card-text"><strong>Submit At</strong> @application.ApplicationDate</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div>
+                                            <button class="btn btn-custom">About this CV</button>
+                                            <button class="btn btn-custom">Get in touch</button>
+                                        </div>
+                                        <button class="btn btn-custom">Delete draft</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </ul>
+                </div>
+            }
+
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
