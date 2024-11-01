@@ -38,6 +38,29 @@ namespace Service.Service
                 };
             }
         }
+
+        public async Task<ServiceResult> ViewAllJobSkillAvaliable(int accountId)
+        {
+            try
+            {
+                var listJobSkill = await AccountJobSkillRepository.ListJobSkillAvaliable(accountId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"List Job Skill",
+                    Data = listJobSkill
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
+
         public async Task<ServiceResult> ViewDetailAccountJobSkill(int accountJobSkillId)
         {
             try

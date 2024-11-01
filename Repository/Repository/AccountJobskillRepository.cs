@@ -31,6 +31,23 @@ namespace Repository.Repository
                 throw;
             }
         }
+        public async Task<List<JobSkill>> ListJobSkillAvaliable(int accountId)
+        {
+            try
+            {
+                var listAccountJobSkill = (await GetAllAsync()).FindAll(l => l.AccountId == accountId);
+                var listJobSkill = await skillRepo.GetAllAsync();
+                foreach(var item in listAccountJobSkill)
+                {
+                    listJobSkill.RemoveAll(l => l.Id == item.JobSkillId);
+                }
+                return listJobSkill;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<AccountJobSkillView> AccountJobSkillDetail(int accountJobSkillId)
         {
             try

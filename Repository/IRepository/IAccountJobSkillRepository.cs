@@ -12,6 +12,7 @@ namespace Repository.IRepository
     public interface IAccountJobSkillRepository:IGenericRepository<AccountJobSkill>
     {
         public Task<List<AccountJobSkillView>> ListAccountJobSkillAccount(int accountId);
+        public Task<List<JobSkill>> ListJobSkillAvaliable(int accountId);
         public Task<AccountJobSkillView> AccountJobSkillDetail(int accountJobSkillId);
         public Task<AccountJobSkillView> AccountJobSkillAdd(AccountJobSkillAdd key);
     }
