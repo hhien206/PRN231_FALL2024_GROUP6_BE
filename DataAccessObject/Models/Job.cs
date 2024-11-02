@@ -11,6 +11,8 @@ public partial class Job
 
     public string JobTitle { get; set; }
 
+    public string UrlPicture { get; set; }
+
     public string Description { get; set; }
 
     public string Requirement { get; set; }

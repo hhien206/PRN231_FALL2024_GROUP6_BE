@@ -43,6 +43,7 @@ namespace Repository.Repository
                 {
                     JobTitle = key.JobTitle,
                     Description = key.Description,
+                    UrlPicture = key.UrlPicture,
                     Requirement = key.Requirement,
                     Benefit = key.Benefit,
                     JobTime = key.JobTime,

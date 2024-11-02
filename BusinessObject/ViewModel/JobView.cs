@@ -14,6 +14,7 @@ namespace BusinessObject.ViewModel
         [Key]
         public int JobId { get; set; }
         public string JobTitle { get; set; }
+        public string UrlPicture { get; set; }
 
         public string Description { get; set; }
 
@@ -41,6 +42,7 @@ namespace BusinessObject.ViewModel
         {
             JobId = job.JobId;
             JobTitle = job.JobTitle;
+            UrlPicture = job.UrlPicture;
             Description = job.Description;
             Requirement = job.Requirement;
             Benefit = job.Benefit;
