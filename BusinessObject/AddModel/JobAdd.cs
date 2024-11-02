@@ -10,6 +10,7 @@ namespace BusinessObject.AddModel
     {
         public int AccountId { get; set; }
         public string? JobTitle { get; set; }
+        public string? UrlPicture {  get; set; }
 
         public string? Description { get; set; }
 
