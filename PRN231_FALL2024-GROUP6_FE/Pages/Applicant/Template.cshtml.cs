@@ -73,7 +73,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Applicant/Profile");
+                return RedirectToPage("/Applicant/Template");
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
@@ -97,7 +97,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             var response = await _httpClient.DeleteAsync($"https://localhost:7008/api/Certificate/Delete?certificateId={accountCertificateId}");
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Applicant/Profile"); 
+                return RedirectToPage("/Applicant/Template"); 
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
@@ -116,7 +116,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Applicant/Profile");
+                return RedirectToPage("/Applicant/Template");
             }
 
             ModelState.AddModelError(string.Empty, "Error adding cer.");
@@ -128,7 +128,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Applicant/Profile");
+                return RedirectToPage("/Applicant/Template");
             }
 
             ModelState.AddModelError(string.Empty, "Error deleting education entry.");
@@ -145,7 +145,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Applicant/Profile");
+                return RedirectToPage("/Applicant/Template");
             }
 
             ModelState.AddModelError(string.Empty, "Error adding education.");
