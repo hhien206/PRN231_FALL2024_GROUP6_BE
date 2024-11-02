@@ -175,18 +175,26 @@
                         <hr>
                         <div class="pt-2">
                             <h4 class="card-title mb-4">My Skill</h4>
-                            <div class="d-flex gap-2 flex-wrap">
+                            <div class="d-flex flex-column gap-2">
                                 @foreach (var skill in @userProfile.AccountJobSkill)
                                 {
-                                    <span class="badge badge-soft-secondary p-2 position-relative" style="font-weight: bold; color: #007bff;">
-                                        @skill.JobSkillName
+                                    <div class="d-flex align-items-center gap-2 position-relative">
+                                        <span class="badge badge-soft-secondary p-2" style="font-weight: bold; color: #007bff;">
+                                            @skill.JobSkillName
+                                        </span>
+                                        <div class="d-flex">
+                                            @for (int i = 0; i < int.Parse(skill.Experience); i++)
+                                            {
+                                                <span class="fa fa-star" style="color: #ffd700;"></span> 
+                                            }
+                                        </div>
                                         <button type="button" class="btn-close position-absolute top-0 end-0"
                                                 style="right: 0; top: 0; width: 12px; height: 12px; font-size: 0.4rem;"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#confirmDeleteModal"
                                                 data-skill-id="@skill.AccountJobSkillId"
                                                 aria-label="Close"></button>
-                                    </span>
+                                    </div>
                                 }
                             </div>
                             <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addSkillModal">
@@ -225,7 +233,7 @@
                             document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
                                 if (skillIdToDelete) {
                                     try {
-                                        const response = await fetch(`/Applicant/Profile?handler=DeleteSkill&accountJobSkillId=${skillIdToDelete}`, {
+                                        const response = await fetch(`/Applicant/Template?handler=DeleteSkill&accountJobSkillId=${skillIdToDelete}`, {
                                             method: 'POST',
                                             headers: {
                                                 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
@@ -257,14 +265,30 @@
                                             <div class="mb-3">
                                                 <label for="skillSelect" class="form-label">Chọn kỹ năng</label>
                                                 <select asp-for="jobSkillAdd.JobSkillId" class="form-select" id="skillSelect" name="jobSkillAdd.JobSkillId">
-                                                    <option value="1">C#</option>
-                                                    @foreach (var jobSkillList in Model.jobSkills)
+                                                    @foreach (var jobSkillList in Model.jobSkillsAvailable)
                                                     {
                                                         <option value="@jobSkillList.Id">@jobSkillList.Name</option>
                                                     }
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-primary" >Thêm</button>
+                                            <div class="mb-3">
+                                                <label class="form-label">Đánh giá sao</label>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="jobSkillAdd.Experient" id="starRating-@i" value="@i">
+                                                            <label class="form-check-label" for="starRating-@i">
+                                                                @for (int j = 0; j < i; j++)
+                                                                {
+                                                                    <span class="fa fa-star" style="color: #ffd700;"></span>
+                                                                }
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Thêm</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">

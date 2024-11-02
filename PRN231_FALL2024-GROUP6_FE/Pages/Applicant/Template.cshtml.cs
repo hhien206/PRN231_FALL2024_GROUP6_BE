@@ -30,7 +30,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
         [BindProperty]
         public EducateAdd educateAdd { get; set; } = new EducateAdd();
         [BindProperty]
-        public List<JobSkill> jobSkills { get; set; } = new List<JobSkill>();
+        public List<JobSkill> jobSkillsAvailable { get; set; } = new List<JobSkill>();
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -58,6 +58,24 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             {
                 Console.WriteLine($"Error: {response.StatusCode}");
             }
+
+            var responseSkillAvailable = await _httpClient.GetAsync($"https://localhost:7008/api/AccountJobSkill/ViewSkillAvaliable?accountId={accountId}");
+            if (responseSkillAvailable.IsSuccessStatusCode)
+            {
+                var result = await responseSkillAvailable.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    jobSkillsAvailable = JsonSerializer.Deserialize<List<JobSkill>>(result.Data.ToString(), options);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
@@ -67,7 +85,6 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             var jsonContent = JsonSerializer.Serialize(jobSkillAdd);
             Console.WriteLine(jsonContent);
             jobSkillAdd.AccountId = Convert.ToInt32(accountId);
-            jobSkillAdd.Experient = "ngu loz";
 
             var response = await _httpClient.PostAsJsonAsync("https://localhost:7008/api/AccountJobSkill/Add", jobSkillAdd);
 
