@@ -29,6 +29,8 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
         public CertificateAdd certificateAdd { get; set; } = new CertificateAdd();
         [BindProperty]
         public EducateAdd educateAdd { get; set; } = new EducateAdd();
+        [BindProperty]
+        public List<JobSkill> jobSkills { get; set; } = new List<JobSkill>();
 
         public async Task<IActionResult> OnGetAsync()
         {
