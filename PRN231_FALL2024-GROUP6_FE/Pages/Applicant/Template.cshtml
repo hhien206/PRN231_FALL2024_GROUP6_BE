@@ -258,9 +258,10 @@
                                                 <label for="skillSelect" class="form-label">Chọn kỹ năng</label>
                                                 <select asp-for="jobSkillAdd.JobSkillId" class="form-select" id="skillSelect" name="jobSkillAdd.JobSkillId">
                                                     <option value="1">C#</option>
-                                                    <option value="3">Nextjs</option>
-                                                    <option value="4">Java</option>
-                                                    <option value="5">Flutter</option>
+                                                    @foreach (var jobSkillList in Model.jobSkills)
+                                                    {
+                                                        <option value="@jobSkillList.Id">@jobSkillList.Name</option>
+                                                    }
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-primary" >Thêm</button>
