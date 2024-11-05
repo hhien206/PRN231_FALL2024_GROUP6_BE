@@ -74,6 +74,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             if (!uploadResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("Lỗi khi tải file lên Google Drive");
+                TempData["ErrorMessage"] = "Lỗi khi tải file lên Google Drive.";
                 return Page();
             }
 
@@ -81,6 +82,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             if (uploadResult == null || uploadResult.Status != 200)
             {
                 Console.WriteLine("Tải file lên Google Drive không thành công");
+                TempData["ErrorMessage"] = "Tải file lên Google Drive không thành công.";
                 return Page();
             }
 
@@ -97,8 +99,8 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 
             if (!addApplicationResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine("Lỗi khi lưu ứng dụng vào cơ sở dữ liệu");
-                return Page();
+                TempData["ErrorMessage"] = "Lỗi khi nộp đơn, vui lòng thử lại sau.";
+                return RedirectToPage();
             }
 
             TempData["SuccessMessage"] = "Đã nộp đơn thành công!";

@@ -16,7 +16,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             _httpClient = httpClient;
         }
 
-        public List<Application> applications { get; set; } = new List<Application>();
+        public List<ApplicationView> applications { get; set; } = new List<ApplicationView>();
 
         public async Task OnGetAsync()
         {
@@ -33,7 +33,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
                         PropertyNameCaseInsensitive = true
                     };
 
-                    applications = JsonSerializer.Deserialize<List<Application>>(result.Data.ToString(), options);
+                    applications = JsonSerializer.Deserialize<List<ApplicationView>>(result.Data.ToString(), options);
                 }
             }
         }

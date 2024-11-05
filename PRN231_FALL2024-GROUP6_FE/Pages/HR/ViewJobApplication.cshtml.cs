@@ -143,5 +143,81 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
 
             return Page();
         }
+        public async Task<IActionResult> OnPostAcceptApplicationAsync(int applicationId)
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var roleId = HttpContext.Session.GetInt32("Role");
+
+            if (accountId == null || roleId != 2)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var response = await _httpClient.PutAsync($"https://localhost:7008/api/Application/Accept?applicationId={applicationId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Ch?p nh?n ?ng tuy?n thành công.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Ch?p nh?n ?ng tuy?n không thành công. Vui l?ng th? l?i.";
+            }
+
+            // T?i l?i danh sách ?ng tuy?n sau khi th?c hi?n hành ð?ng
+            await LoadApplicationsAsync();
+
+            return Page();
+        }
+        public async Task<IActionResult> OnPostDenyApplicationAsync(int applicationId)
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var roleId = HttpContext.Session.GetInt32("Role");
+
+            if (accountId == null || roleId != 2)
+            {
+                return RedirectToPage("/Index");
+            }
+
+            // S? d?ng HttpPut ð? g?i API t? ch?i (Refuse)
+            var response = await _httpClient.PutAsync($"https://localhost:7008/api/Application/Refuse?applicationId={applicationId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "T? ch?i ?ng tuy?n thành công.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "T? ch?i ?ng tuy?n không thành công. Vui l?ng th? l?i.";
+            }
+
+            // T?i l?i danh sách ?ng tuy?n sau khi th?c hi?n hành ð?ng
+            await LoadApplicationsAsync();
+
+            return Page();
+        }
+
+        private async Task LoadApplicationsAsync()
+        {
+            var accountId = HttpContext.Session.GetString("AccountId");
+            var response = await _httpClient.GetAsync($"https://localhost:7008/api/Job/ViewAllAccount?accountId={accountId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    Jobs = JsonSerializer.Deserialize<List<JobView>>(result.Data.ToString(), options);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+            }
+        }
     }
 }

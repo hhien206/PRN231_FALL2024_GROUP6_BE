@@ -104,10 +104,9 @@
         {
             <div class="job-card ">
                 <div class="d-flex align-items-center">
-                    <img alt="Company logo" class="company-logo" height="50" src="/img/com-logo-1.jpg" width="50" />
                     <div>
                         <div class="job-title">
-                            @job. - TP HCM
+                            @job.Job.JobTitle - TP HCM
                         </div>
                         <div class="company-name">
                             JobEntry
@@ -131,7 +130,7 @@
                     </div>
                     <div class="text-end">
                         <div class="salary">
-                            @job.JobId
+                            @job.Job.SalaryRange
                         </div>
                         <button class="btn btn-outline-success" asp-page="/Authentication/Profile">
                             <i class="fas fa-file-alt"></i> Xem CV
