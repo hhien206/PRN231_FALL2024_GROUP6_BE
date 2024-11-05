@@ -70,7 +70,7 @@ namespace Repository.Repository
                     {
                         JobId = job.JobId,
                         JobSkillId = item.JobId,
-                        ExperienceRequired = item.ExperienceRequirement
+                        ExperienceRequired = "1"
                     });
                 }
                 JobView jView = new();
