@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using PRN231_FALL2024_GROUP6_API;
 
 var builder = WebApplication.CreateBuilder(args);
 
