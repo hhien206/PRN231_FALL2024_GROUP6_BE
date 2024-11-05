@@ -70,10 +70,12 @@
                             {
                                 <a asp-page="/Applicant/Template" class="dropdown-item">Template</a>
                                 <a asp-page="/Applicant/Application" class="dropdown-item active">Application</a>
+                                <a asp-page="/InterviewProcess/InterviewProcess" class="dropdown-item active">Interview</a>
                             }
                             else if (Context.Session.GetInt32("Role") == 2)
                             {
                                 <a asp-page="/HR/ViewJobApplication" class="dropdown-item">View Application</a>
+                                <a asp-page="/HR/ViewJobApplication" class="dropdown-item">View InterviewProcess</a>
                             }
                         </div>
                     </div>

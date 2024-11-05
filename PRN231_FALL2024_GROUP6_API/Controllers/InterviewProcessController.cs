@@ -23,6 +23,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("ViewHr")]
+        public async Task<IActionResult> ViewHr([FromQuery] int accountId)
+        {
+            var result = await service.ViewListInterviewProcessHR(accountId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
         [HttpGet("ViewJob")]
         public async Task<IActionResult> ViewJob([FromQuery] int jobId)
         {

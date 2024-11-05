@@ -13,6 +13,7 @@ namespace Repository.IRepository
     public interface IInterviewProcessRepository : IGenericRepository<InterviewProcess>
     {
         public Task<List<InterviewProcessView>> ListInterviewProcessUser(int accountId);
+        public Task<List<InterviewProcessView>> ListInterviewProcessHR(int accountId);
         public Task<List<InterviewProcessView>> ListInterviewProcessJob(int jobId);
         public Task<InterviewProcessView> InterviewProcessAdd(InterviewProcessAdd key);
         public Task<InterviewProcessView?> InterviewProcessUpdate(InterviewProcessUpdate key);

@@ -12,6 +12,7 @@ namespace Service.IService
     public interface IInterviewProcessService
     {
         public Task<ServiceResult> ViewListInterviewProcessUser(int accountId);
+        public Task<ServiceResult> ViewListInterviewProcessHR(int accountId);
         public Task<ServiceResult> ViewListInterviewProcessJob(int jobId);
         public Task<ServiceResult> InterviewProcessAdd(InterviewProcessAdd key);
         public Task<ServiceResult> InterviewProcessUpdate(InterviewProcessUpdate key);

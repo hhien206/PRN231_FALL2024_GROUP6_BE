@@ -39,6 +39,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewListInterviewProcessHR(int accountId)
+        {
+            try
+            {
+                var listInterviewProcess = await InterviewProcessRepository.ListInterviewProcessHR(accountId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"List Interview Process",
+                    Data = listInterviewProcess
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> ViewListInterviewProcessJob(int jobId)
         {
             try

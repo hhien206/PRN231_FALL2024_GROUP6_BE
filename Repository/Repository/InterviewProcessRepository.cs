@@ -23,6 +23,29 @@ namespace Repository.Repository
         {
             try
             {
+                var applications = (await appliRepo.GetAllAsync()).FindAll(l => l.AccountId == accountId);
+                var listinterviewProcess = await GetAllAsync();
+                List<InterviewProcess> result = new List<InterviewProcess>();
+                foreach(var applicaiton in applications)
+                {
+                    var interview = listinterviewProcess.FirstOrDefault(l=>l.ApplicationId == applicaiton.ApplicationId);
+                    if(interview != null)
+                    {
+                        result.Add(interview);
+                    }
+                }
+                return await ConvertListInterviewProcessIntoListInterviewProcessView(result);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<List<InterviewProcessView>> ListInterviewProcessHR(int accountId)
+        {
+            try
+            {
                 var listinterviewProcess = (await GetAllAsync()).FindAll(l => l.AccountId == accountId);
                 return await ConvertListInterviewProcessIntoListInterviewProcessView(listinterviewProcess);
 
