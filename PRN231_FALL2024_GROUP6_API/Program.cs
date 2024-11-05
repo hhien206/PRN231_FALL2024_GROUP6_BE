@@ -11,6 +11,8 @@ using System.Text;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using PRN231_FALL2024_GROUP6_API;
+using Repository.IRepository;
+using Repository.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +26,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 builder.Services.AddAuthentication(options =>
 {
