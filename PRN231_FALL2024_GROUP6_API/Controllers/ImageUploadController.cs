@@ -25,7 +25,7 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadImage(IFormFile file, int jobId)
+        public async Task<IActionResult> UploadImage(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("File không hợp lệ.");
@@ -44,26 +44,11 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
                     await _storageClient.UploadObjectAsync(_bucketName, fileName, file.ContentType, stream);
                     var downloadUrl = $"https://storage.googleapis.com/{_bucketName}/{fileName}";
 
-                    // Lấy job từ repository
-                    var job = _repo.GetById(jobId);
-                    if (job == null)
-                    {
-                        return NotFound(new ServiceResult()
-                        {
-                            Status = 404,
-                            Message = "Job Not Found",
-                        });
-                    }
-
-                    // Cập nhật URL hình ảnh
-                    job.UrlPicture = downloadUrl;
-                    await _repo.UpdateAsync(job);
-
                     return Ok(new ServiceResult()
                     {
                         Status = 200,
                         Message = "Success",
-                        Data = job,
+                        Data = downloadUrl,
                     });
                 }
                 catch (Exception ex)
