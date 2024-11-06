@@ -23,7 +23,6 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
         [BindProperty]
         public JobAdd Job { get; set; } = new JobAdd();
         public List<JobSkill> jobSkills { get; set; }
-        public JobView jobView { get; set; } = new JobView();
 
         public async Task<IActionResult> OnPostAsync(IFormFile imageUpload)
         {
