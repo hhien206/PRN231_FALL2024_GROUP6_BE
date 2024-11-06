@@ -17,12 +17,14 @@ namespace Repository.Repository
         IJobRepository jobRepository;
         IJobJobSkillRepository jobJobSkillRepository;
         IAccountJobSkillRepository accountJobSkillRepository;
+        INotificationRepository notificationRepository;
         public ApplicationRepository()
         {
             accountRepository = new AccountRepository();
             jobRepository = new JobRepository();
             jobJobSkillRepository = new JobJobSkillRepository();
             accountJobSkillRepository = new AccountJobskillRepository();
+            notificationRepository = new NotificationRepository();
         }
         public async Task<List<ApplicationView>> ListApplicationJob(int jobId)
         {
@@ -94,7 +96,13 @@ namespace Repository.Repository
                 };
                 await jobRepository.IncreaseCurrentQuantityByOne((int)application.JobId);
                 await CreateAsync(application);
-                return await ConvertApplicationIntoApplicationView(application);
+                var result = await ConvertApplicationIntoApplicationView(application);
+                await notificationRepository.AddNotification(new NotificationAdd()
+                {
+                    AccountId = result.Job.Account.AccountId,
+                    Content = $"{result.Account.FullName} đã nộp vào công việc {result.Job.JobTime}"
+                });
+                return result;
 
             }
             catch (Exception)
@@ -109,7 +117,14 @@ namespace Repository.Repository
                 var application = GetById(key.ApplicationId);
                 application.Status = key.Status;
                 await UpdateAsync(application);
-                return await ConvertApplicationIntoApplicationView(application);
+                var result = await ConvertApplicationIntoApplicationView(application);
+                await notificationRepository.AddNotification(new NotificationAdd()
+                {
+                    AccountId = result.Account.AccountId,
+                    Content = (result.Status == "ACCEPTED") ? $"Đơn của bạn ở công việc {result.Job.JobTime} đã được chấp thuận"
+                    : $"Đơn của bạn ở công việc {result.Job.JobTime} đã bị từ chối"
+                });
+                return result;
             }
             catch (Exception)
             {

@@ -37,6 +37,13 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("ViewDetail")]
+        public async Task<IActionResult> ViewDetail([FromQuery] int interviewProcessId)
+        {
+            var result = await service.ViewInterviewProcessDetail(interviewProcessId);
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
         [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] InterviewProcessAdd key)
         {

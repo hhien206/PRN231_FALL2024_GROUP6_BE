@@ -81,6 +81,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewInterviewProcessDetail(int interviewProcessId)
+        {
+            try
+            {
+                var interviewProcess = await InterviewProcessRepository.InterviewProcessDetail(interviewProcessId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"Interview Process",
+                    Data = interviewProcess
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> InterviewProcessAdd(InterviewProcessAdd key)
         {
             try

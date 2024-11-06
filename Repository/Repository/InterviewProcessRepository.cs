@@ -74,6 +74,19 @@ namespace Repository.Repository
                 throw;
             }
         }
+        public async Task<InterviewProcessView> InterviewProcessDetail(int interviewProcessId)
+        {
+            try
+            {
+                var interviewProcess = GetById(interviewProcessId);
+                return await ConvertInterviewProcessIntoInterviewProcessView(interviewProcess);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<InterviewProcessView> InterviewProcessAdd(InterviewProcessAdd key)
         {
             try
