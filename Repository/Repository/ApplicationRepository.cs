@@ -100,7 +100,7 @@ namespace Repository.Repository
                 await notificationRepository.AddNotification(new NotificationAdd()
                 {
                     AccountId = result.Job.Account.AccountId,
-                    Content = $"{result.Account.FullName} đã nộp vào công việc {result.Job.JobTime}"
+                    Content = $"{result.Account.FullName} đã nộp vào công việc {result.Job.JobTitle}"
                 });
                 return result;
 
@@ -121,8 +121,8 @@ namespace Repository.Repository
                 await notificationRepository.AddNotification(new NotificationAdd()
                 {
                     AccountId = result.Account.AccountId,
-                    Content = (result.Status == "ACCEPTED") ? $"Đơn của bạn ở công việc {result.Job.JobTime} đã được chấp thuận"
-                    : $"Đơn của bạn ở công việc {result.Job.JobTime} đã bị từ chối"
+                    Content = (result.Status == "ACCEPTED") ? $"Đơn của bạn ở công việc {result.Job.JobTitle} đã được chấp thuận"
+                    : $"Đơn của bạn ở công việc {result.Job.JobTitle} đã bị từ chối"
                 });
                 return result;
             }
@@ -155,6 +155,7 @@ namespace Repository.Repository
                             {
                                 application.Status = "REFUSED";
                                 await UpdateAsync(application);
+
                                 break;
                             }
                         }
