@@ -13,6 +13,7 @@ namespace Service.IService
     {
         public Task<ServiceResult> ViewApplicationAccount(int accountId);
         public Task<ServiceResult> ViewApplicationJob(int jobId);
+        public Task<ServiceResult> ViewApplicationJobAccepted(int jobId);
         public Task<ServiceResult> ViewApplicationDetail(int applicationId);
         public Task<ServiceResult> AddApplication(ApplicationAdd key);
         public Task<ServiceResult> UpdateApplicationStatus(ApplicationUpdate key);

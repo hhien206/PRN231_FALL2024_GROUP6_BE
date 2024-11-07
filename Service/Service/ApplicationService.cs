@@ -61,6 +61,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> ViewApplicationJobAccepted(int jobId)
+        {
+            try
+            {
+                var listApplication = await applicationRepository.ListApplicationJobAccepeted(jobId);
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = $"List Application",
+                    Data = listApplication
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> ViewApplicationDetail(int applicationId)
         {
             try

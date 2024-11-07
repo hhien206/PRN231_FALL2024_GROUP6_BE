@@ -100,6 +100,11 @@ namespace Repository.Repository
                     Status = "PENDING"
                 };
                 await CreateAsync(interviewProcess);
+                await appliRepo.ApplicationStatusUpdate(new ApplicationUpdate()
+                {
+                    ApplicationId = (int)interviewProcess.ApplicationId,
+                    Status = "INTERVIEWING"
+                });
                 return await ConvertInterviewProcessIntoInterviewProcessView(interviewProcess);
 
             }

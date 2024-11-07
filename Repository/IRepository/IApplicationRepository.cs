@@ -13,6 +13,7 @@ namespace Repository.IRepository
     public interface IApplicationRepository : IGenericRepository<Application>
     {
         public Task<List<ApplicationView>> ListApplicationJob(int jobId);
+        public Task<List<ApplicationView>> ListApplicationJobAccepeted(int jobId);
         public Task<List<ApplicationView>> ListApplicationAccount(int accountId);
         public Task<ApplicationView> ApplicationDetail(int applicationId);
         public Task<ApplicationView> ApplicationAdd(ApplicationAdd key);
