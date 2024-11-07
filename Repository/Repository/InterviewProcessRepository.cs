@@ -15,9 +15,11 @@ namespace Repository.Repository
     public class InterviewProcessRepository : GenericRepository<InterviewProcess>, IInterviewProcessRepository
     {
         IApplicationRepository appliRepo;
+        IAccountRepository accountRepo;
         public InterviewProcessRepository()
         {
             appliRepo = new ApplicationRepository();
+            accountRepo = new AccountRepository();
         }
         public async Task<List<InterviewProcessView>> ListInterviewProcessUser(int accountId)
         {
@@ -143,8 +145,9 @@ namespace Repository.Repository
         private async Task<InterviewProcessView> ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key)
         {
             var application = appliRepo.GetById(key.ApplicationId);
+            var account = await accountRepo.GetAccountById((int)key.AccountId);
             InterviewProcessView result = new InterviewProcessView();
-            result.ConvertInterviewProcessIntoInterviewProcessView(key, application);
+            result.ConvertInterviewProcessIntoInterviewProcessView(key, account ,application);
             return result;
         }
     }

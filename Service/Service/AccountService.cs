@@ -41,6 +41,27 @@ namespace Service.Service
                 };
             }
         }
+        public async Task<ServiceResult> GetAllAccountHR()
+        {
+            try
+            {
+                var accounts = await accountRepository.GetAllAccountHR();
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "List Account",
+                    Data = accounts
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult
+                {
+                    Status = 501,
+                    Message = ex.ToString(),
+                };
+            }
+        }
         public async Task<ServiceResult> GetAccountById(int accountId)
         {
             try

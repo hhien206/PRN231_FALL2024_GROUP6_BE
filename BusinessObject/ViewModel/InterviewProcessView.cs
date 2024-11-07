@@ -16,9 +16,9 @@ namespace BusinessObject.ViewModel
         public string? Detail {  get; set; }
         public string? Result { get; set; }
         public string? Status { get; set; }
-        public int? HRId {  get; set; }
+        public AccountView? HRAccount {  get; set; }
         public Application? Application { get; set; }
-        public void ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key, Application application)
+        public void ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key,AccountView account, Application application)
         {
             InterviewProcessId = key.InterviewProcessId;
             RoundNumber = key.RoundNumber;
@@ -26,7 +26,7 @@ namespace BusinessObject.ViewModel
             Detail = key.Detail;
             Result = key.Result;
             Status = key.Status;
-            HRId = key.AccountId;
+            HRAccount = account;
             Application=application;
         }
     }

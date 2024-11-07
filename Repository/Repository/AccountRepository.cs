@@ -38,6 +38,19 @@ namespace Repository.Repository
                 throw;
             }
         }
+        public async Task<List<AccountView>> GetAllAccountHR()
+        {
+            try
+            {
+                var accounts = (await GetAllAsync()).FindAll(l=>l.RoleId == 2);
+                var result = await ConvertListAccountIntoListAccountView(accounts);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<AccountView> GetAccountById(int accountId)
         {
             try

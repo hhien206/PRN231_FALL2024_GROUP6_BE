@@ -14,6 +14,7 @@ namespace Repository.IRepository
     public interface IAccountRepository : IGenericRepository<Account>
     {
         public Task<List<AccountView>> GetAllAccount(int sizePaging, int indexPaging);
+        public Task<List<AccountView>> GetAllAccountHR();
         public Task<AccountView> GetAccountById(int accountId);
         public Task<AccountView?> AddAccount(AccountAdd key, int roleId);
         public Task<AccountView?> UpdateAccount(AccountUpdate key);

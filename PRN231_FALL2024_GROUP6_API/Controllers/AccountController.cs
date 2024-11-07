@@ -39,6 +39,13 @@ namespace IndieGameHubSever.Controllers
             if (result.Status == 200) return Ok(result);
             else return BadRequest(result);
         }
+        [HttpGet("GetAllHR")]
+        public async Task<IActionResult> GetAllHR()
+        {
+            var result = await service.GetAllAccountHR();
+            if (result.Status == 200) return Ok(result);
+            else return BadRequest(result);
+        }
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int accountId)
         {

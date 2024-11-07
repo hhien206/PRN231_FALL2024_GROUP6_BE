@@ -12,6 +12,7 @@ namespace Service.IService
     public interface IAccountService
     {
         public Task<ServiceResult> GetAllAccount(int sizePaging, int indexPaging);
+        public Task<ServiceResult> GetAllAccountHR();
         public Task<ServiceResult> GetAccountById(int accountId);
         public Task<ServiceResult> AddAccount(AccountAdd key, int roleId);
         public Task<ServiceResult> UpdateAccount(AccountUpdate key);
