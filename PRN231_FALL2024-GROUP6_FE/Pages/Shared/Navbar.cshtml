@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using Service.Service
+@using Service.IService
+@using BusinessObject.ViewModel
+@using System.Text.Json;
 @inject IHttpContextAccessor HttpContextAccessor
 <!-- Shared/Navbar.cshtml -->
 <head>
@@ -86,12 +89,46 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link" data-bs-toggle="dropdown">
                         <i class="fas fa-bell fa-lg"></i>
-                        <span class="badge bg-danger"></span> <!-- Example badge count -->
+                        @{
+                            HttpClient _httpClient = new HttpClient();
+                            var accountId = int.Parse(Context.Session.GetString("AccountId"));
+                            int? quantityNoti = null;
+                            List<NotificationView>? listNoti = null;
+                            var response1 = await _httpClient.GetAsync($"https://localhost:7008/api/Notification/ViewUnseenQuantity?accountId={accountId}");
+                            var response2 = await _httpClient.GetAsync($"https://localhost:7008/api/Notification/ViewUser?accountId={accountId}");
+                            if (response1.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                            {
+                                var result1 = await response1.Content.ReadFromJsonAsync<ServiceResult>();
+                                var result2 = await response2.Content.ReadFromJsonAsync<ServiceResult>();
+                                if (result1 != null && result1.Status == 200 && result2 != null && result2.Status == 200)
+                                {
+                                    var options = new JsonSerializerOptions
+                                    {
+                                        PropertyNameCaseInsensitive = true
+                                    };
+
+                                    quantityNoti = JsonSerializer.Deserialize<int>(result1.Data.ToString(), options);
+                                    listNoti = JsonSerializer.Deserialize<List<NotificationView>>(result2.Data.ToString(), options);
+                                }
+                            }
+                        }
+                        <span class="badge bg-danger">@((quantityNoti == null)?0:quantityNoti)</span> <!-- Example badge count -->
                     </a>
                     <div class="dropdown-menu dropdown-menu-end rounded-0 m-0">
-                        <a href="#" class="dropdown-item">Notification 1</a>
-                        <a href="#" class="dropdown-item">Notification 2</a>
-                        <a href="#" class="dropdown-item">Notification 3</a>
+                        @if (listNoti != null)
+                        {
+                            @foreach (var noti in listNoti)
+                            {
+                                <a href="#" class="dropdown-item">
+                                    @noti.Content
+                                    @if (noti.Status == "UNSEEN")
+                                    {
+                                        <span style="color: red; font-weight: bold; margin-left: 10px;">new</span>
+                                    }
+                                </a>
+
+                            }
+                        }
                     </div>
                 </div>
             }
