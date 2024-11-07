@@ -327,16 +327,13 @@
                                         <p class="card-text"><strong>Submit At</strong> @application.ApplicationDate</p>
                                     </div>
                                     <div class="card-footer">
-                                        <div>
-                                            <form method="post" asp-page-handler="AcceptApplication" data-bs-toggle="modal" data-bs-target="#acceptModal" onsubmit="setApplicationId(@application.ApplicationId)">
-                                                <input type="hidden" name="applicationId" value="@application.ApplicationId" />
-                                                <button type="submit" class="btn btn-custom">Accept</button>
-                                            </form>
-                                            <form method="post" asp-page-handler="DenyApplication">
-                                                <input type="hidden" name="applicationId" value="@application.ApplicationId" />
-                                                <button type="submit" class="btn btn-custom">Deny</button>
-                                            </form>
-                                        </div>
+                                        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#acceptModal" onclick="setApplicationId(@application.ApplicationId)">
+                                            Accept
+                                        </button>
+                                        <form method="post" asp-page-handler="DenyApplication" class="d-inline">
+                                            <input type="hidden" name="applicationId" value="@application.ApplicationId" />
+                                            <button type="submit" class="btn btn-custom">Deny</button>
+                                        </form>
                                         <button class="btn btn-custom" onclick="window.open('@application.UrlCv', '_blank')">About this CV</button>
                                     </div>
                                 </div>
@@ -348,7 +345,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="acceptModalLabel">Set Interview Process</h5>
+                                <h5 class="modal-title" id="acceptModalLabel">Accept Application</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
