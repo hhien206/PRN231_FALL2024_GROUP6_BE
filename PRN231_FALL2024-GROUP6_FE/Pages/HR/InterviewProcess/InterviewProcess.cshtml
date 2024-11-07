@@ -75,7 +75,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4>
-                Việc làm đã ứng tuyển
+                Quy trình phỏng vấn
             </h4>
             <div class="dropdown status-dropdown">
                 <button aria-expanded="false" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton" type="button">
@@ -102,27 +102,38 @@
         </div>
         @foreach (var interview in Model.interviews)
         {
-            <div class="job-card ">
+            <style>
+                .application-time strong,
+                .cv-link strong,
+                .status-time strong {
+                    font-weight: bold;
+                    font-size: 1.2em;
+
+                }
+
+                .nav-item {
+                    list-style-type: none; /* Loại bỏ dấu marker */
+                }
+            </style>
+
+            <div class="job-card">
                 <div class="d-flex align-items-center">
                     <div>
-                        <div class="job-title">
-                            @interview.RoundNumber
-                        </div>
-                        <div class="company-name">
-                            JobEntry
+                        <div class="company-name" style="font-size: 1.2em">
+                            <strong>Công ty JobEntry</strong>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-2">
                     <div>
                         <div class="application-time">
-                            Thời gian phỏng vấn: @interview.InterviewDate
+                            <strong>Thời gian phỏng vấn:</strong> @interview.InterviewDate
                         </div>
                         <div class="cv-link">
-                            Chi tiết phỏng vấn: @interview.Detail
+                            <strong>Chi tiết phỏng vấn:</strong> @interview.Detail
                         </div>
                         <div class="status-time">
-                            Kết quả: @interview.Result
+                            <strong>Kết quả:</strong> @interview.Result
                         </div>
                     </div>
                     <div class="text-end">
@@ -130,8 +141,8 @@
                             @interview.Status
                         </div>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/HR/InterviewProcess/EditInterview">Edit</a>
-                        </li>  
+                            <a class="nav-link text-dark" asp-area="" asp-page="/HR/InterviewProcess/EditInterview" asp-route-id="@interview.InterviewProcessId">Edit</a>
+                        </li>
                     </div>
                 </div>
             </div>

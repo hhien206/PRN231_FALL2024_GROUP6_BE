@@ -1,7 +1,8 @@
-﻿@page
+﻿@page "{id:int}"
 @model PRN231_FALL2024_GROUP6_FE.Pages.HR.InterviewProcess.EditInterviewModel
 @{
     ViewData["HideNavbar"] = true;
+    var interviewId = RouteData.Values["id"];
 }
 <!doctype html>
 <html lang="en">
@@ -80,8 +81,6 @@
                                             <a href="#" class="btn btn-block btn-light btn-md"><span class="icon-open_in_new mr-2"></span>Preview</a>
                                         </div>
                                     </div>
-
-                                    
                                 </div>
                         </form>
                     </div>

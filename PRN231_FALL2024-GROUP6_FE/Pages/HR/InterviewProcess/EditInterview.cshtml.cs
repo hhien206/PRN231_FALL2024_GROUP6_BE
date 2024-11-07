@@ -1,4 +1,3 @@
-using BusinessObject.AddModel;
 using BusinessObject.UpdateModel;
 using DataAccessObject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,29 +15,57 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR.InterviewProcess
         {
             _httpClient = httpClient;
         }
+        [BindProperty]
         public InterviewProcessUpdate interviewProocessUpdate { get; set; } = new InterviewProcessUpdate();
 
-        public async Task<IActionResult> OnPostAsync(IFormFile imageUpload)
+        public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page(); // If form data is invalid, stay on the same page
+            }
 
-            // Serialize the JobAdd object
+            // Serialize the InterviewProcessUpdate object
             var jsonData = JsonSerializer.Serialize(interviewProocessUpdate);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            // G?i yêu c?u POST ð? thêm Job
+            // Send POST request to update the interview process
             var response = await _httpClient.PostAsync("https://localhost:7008/api/InterviewProcess/Update", content);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("/Index");
+                // On success, redirect to a confirmation or list page
+                return RedirectToPage("/HR/InterviewProcess/Index");
             }
 
-            ModelState.AddModelError(string.Empty, "Error Editting.");
+            // If failed, show error message
+            ModelState.AddModelError(string.Empty, "Error editing the interview.");
             return Page();
         }
-        public void OnGet()
+
+        public async Task<IActionResult> OnGetAsync()
         {
-            interviewProocessUpdate.InterviewProcessId = 1;
+            // Get the interview ID from the URL
+            var interviewId = RouteData.Values["id"]?.ToString();
+            if (string.IsNullOrEmpty(interviewId))
+            {
+                return NotFound(); // If no ID is provided, return NotFound
+            }
+
+            // Fetch the interview data from API
+            var response = await _httpClient.GetAsync($"https://localhost:7008/api/InterviewProcess/ViewDetail?interviewProcessId={interviewId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                interviewProocessUpdate = JsonSerializer.Deserialize<InterviewProcessUpdate>(jsonResponse);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error retrieving interview details.");
+                return Page();
+            }
+
+            return Page();
         }
     }
 }
