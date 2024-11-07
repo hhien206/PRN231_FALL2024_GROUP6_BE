@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using Service.Service
 @inject IHttpContextAccessor HttpContextAccessor
 <!-- Shared/Navbar.cshtml -->
 <head>
@@ -85,7 +86,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link" data-bs-toggle="dropdown">
                         <i class="fas fa-bell fa-lg"></i>
-                        <span class="badge bg-danger">3</span> <!-- Example badge count -->
+                        <span class="badge bg-danger"></span> <!-- Example badge count -->
                     </a>
                     <div class="dropdown-menu dropdown-menu-end rounded-0 m-0">
                         <a href="#" class="dropdown-item">Notification 1</a>

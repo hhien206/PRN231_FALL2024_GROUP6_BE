@@ -39,6 +39,19 @@ namespace Repository.Repository
                 throw;
             }
         }
+        public async Task<List<ApplicationView>> ListApplicationJobAccepeted(int jobId)
+        {
+            try
+            {
+                var listApplication = (await GetAllAsync()).FindAll(l => l.JobId == jobId && l.Status == "ACCEPTED");
+                return await ConvertListApplicationIntoListApplicationView(listApplication);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<List<ApplicationView>> ListApplicationAccount(int accountId)
         {
             try
@@ -153,8 +166,11 @@ namespace Repository.Repository
                             var application = (await GetAllAsync()).FirstOrDefault(l => l.AccountId == account.AccountId && l.JobId == jobJobSkill.JobId && l.Status == "PENDING");
                             if(application != null)
                             {
-                                application.Status = "REFUSED";
-                                await UpdateAsync(application);
+                                await ApplicationStatusUpdate(new ApplicationUpdate()
+                                {
+                                    ApplicationId = application.ApplicationId,
+                                    Status = "REFUSED"
+                                });
 
                                 break;
                             }
@@ -165,8 +181,11 @@ namespace Repository.Repository
                         var application = (await GetAllAsync()).FirstOrDefault(l => l.AccountId == account.AccountId && l.JobId == jobJobSkill.JobId && l.Status == "PENDING");
                         if (application != null)
                         {
-                            application.Status = "REFUSED";
-                            await UpdateAsync(application);
+                            await ApplicationStatusUpdate(new ApplicationUpdate()
+                            {
+                                ApplicationId = application.ApplicationId,
+                                Status = "REFUSED"
+                            });
                             break;
                         }
                     }
