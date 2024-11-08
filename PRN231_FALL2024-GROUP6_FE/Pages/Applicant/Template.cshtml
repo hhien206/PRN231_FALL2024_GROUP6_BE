@@ -165,33 +165,43 @@
                         <form id="editProfileForm" method="post">
                             <div class="pb-2">
                                 <h4 class="card-title mb-3">About</h4>
-                                <p id="descriptionText">
-                                    @userProfile.Description
-                                </p>
 
-                                <div class="form-group">
-                                    <label for="description">Description</label>
+                                <!-- Hiển thị Description trong chế độ đọc (khi chưa click Edit) -->
+                                <div id="descriptionContainer">
+                                    <p id="descriptionText">
+                                        @userProfile.Description
+                                    </p>
+                                    <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
+                                </div>
+
+                                <!-- Hiển thị Description trong chế độ chỉnh sửa (khi nhấn Edit) -->
+                                <div id="editDescriptionContainer" style="display:none;">
                                     <textarea id="description" name="description" class="form-control">@userProfile.Description</textarea>
+                                    <button type="submit" class="btn btn-primary mt-2">Save</button>
+                                    <button type="button" class="btn btn-secondary mt-2" id="cancelButton">Cancel</button>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" id="fullName" name="fullName" class="form-control" value="@userProfile.FullName" readonly />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="phoneNumber">Phone Number</label>
-                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="@userProfile.PhoneNumber" readonly />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" name="address" class="form-control" value="@userProfile.Address" readonly />
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
+
+                        <script>
+                            // Khi người dùng nhấn "Edit", hiển thị textarea để chỉnh sửa
+                            document.getElementById('editButton').addEventListener('click', function () {
+                                // Ẩn phần Description đang hiển thị
+                                document.getElementById('descriptionContainer').style.display = 'none';
+
+                                // Hiển thị textarea và nút Save
+                                document.getElementById('editDescriptionContainer').style.display = 'block';
+                            });
+
+                            // Khi người dùng nhấn "Cancel", quay lại chế độ đọc
+                            document.getElementById('cancelButton').addEventListener('click', function () {
+                                // Ẩn textarea và nút Save
+                                document.getElementById('editDescriptionContainer').style.display = 'none';
+
+                                // Hiển thị lại phần Description
+                                document.getElementById('descriptionContainer').style.display = 'block';
+                            });
+                        </script>
                         <hr>
                         <div class="pt-2">
                             <h4 class="card-title mb-4">My Skill</h4>
