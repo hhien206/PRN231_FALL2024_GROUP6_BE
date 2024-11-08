@@ -17,8 +17,8 @@ namespace BusinessObject.ViewModel
         public string? Result { get; set; }
         public string? Status { get; set; }
         public AccountView? HRAccount {  get; set; }
-        public Application? Application { get; set; }
-        public void ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key,AccountView account, Application application)
+        public ApplicationView? Application { get; set; }
+        public void ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key,AccountView account, ApplicationView? application)
         {
             InterviewProcessId = key.InterviewProcessId;
             RoundNumber = key.RoundNumber;

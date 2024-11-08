@@ -102,27 +102,42 @@
         </div>
         @foreach (var interview in Model.interviews)
         {
+            <style>
+                .application-time strong,
+                .cv-link strong,
+                .status-time strong {
+                    font-weight: bold;
+                    font-size: 1.2em;
+                }
+
+                .nav-item {
+                    list-style-type: none; /* Loại bỏ dấu marker */
+                }
+            </style>
             <div class="job-card ">
                 <div class="d-flex align-items-center">
                     <div>
-                        <div class="job-title">
-                            @interview.RoundNumber
-                        </div>
-                        <div class="company-name">
-                            JobEntry
+                        <div class="company-name" style="font-size: 1.2em">
+                            <strong>Công ty JobEntry</strong>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-2">
                     <div>
                         <div class="application-time">
-                            Thời gian phỏng vấn: @interview.InterviewDate
+                            <strong>Thời gian phỏng vấn:</strong> @interview.InterviewDate
+                        </div>
+                        <div class="application-account">
+                            <strong>Người Phỏng Vấn:</strong> @interview.HRAccount.FullName
+                        </div>
+                        <div class="application-account">
+                            <strong>Thí Sinh:</strong> @interview.Application.Account.FullName
                         </div>
                         <div class="cv-link">
-                            Chi tiết phỏng vấn: @interview.Detail
+                            <strong>Chi tiết phỏng vấn:</strong> @interview.Detail
                         </div>
                         <div class="status-time">
-                            Kết quả: @interview.Result
+                            <strong>Kết quả:</strong> @interview.Result
                         </div>
                     </div>
                     <div class="text-end">

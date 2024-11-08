@@ -16,6 +16,7 @@ namespace BusinessObject.ViewModel
         public string? Description { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public string Major { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public string UrlPicture { get; set; }
         public string Gender { get; set; }
@@ -32,6 +33,7 @@ namespace BusinessObject.ViewModel
             Description = account.Description;
             PhoneNumber = account.PhoneNumber;
             Address = account.Address;
+            Major = account.Major;
             DateOfBirth = account.DateOfBirth;
             UrlPicture = account.UrlPicture;
             Gender = account.Gender;

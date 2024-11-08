@@ -68,6 +68,8 @@ namespace Repository.Repository
         {
             try
             {
+                var acc = (await GetAllAsync()).SingleOrDefault(l=>l.Email == key.email);
+                if (acc != null) return null;
                 Account account = new()
                 {
                     Email = key.email,

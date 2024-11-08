@@ -1,3 +1,4 @@
+using BusinessObject.AddModel;
 using BusinessObject.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,9 +20,12 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
         }
         public List<JobView> Jobs { get; set; } = new List<JobView>();
         public List<ApplicationView> ApplicationViews { get; set; } = new List<ApplicationView>();
+
         public bool IsViewingApplications { get; set; } = false;
+        public List<AccountView> HRAccounts { get; set; }
 
-
+        [BindProperty]
+        public InterviewProcessAdd InterviewProcessAdd { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             var accountId = HttpContext.Session.GetString("AccountId");
@@ -50,6 +54,8 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
             {
                 Console.WriteLine($"Error: {response.StatusCode}");
             }
+
+            
             return Page();
         }
         public async Task<IActionResult> OnPostViewApplicationAsync(int jobId)
@@ -80,6 +86,22 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
                 Console.WriteLine($"Error: {response.StatusCode}");
             }
             IsViewingApplications = true;
+
+            response = await _httpClient.GetAsync($"https://localhost:7008/api/Account/GetAllHR");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    HRAccounts = JsonSerializer.Deserialize<List<AccountView>>(result.Data.ToString(), options);
+                }
+            }
+
             return Page();
         }
         public async Task<IActionResult> OnPostBackToJobListAsync()
@@ -143,7 +165,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
 
             return Page();
         }
-        public async Task<IActionResult> OnPostAcceptApplicationAsync(int applicationId)
+        public async Task<IActionResult> OnPostAcceptApplicationAsync()
         {
             var accountId = HttpContext.Session.GetString("AccountId");
             var roleId = HttpContext.Session.GetInt32("Role");
@@ -153,16 +175,27 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.HR
                 return RedirectToPage("/Index");
             }
 
-            var response = await _httpClient.PutAsync($"https://localhost:7008/api/Application/Accept?applicationId={applicationId}", null);
+            var response = await _httpClient.PutAsync($"https://localhost:7008/api/Application/Accept?applicationId={InterviewProcessAdd.ApplicationId}", null);
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["SuccessMessage"] = "Ch?p nh?n ?ng tuy?n thành công.";
+                TempData["SuccessMessage"] = "Accept Application Success";
             }
             else
             {
-                TempData["ErrorMessage"] = "Ch?p nh?n ?ng tuy?n không thành công. Vui l?ng th? l?i.";
+                TempData["ErrorMessage"] = "Accpet Application Fail. Try Again!";
             }
+
+            var jsonContent = JsonSerializer.Serialize(InterviewProcessAdd);
+            response = await _httpClient.PostAsJsonAsync("https://localhost:7008/api/InterviewProcess/Add", InterviewProcessAdd);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/HR/ViewJobApplication");
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Có l?i x?y ra: {errorMessage}");
 
             // T?i l?i danh sách ?ng tuy?n sau khi th?c hi?n hành ð?ng
             await LoadApplicationsAsync();

@@ -2,6 +2,7 @@
 @model PRN231_FALL2024_GROUP6_FE.Pages.HR.ViewJobApplicationModel
 @{
     ViewData["HideNavbar"] = true;
+    int applicationId;
 }
 <html>
 <head>
@@ -350,20 +351,21 @@
                             </div>
                             <div class="modal-body">
                                 <form method="post" asp-page-handler="AcceptApplication">
-                                    <input type="hidden" name="applicationId" id="modalApplicationId" />
+                                    <input type="hidden" asp-for="InterviewProcessAdd.ApplicationId" id="modalApplicationId"/>
 
                                     <div class="mb-3">
                                         <label for="hrSelect" class="form-label">Select HR</label>
-                                        <select class="form-select" name="hrId" id="hrSelect">
-                                            <option value="1">HR 1</option>
-                                            <option value="2">HR 2</option>
-                                            <option value="3">HR 3</option>
+                                        <select class="form-select" id="hrSelect" asp-for="InterviewProcessAdd.HrId">
+                                            @foreach(var account in Model.HRAccounts)
+                                            {
+                                                <option value="@account.AccountId">@account.FullName</option>
+                                            }
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="datetimeSelect" class="form-label">Select Date & Time</label>
-                                        <input type="datetime-local" class="form-control" name="dateTime" id="datetimeSelect" />
+                                        <input type="datetime-local" class="form-control" asp-for="InterviewProcessAdd.InterviewDate" id="date" required>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Accept</button>

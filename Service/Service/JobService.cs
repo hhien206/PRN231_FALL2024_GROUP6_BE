@@ -107,6 +107,14 @@ namespace Service.Service
         {
             try
             {
+                if(key.Deadline < DateTime.Now)
+                {
+                    return new ServiceResult
+                    {
+                        Status = 400,
+                        Message = "Deadline cannot be in the past.",
+                    };
+                }
                 var job = await jobRepository.AddJob(key);
                 return new ServiceResult
                 {

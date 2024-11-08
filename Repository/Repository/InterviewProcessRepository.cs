@@ -102,11 +102,6 @@ namespace Repository.Repository
                     Status = "PENDING"
                 };
                 await CreateAsync(interviewProcess);
-                await appliRepo.ApplicationStatusUpdate(new ApplicationUpdate()
-                {
-                    ApplicationId = (int)interviewProcess.ApplicationId,
-                    Status = "INTERVIEWING"
-                });
                 return await ConvertInterviewProcessIntoInterviewProcessView(interviewProcess);
 
             }
@@ -144,7 +139,7 @@ namespace Repository.Repository
         }
         private async Task<InterviewProcessView> ConvertInterviewProcessIntoInterviewProcessView(InterviewProcess key)
         {
-            var application = appliRepo.GetById(key.ApplicationId);
+            var application = await appliRepo.ApplicationDetail((int)key.ApplicationId);
             var account = await accountRepo.GetAccountById((int)key.AccountId);
             InterviewProcessView result = new InterviewProcessView();
             result.ConvertInterviewProcessIntoInterviewProcessView(key, account ,application);

@@ -88,6 +88,15 @@ namespace Service.Service
             try
             {
                 var account = await accountRepository.AddAccount(key, roleId);
+                if(account == null)
+                {
+                    return new ServiceResult
+                    {
+                        Status = 400,
+                        Message = "Account Is Exist!",
+                        Data = account
+                    };
+                }
                 return new ServiceResult
                 {
                     Status = 200,
