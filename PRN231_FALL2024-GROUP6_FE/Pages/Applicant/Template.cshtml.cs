@@ -99,11 +99,33 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             var errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError(string.Empty, $"Có l?i x?y ra: {errorMessage}");
 
-            var updateData = new AccountUpdate
+            response = await _httpClient.GetAsync($"https://localhost:7008/api/Account/GetById?accountId={accountId}");
+            if (response.IsSuccessStatusCode)
             {
-                AccountId = UserProfile.AccountId,
-                Description = accountUpdate.Description,
+                var result = await response.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
 
+                    UserProfile = JsonSerializer.Deserialize<AccountView>(result.Data.ToString(), options);
+                }
+            }
+
+
+            AccountUpdate updateData = new AccountUpdate
+            {
+                AccountId = int.Parse(accountId),
+                Address = UserProfile.Address,
+                Description = accountUpdate.Description,
+                DateOfBirth = UserProfile.DateOfBirth.HasValue? UserProfile.DateOfBirth.Value.ToDateTime(TimeOnly.MinValue): (DateTime?)null,
+                FullName = UserProfile.FullName,
+                gender = UserProfile.Gender,
+                Major = UserProfile.Major,
+                PhoneNumber = UserProfile.PhoneNumber,
+                urlPicture = UserProfile.UrlPicture
             };
 
             var responseUpdate = await _httpClient.PutAsJsonAsync("https://localhost:7008/api/Account/UpdateAccount", updateData);
