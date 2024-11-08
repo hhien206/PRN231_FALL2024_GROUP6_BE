@@ -20,7 +20,7 @@ namespace PRN231_FALL2024_GROUP6_API.Controllers
 
         public ImageUploadController(IJobRepository repo)
         {
-            _storageClient = StorageClient.Create(Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(@"E:\EXE201_PaymentHistory\prn231-f86cb-firebase-adminsdk-atx8n-1eaad06a10.json"));
+            _storageClient = StorageClient.Create(Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(@"C:\Users\PC\Downloads\TTTEST\prn231-f86cb-firebase-adminsdk-atx8n-1eaad06a10.json"));
             _repo = repo;
         }
 

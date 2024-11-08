@@ -115,12 +115,12 @@
                                         <select class="form-control" asp-for="Job.JobLevelId">
                                             <option value="">Select Level</option>
                                             <option value="1">Intern</option>
-                                            <option value="2">Fresher</option>
-                                            <option value="3">Junior</option>
-                                            <option value="4">Middle</option>
-                                            <option value="5">Senior</option>
-                                            <option value="6">PM</option>
-                                            <option value="7">SA</option>
+                                            <option value="1">Fresher</option>
+                                            <option value="1">Junior</option>
+                                            <option value="1">Middle</option>
+                                            <option value="1">Senior</option>
+                                            <option value="1">PM</option>
+                                            <option value="1">SA</option>
                                         </select>
                                     </div>
 
@@ -138,15 +138,15 @@
                                         <select class="form-control" asp-for="Job.JobCategoryId">
                                             <option value="">Select Job Category</option>
                                             <option value="1">IT</option>
-                                            <option value="2">Marketing</option>
-                                            <option value="3">Finance</option>
+                                            <option value="1">Marketing</option>
+                                            <option value="1">Finance</option>
                                             <!-- Thêm các loại công việc khác nếu cần -->
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="listJobSkillId">Job Skills Minimum Require</label>
-                                        <select class="form-control" asp-for="Job.listJobSkill" multiple>
+                                        <select class="form-control" asp-for="listJobId" multiple>
                                             @foreach (var jobSkill in Model.jobSkills)
                                             {
                                                 <option value="@jobSkill.Id">@jobSkill.Name</option>

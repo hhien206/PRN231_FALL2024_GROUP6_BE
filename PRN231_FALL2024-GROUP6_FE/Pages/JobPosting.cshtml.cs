@@ -22,6 +22,8 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
 
         [BindProperty]
         public JobAdd Job { get; set; } = new JobAdd();
+        [BindProperty]
+        public List<int> listJobId { get; set; } = new List<int>();
         public List<JobSkill> jobSkills { get; set; }
 
         public async Task<IActionResult> OnPostAsync(IFormFile imageUpload)
@@ -58,7 +60,17 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
                     }
                 }
             }
-
+            List<JobJobSkillAdd> jobSkills = new List<JobJobSkillAdd>();
+            foreach (var id in listJobId)
+            {
+                jobSkills.Add(new JobJobSkillAdd
+                {
+                    JobId = id,
+                    ExperienceRequirement = "1"
+                });
+            }
+            Job.listJobSkill = jobSkills;
+            Job.MaxQuantiy = 50;
             // Serialize the JobAdd object
             var jsonData = JsonSerializer.Serialize(Job);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -72,7 +84,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             }
 
             ModelState.AddModelError(string.Empty, "Error adding job.");
-            return Page();
+            return RedirectToPage("/Index");
         }
         public async Task<IActionResult> OnGetAsync()
         {

@@ -13,7 +13,7 @@ namespace BusinessObject.AddModel
         [Required(ErrorMessage = "Job Title is required.")]
         [MaxLength(100, ErrorMessage = "Job Title cannot exceed 100 characters.")]
         public string? JobTitle { get; set; }
-        [Url(ErrorMessage = "Please enter a valid URL.")]
+        //[Url(ErrorMessage = "Please enter a valid URL.")]
         public string? UrlPicture {  get; set; }
         [Required(ErrorMessage = "Description is required.")]
 
@@ -27,14 +27,14 @@ namespace BusinessObject.AddModel
         [Required(ErrorMessage = "Location is required.")]
         public string? Location {  get; set; }
 
-        [RegularExpression(@"^\$?(\d{1,3}(?:,\d{3})*)(\.\d{1,2})?$", ErrorMessage = "Please enter a valid salary range (e.g., $5000, $5,000.00).")]
+        //[RegularExpression(@"^\$?(\d{1,3}(?:,\d{3})*)(\.\d{1,2})?$", ErrorMessage = "Please enter a valid salary range (e.g., $5000, $5,000.00).")]
         public string? SalaryRange { get; set; }
         [Required(ErrorMessage = "Experience is required.")]
         public string? Experience { get; set; }
         [Required(ErrorMessage = "Deadline is required.")]
-        [DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
+        //[DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
         public DateTime? Deadline { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "Max Quantity must be at least 1.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "Max Quantity must be at least 1.")]
         public int MaxQuantiy { get; set; }
 
         public List<JobJobSkillAdd>? listJobSkill { get; set; }
