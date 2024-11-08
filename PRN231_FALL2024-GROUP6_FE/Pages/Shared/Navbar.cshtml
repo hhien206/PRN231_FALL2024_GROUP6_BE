@@ -114,19 +114,18 @@
                         }
                         <span class="badge bg-danger">@((quantityNoti == null)?0:quantityNoti)</span> <!-- Example badge count -->
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end rounded-0 m-0">
+                    <div class="dropdown-menu dropdown-menu-end rounded-0 m-0" style="position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; top: 100% !important; min-width: 300px; max-width: 400px; max-height: 400px; overflow-y: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                         @if (listNoti != null)
                         {
                             @foreach (var noti in listNoti)
                             {
-                                <a href="#" class="dropdown-item">
+                                <a href="#" class="dropdown-item" style="padding: 10px 15px; border-bottom: 1px solid #eee; white-space: normal;">
                                     @noti.Content
                                     @if (noti.Status == "UNSEEN")
                                     {
-                                        <span style="color: red; font-weight: bold; margin-left: 10px;">new</span>
+                                        <span style="color: red; font-weight: bold; margin-left: 10px; display: inline-block;">new</span>
                                     }
                                 </a>
-
                             }
                         }
                     </div>
