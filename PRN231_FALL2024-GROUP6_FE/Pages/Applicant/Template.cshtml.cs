@@ -1,4 +1,5 @@
 using BusinessObject.AddModel;
+using BusinessObject.UpdateModel;
 using BusinessObject.ViewModel;
 using DataAccessObject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,8 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
         public EducateAdd educateAdd { get; set; } = new EducateAdd();
         [BindProperty]
         public List<JobSkill> jobSkillsAvailable { get; set; } = new List<JobSkill>();
+        [BindProperty]
+        public AccountUpdate accountUpdate { get; set; } = new AccountUpdate();
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -96,7 +99,34 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
             var errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError(string.Empty, $"Có l?i x?y ra: {errorMessage}");
 
-            return Page();
+            var updateData = new AccountUpdate
+            {
+                AccountId = UserProfile.AccountId,
+                Description = accountUpdate.Description,
+
+            };
+
+            var responseUpdate = await _httpClient.PutAsJsonAsync("https://localhost:7008/api/Account/UpdateAccount", updateData);
+            if (responseUpdate.IsSuccessStatusCode)
+            {
+                var result = await responseUpdate.Content.ReadFromJsonAsync<ServiceResult>();
+                if (result != null && result.Status == 200)
+                {
+                    UserProfile.Description = accountUpdate.Description;
+                    TempData["SuccessMessage"] = "Description updated successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Error updating description.";
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Error updating description.";
+            }
+
+            // Redirect l?i trang ð? hi?n th? k?t qu?
+            return RedirectToPage();
         }
         public async Task<IActionResult> OnPostDeleteSkillAsync(int accountJobSkillId)
         {
