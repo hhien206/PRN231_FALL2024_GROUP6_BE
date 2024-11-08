@@ -108,9 +108,7 @@
                                                 <div class="mb-4">
                                                     <h5 class="mb-1 font-size-17 team-title">@certificate.CertificateName</h5>
                                                     <p class="text-muted mb-0 team-description">
-                                                        @certificate.CertificateName is the
-                                                        style or appearance
-                                                        of text.
+                                                        @certificate.CertificateUrl
                                                     </p>
                                                 </div>
                                                 <div class="d-flex">
@@ -176,7 +174,7 @@
 
                                 <!-- Hiển thị Description trong chế độ chỉnh sửa (khi nhấn Edit) -->
                                 <div id="editDescriptionContainer" style="display:none;">
-                                    <textarea id="description" name="description" class="form-control">@userProfile.Description</textarea>
+                                    <textarea id="description" asp-for="@Model.accountUpdate.Description" class="form-control">@userProfile.Description</textarea>
                                     <button type="submit" class="btn btn-primary mt-2">Save</button>
                                     <button type="button" class="btn btn-secondary mt-2" id="cancelButton">Cancel</button>
                                 </div>

@@ -114,13 +114,12 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages.Applicant
                 }
             }
 
-
             AccountUpdate updateData = new AccountUpdate
             {
                 AccountId = int.Parse(accountId),
                 Address = UserProfile.Address,
                 Description = accountUpdate.Description,
-                DateOfBirth = UserProfile.DateOfBirth.HasValue? UserProfile.DateOfBirth.Value.ToDateTime(TimeOnly.MinValue): (DateTime?)null,
+                DateOfBirth = UserProfile.DateOfBirth.HasValue? UserProfile.DateOfBirth.Value.ToDateTime(TimeOnly.MinValue): (DateTime?)new DateTime(1999,12,30),
                 FullName = UserProfile.FullName,
                 gender = UserProfile.Gender,
                 Major = UserProfile.Major,
