@@ -162,12 +162,36 @@
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="pb-2">
-                            <h4 class="card-title mb-3">About</h4>
-                            <p>
-                                @userProfile.Description
-                            </p>
-                        </div>
+                        <form id="editProfileForm" method="post">
+                            <div class="pb-2">
+                                <h4 class="card-title mb-3">About</h4>
+                                <p id="descriptionText">
+                                    @userProfile.Description
+                                </p>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea id="description" name="description" class="form-control">@userProfile.Description</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" name="fullName" class="form-control" value="@userProfile.FullName" readonly />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="@userProfile.PhoneNumber" readonly />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" name="address" class="form-control" value="@userProfile.Address" readonly />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
                         <hr>
                         <div class="pt-2">
                             <h4 class="card-title mb-4">My Skill</h4>
