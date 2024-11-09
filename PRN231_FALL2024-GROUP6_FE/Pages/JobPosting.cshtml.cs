@@ -32,25 +32,21 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             Job.AccountId = int.Parse(accountId);
             if (imageUpload != null && imageUpload.Length > 0)
             {
-                // T?o MultipartFormDataContent ð? g?i ?nh
                 var formData = new MultipartFormDataContent();
                 using (var imageContent = new StreamContent(imageUpload.OpenReadStream()))
                 {
                     imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(imageUpload.ContentType);
                     formData.Add(imageContent, "file", imageUpload.FileName);
 
-                    // G?i yêu c?u POST ð?n API upload ?nh
                     var imageResponse = await _httpClient.PostAsync("https://localhost:7008/api/ImageUpload/upload", formData);
 
                     if (imageResponse.IsSuccessStatusCode)
                     {
-                        // L?y k?t qu? response
                         var imageResult = await imageResponse.Content.ReadFromJsonAsync<ServiceResult>();
                         if (imageResult != null && imageResult.Status == 200)
                         {
-                            // Gi? s? imageResult.Data ch?a URL ?nh
                             var imageUrl = imageResult.Data.ToString();
-                            Job.UrlPicture = imageUrl; // Gán URL vào thu?c tính UrlImg c?a Job
+                            Job.UrlPicture = imageUrl; 
                         }
                     }
                     else
@@ -86,6 +82,7 @@ namespace PRN231_FALL2024_GROUP6_FE.Pages
             ModelState.AddModelError(string.Empty, "Error adding job.");
             return RedirectToPage("/Index");
         }
+
         public async Task<IActionResult> OnGetAsync()
         {
 
